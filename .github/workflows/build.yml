@@ -2,6 +2,8 @@ name: Build Windows
 
 on:
   push:
+    branches:
+      - '*'
     tags:
       - '*'              # Runs on all tag pushes
   pull_request:           # Runs on pull requests to any branch

@@ -34,5 +34,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: "build-windows-output"
-          path: path/to/output-directory/  # Replace with the actual output directory
+          path: dist/  # Replace with the actual output directory
           retention-days: 7   # Adjust retention period as needed

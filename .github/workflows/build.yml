@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-win:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       # Checkout the code
@@ -19,7 +19,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'  # Adjust this to the required Node.js version
+          node-version: '22'  # Adjust this to the required Node.js version
 
       # Install dependencies
       - name: Install dependencies

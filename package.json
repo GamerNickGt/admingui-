@@ -44,7 +44,7 @@
     "electron-clipboard-watcher": "^1.0.1",
     "electron-settings": "^4.0.4",
     "electron-updater": "^6.1.7",
-    "keysender": "^2.3.0",
+    "keysender": "file:local_modules/keysender",
     "lucide-react": "^0.454.0",
     "node-global-key-listener": "^0.3.0",
     "react-hook-form": "^7.53.1",

@@ -11,7 +11,6 @@
     "composite": true,
     "types": [
       "electron-vite/node",
-      "./local_modules/keysender/dist/index.d.ts"
     ]
   }
 }

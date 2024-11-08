@@ -1,6 +1,8 @@
 import settings from 'electron-settings'
-import { Hardware } from 'keysender'
+import * as KeySender from 'keysender'
 import { clipboard } from 'electron'
+
+const Hardware = KeySender.Hardware
 
 export function ParsePlayerData(text: string): Player[] {
   const lines = text.split('\n')

@@ -1,36 +1,33 @@
-import { Device, _Hook } from "./addon";
-import { Reason } from "./constants";
-import { KeyboardButton, MouseButton } from "./types";
-import handleAction, { Hotkey, HotkeyOptions } from "./utils/handleAction";
+// @ts-nocheck
+
+import { Device, _Hook } from './addon'
+import { Reason } from './constants'
+import { KeyboardButton, MouseButton } from './types'
+import handleAction, { Hotkey, HotkeyOptions } from './utils/handleAction'
 
 export type LowLevelHookOptions<S, R> = (
   | {
-      device: "keyboard";
-      button: KeyboardButton | number;
+      device: 'keyboard'
+      button: KeyboardButton | number
     }
   | {
-      device: "mouse";
-      button: MouseButton;
+      device: 'mouse'
+      button: MouseButton
     }
 ) &
-  HotkeyOptions<LowLevelHook<S, R>, S, R>;
+  HotkeyOptions<LowLevelHook<S, R>, S, R>
 
 class LowLevelHook<S = never, R = never> extends _Hook implements Hotkey<S, R> {
-  state: S;
+  state: S
 
-  isRunning = false;
+  isRunning = false
 
-  stop: (reason?: Reason.BY_STOP | R) => Promise<void> | undefined;
+  stop: (reason?: Reason.BY_STOP | R) => Promise<void> | undefined
 
   constructor(options: LowLevelHookOptions<S, R>) {
-    super();
+    super()
 
-    this._register(
-      options.device,
-      options.button,
-      true,
-      handleAction.call(this, options)
-    );
+    this._register(options.device, options.button, true, handleAction.call(this, options))
   }
 
   /**
@@ -42,17 +39,17 @@ class LowLevelHook<S = never, R = never> extends _Hook implements Hotkey<S, R> {
    */
   static on<D extends Device>(
     device: D,
-    button: D extends "mouse" ? MouseButton | "wheel" : KeyboardButton | number,
+    button: D extends 'mouse' ? MouseButton | 'wheel' : KeyboardButton | number,
     state: boolean,
     listener: () => void
   ) {
-    const hook = new _Hook();
+    const hook = new _Hook()
 
     //@ts-expect-error
-    hook._register(device, button, state, listener);
+    hook._register(device, button, state, listener)
 
-    return () => hook.delete();
+    return () => hook.delete()
   }
 }
 
-export default LowLevelHook;
+export default LowLevelHook

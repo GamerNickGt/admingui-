@@ -1,0 +1,56 @@
+name: Build Windows
+
+on:
+  push:
+    tags:
+      - '*'              # Runs on all tag pushes
+  pull_request:           # Runs on pull requests to any branch
+
+jobs:
+  build-win:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # or whichever version you need
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Extract version from tag or commit
+      - name: Set Version
+        id: version
+        run: |
+          if [[ "${{ github.event_name }}" == "push" && "${{ github.ref_type }}" == "tag" ]]; then
+            VERSION="${{ github.ref_name }}"
+          else
+            VERSION="commit-${{ github.sha }}"
+          fi
+          echo "Version is $VERSION"
+          echo "version=$VERSION" >> $GITHUB_ENV
+
+      # Run the build command
+      - name: Build for Windows
+        run: npm run build:win
+
+      # Rename the build output file with version
+      - name: Rename Output with Version
+        run: |
+          mkdir -p dist
+          mv path/to/output-file.exe "dist/output-file-$VERSION.exe"  # Replace 'output-file.exe' with your actual file
+
+      # Upload the build as an artifact
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: "build-windows-$VERSION"
+          path: dist/
+          retention-days: 7   # Adjust the retention period if needed

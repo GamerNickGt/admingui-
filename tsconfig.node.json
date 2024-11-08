@@ -4,7 +4,8 @@
     "electron.vite.config.*",
     "src/main/**/*",
     "src/preload/**/*",
-    "src/global.d.ts"
+    "src/global.d.ts",
+    "local_modules/**/*"
   ],
   "compilerOptions": {
     "composite": true,

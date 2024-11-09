@@ -14,6 +14,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Get env
+        run: |
+          ls env:
+          
+      - name: Get version from package.json
+        id: get_version
+        run: |
+          $version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version
+          echo "version=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+
       # Step 2: Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -33,6 +43,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: path/to/output-directory/*   # Replace with the path to your output directory
+          files: dist/admin-goowee-finale-${{ env.version }}-setup.exe   # Replace with the path to your output directory
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

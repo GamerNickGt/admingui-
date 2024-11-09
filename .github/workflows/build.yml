@@ -28,7 +28,7 @@ jobs:
       - name: Get env
         run: |
           ls env:
-          
+
       # Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -48,5 +48,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: "build-windows-output"
-          path: dist/  # Replace with the actual output directory
-          retention-days: 7   # Adjust retention period as needed
+          path: dist/admin-goowee-finale-${{ env.version }}-setup.exe  # Replace with the actual output directory
+          retention-days: 7   # Adjust retention period as needed GITHUB_RUN_ID

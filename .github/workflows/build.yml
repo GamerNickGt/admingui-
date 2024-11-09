@@ -46,7 +46,7 @@ jobs:
 
       - name: Rename exe
         run: |
-          $NewSetupName = "Admin-GooWee-Setup-$GITHUB_RUN_NUMBER"
+          $NewSetupName = "Admin-GooWee-Setup-${{ github.run_number }}"
           echo "newsetupname=$NewSetupName" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
           Rename-Item -Path "dist/admin-goowee-finale-${{ env.version }}-setup.exe" -NewName "$NewSetupName"
       

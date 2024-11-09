@@ -27,7 +27,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'  # Adjust this to the required Node.js version
-          cache: 'npm'z
+          cache: 'npm'
 
       # Install dependencies
       - name: Install dependencies
@@ -36,7 +36,7 @@ jobs:
       # Run the build command
       - name: Build for Windows
         run: npm run build:win
-        
+
       - name: Get env
         run: |
           ls env:

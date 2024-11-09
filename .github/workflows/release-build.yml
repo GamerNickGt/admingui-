@@ -17,13 +17,17 @@ jobs:
       - name: Get env
         run: |
           ls env:
-          
+
       - name: Get version from package.json
         id: get_version
         run: |
           $version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version
           echo "version=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
 
+      - name: Get env
+        run: |
+          ls env:
+          
       # Step 2: Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v4

@@ -66,7 +66,10 @@ function App(): JSX.Element {
     }
   }, [])
 
-  const [players, setPlayers] = useState<Player[]>([]);
+  const [players, setPlayers] = useState<Player[]>(window.api.isDev ? [{
+    displayName: "Ⱥ Smiggy",
+    playfabId: "6F33D568A08FF682"
+  }] : []);
   const [tab, setTab] = useState(TabsDefault);
 
   const onTabChange = (value: string) => {

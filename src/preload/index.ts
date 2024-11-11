@@ -4,7 +4,8 @@ import { contextBridge } from 'electron'
 const api = {
   call: async <T>(endpoint: APIEndpoint, ...args: any[]): Promise<APIResponse<T>> => {
     return await electronAPI.ipcRenderer.invoke(endpoint, args)
-  }
+  },
+  isDev: electronAPI.process.env.NODE_ENV === 'development'
 }
 
 if (process.contextIsolated) {

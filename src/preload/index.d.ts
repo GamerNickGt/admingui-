@@ -5,6 +5,7 @@ declare global {
     electron: ElectronAPI
     api: {
       call: <T>(endpoint: APIEndpoint, ...args: any[]) => Promise<APIResponse<T>>
+      isDev: boolean
     }
   }
 }

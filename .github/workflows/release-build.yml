@@ -38,18 +38,19 @@ jobs:
         run: |
           ls env:
 
-      - name: Create Release
-        id: create_release
-        uses: softprops/action-gh-release@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          files: dist/admin-goowee-finale-${{ env.version }}-setup.exe
+      - name: Rename exe
+        run: |
+          $NewSetupName = "Admin-GooWee-Setup-${{ github.run_number }}.exe"
+          echo "newsetupname=$NewSetupName" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+          Rename-Item -Path "dist/admin-goowee-finale-${{ env.version }}-setup.exe" -NewName "$NewSetupName"
+      
+      - name: Get env
+        run: |
+          ls env:
 
-      # - name: Upload Release Assets
-      #   uses: actions/upload-release-asset@v1
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: dist/admin-goowee-finale-${{ env.version }}-setup.exe
-      #     asset_name: admin-goowee-finale-${{ env.version }}-setup.exe
-      #     asset_content_type: application/octet-stream
+      # Optionally, upload the entire output directory as an artifact
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: "build-windows-output"
+          path: dist/${{ env.newsetupname }}

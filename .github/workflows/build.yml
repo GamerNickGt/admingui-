@@ -1,5 +1,8 @@
 name: Build Windows
 
+permissions:
+  contents: write
+
 on:
   push:
     branches:
@@ -15,11 +18,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Get version from package.json
+      - name: Get version from package.json
+        id: get_version
+        run: |
+          $version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version
+          echo "version=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+
       # Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'  # Adjust this to the required Node.js version
+          cache: 'npm'
 
       # Install dependencies
       - name: Install dependencies
@@ -29,10 +40,24 @@ jobs:
       - name: Build for Windows
         run: npm run build:win
 
-      # Upload the entire output directory as an artifact
+      - name: Get env
+        run: |
+          ls env:
+
+      - name: Rename exe
+        run: |
+          $NewSetupName = "Admin-GooWee-Setup-${{ github.run_number }}.exe"
+          echo "newsetupname=$NewSetupName" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+          Rename-Item -Path "dist/admin-goowee-finale-${{ env.version }}-setup.exe" -NewName "$NewSetupName"
+      
+      - name: Get env
+        run: |
+          ls env:
+
+      # Optionally, upload the entire output directory as an artifact
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: "build-windows-output"
-          path: path/to/output-directory/  # Replace with the actual output directory
-          retention-days: 7   # Adjust retention period as needed
+          path: dist/${{ env.newsetupname }}
+          retention-days: 7

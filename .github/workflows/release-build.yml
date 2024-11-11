@@ -1,38 +1,55 @@
-name: Build and Release Windows
+name: Build and Release
+
+permissions:
+  contents: write
 
 on:
   push:
     tags:
-      - '*'           # This triggers the workflow on any tag push
+      - 'v*'  # Trigger only on tags matching version patterns
 
 jobs:
   build-and-release:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
-      # Step 1: Check out the code
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # Step 2: Set up Node.js
+      - name: Get version from package.json
+        id: get_version
+        run: |
+          $version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version
+          echo "version=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'  # Adjust this to your required Node.js version
+          node-version: '22'
+          cache: 'npm'
 
-      # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Step 4: Run the build command
       - name: Build for Windows
         run: npm run build:win
+        
+      - name: Get env
+        run: |
+          ls env:
 
-      # Step 5: Create a release and upload the output as release assets
-      - name: Upload Release Assets
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: path/to/output-directory/*   # Replace with the path to your output directory
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: dist/admin-goowee-finale-${{ env.version }}-setup.exe
+
+      # - name: Upload Release Assets
+      #   uses: actions/upload-release-asset@v1
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: dist/admin-goowee-finale-${{ env.version }}-setup.exe
+      #     asset_name: admin-goowee-finale-${{ env.version }}-setup.exe
+      #     asset_content_type: application/octet-stream

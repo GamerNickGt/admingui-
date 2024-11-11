@@ -38,15 +38,11 @@ jobs:
         run: |
           ls env:
 
-      - name: Extract Tag Name
-        run: echo "TAG_NAME=${env:GITHUB_REF -replace 'refs/tags/', ''}" >> $env:GITHUB_ENV
-        shell: pwsh
-
       - name: Rename exe
         run: |
-          $NewSetupName = "Admin-GooWee-Setup-${{ github.TAG_NAME }}.exe"
+          $NewSetupName = "Admin-GooWee-Setup-${{ github.ref_name }}.exe"
           echo "newsetupname=$NewSetupName" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
-          Rename-Item -Path "dist/admin-goowee-finale-${{ env.TAG_NAME }}-setup.exe" -NewName "$NewSetupName"
+          Rename-Item -Path "dist/admin-goowee-finale-${{ env.version }}-setup.exe" -NewName "$NewSetupName"
       
       - name: Get env
         run: |

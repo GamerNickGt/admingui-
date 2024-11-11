@@ -26,18 +26,18 @@ function Dashboard({ players }: DashboardProps) {
     return (
         <Container>
             <div className="flex gap-1">
-                <Button variant="outline" className="bg-transparent text-border" onClick={() => {
+                <Button variant="outline" onClick={() => {
                     api.command({ type: 'list_players' })
                 }}>
                     <RefreshCcw />
                 </Button>
-                <Input placeholder="Search by Name or ID" className="mb-2 text-neutral-200" type="text" value={search} onChange={(e) => setSearch(e.target.value)} />
+                <Input placeholder="Search by Name or ID" className="mb-2" type="text" value={search} onChange={(e) => setSearch(e.target.value)} />
             </div>
-            <ScrollArea className="mx-auto w-full min-h-[calc(100vh_-_170px)]">
-                <div className="grid grid-cols-[repeat(auto-fit,minmax(100px,_1fr))] gap-2">
+            <ScrollArea className="mx-auto w-full h-[calc(100vh_-_170px)]">
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,_1fr))] gap-2">
                     {
                         player_list.length === 0 ? (
-                            <div className="text-neutral-200 text-center col-span-3"></div>
+                            <div className="text-center col-span-3"></div>
                         ) : (
                             player_list.map((player) => (
                                 <Card key={player.playfabId} player={player} />
@@ -60,12 +60,12 @@ function Card({ player }: CardProps) {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <div className="p-1 rounded-lg cursor-pointer border border-border hover:bg-neutral-50/5">
-                    <div className="text-sm text-neutral-200 text-center">{player.displayName}</div>
+                <div className="p-1 rounded-lg cursor-pointer border border-input bg-background hover:bg-accent hover:text-accent-foreground">
+                    <div className="text-sm text-center">{player.displayName}</div>
                 </div>
             </DialogTrigger>
             <DialogContent>
-                <PlayerDialog player={player} />
+                <PlayerDialog player={player} setOpen={setOpen} />
             </DialogContent>
         </Dialog>
     )

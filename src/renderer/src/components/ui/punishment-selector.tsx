@@ -22,9 +22,10 @@ interface PunishmentSelectorProps {
     setDuration?: (duration: number) => void;
     setReason?: (reason: string) => void;
     className?: string;
+    setSelectedPunishments?: (punishments: Punishment[]) => void;
 }
 
-export function PunishmentSelector({ className, setDuration, setMaxDuration, setMinDuration, setReason }: PunishmentSelectorProps) {
+export function PunishmentSelector({ className, setDuration, setMaxDuration, setMinDuration, setReason, setSelectedPunishments }: PunishmentSelectorProps) {
     const [selectedValues, setSelectedValues] = React.useState<Punishment[]>([]);
     const [punishments, setPunishments] = React.useState<Punishment[]>([]);
     const [inputValue, setInputValue] = React.useState<string>("");
@@ -35,8 +36,6 @@ export function PunishmentSelector({ className, setDuration, setMaxDuration, set
 
     React.useEffect(() => {
         api.call<Punishment[]>('fetch_punishments').then((newPunishments) => {
-            console.log('newPunishments')
-            console.log(newPunishments)
             newPunishments && setPunishments(newPunishments);
         })
     }, [])
@@ -59,6 +58,8 @@ export function PunishmentSelector({ className, setDuration, setMaxDuration, set
             setDuration && setDuration(1);
             setReason && setReason("");
         }
+
+        setSelectedPunishments && setSelectedPunishments(selectedValues);
     }, [selectedValues])
 
     const createPunishment = (label: string) => {

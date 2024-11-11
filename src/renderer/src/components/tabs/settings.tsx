@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
+import Container from "../container";
 
 function Settings() {
     useEffect(() => {
@@ -26,19 +27,21 @@ function Settings() {
     const [consoleKey, setConsoleKey] = useState("");
 
     return (
-        <>
-            <div className="flex flex-col items-center justify-center h-full">
-                <Button variant="outline" ref={consoleKeyButton} onClick={(event) => {
-                    window.electron.ipcRenderer.send('change-console-key')
-                    event.currentTarget.disabled = true;
-                    set_ckb_label("Press a key to set as console key")
-                }}>{ckb_label}</Button>
-                <p>({consoleKey})</p>
-            </div>
-            <div className="flex justify-center mt-4">
-                <p className="text-neutral-200 text-center">More coming soon...</p>
-            </div>
-        </>
+        <div className="">
+            <Container>
+                <div className="flex flex-col items-center justify-center h-full">
+                    <Button variant="outline" ref={consoleKeyButton} onClick={(event) => {
+                        window.electron.ipcRenderer.send('change-console-key')
+                        event.currentTarget.disabled = true;
+                        set_ckb_label("Press a key to set as console key")
+                    }}>{ckb_label}</Button>
+                    <p>({consoleKey})</p>
+                </div>
+                <div className="flex justify-center mt-4">
+                    <p className="text-center">More coming soon...</p>
+                </div>
+            </Container>
+        </div>
     )
 }
 

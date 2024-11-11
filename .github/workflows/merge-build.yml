@@ -1,0 +1,41 @@
+name: Check merge
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Check if PR is mergeable
+        id: merge_check
+        shell: pwsh
+        run: |
+          if (${{ github.event.pull_request.mergeable }} -eq $false) {
+            Write-Host "This pull request has merge conflicts and cannot be merged."
+            exit 1
+          }
+          elseif (${{ github.event.pull_request.mergeable }} -eq $true) {
+            Write-Host "This pull request is mergeable."
+          }
+          else {
+            Write-Host "Mergeability status is unknown; GitHub may still be determining mergeability."
+            exit 1
+          }
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build for Windows
+        run: npm run build:win

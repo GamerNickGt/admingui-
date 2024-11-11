@@ -1,0 +1,56 @@
+name: Build and Release
+
+permissions:
+  contents: write
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger only on tags matching version patterns
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get version from package.json
+        id: get_version
+        run: |
+          $version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version
+          echo "version=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build for Windows
+        run: npm run build:win
+        
+      - name: Get env
+        run: |
+          ls env:
+
+      - name: Rename exe
+        run: |
+          $NewSetupName = "Admin-GooWee-Setup-${{ github.ref_name }}.exe"
+          echo "newsetupname=$NewSetupName" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+          Rename-Item -Path "dist/admin-goowee-finale-${{ env.version }}-setup.exe" -NewName "$NewSetupName"
+      
+      - name: Get env
+        run: |
+          ls env:
+
+      # Optionally, upload the entire output directory as an artifact
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: "build-windows-output"
+          path: dist/${{ env.newsetupname }}

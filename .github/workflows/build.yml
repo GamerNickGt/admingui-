@@ -7,7 +7,6 @@ on:
   push:
     branches:
       - '*'           # Runs on all branch pushes
-  pull_request:       # Runs on all pull requests to any branch
 
 jobs:
   build-win:

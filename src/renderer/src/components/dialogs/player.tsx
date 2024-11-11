@@ -4,6 +4,7 @@ import PlayerName from "../player-name";
 import { Button } from "../ui/button";
 import RateLimit from "../rate-limit";
 import PunishDialog from "./punish";
+import StatDialog from "./stats";
 
 interface PlayerDialogProps {
     player: Player;
@@ -54,7 +55,7 @@ function PlayerDialog({ player, setOpen }: PlayerDialogProps) {
                                 </Button>
                             </DialogTrigger>
                             <DialogContent>
-                                {/* TODO */}
+                                <StatDialog player={player} />
                             </DialogContent>
                         </Dialog>
                         <RateLimit />

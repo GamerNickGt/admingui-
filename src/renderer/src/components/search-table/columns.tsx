@@ -21,6 +21,13 @@ export const columns: ColumnDef<TableColumns>[] = [
     {
         accessorKey: "truncated_aliasHistory",
         header: "Alias History",
+        cell: ({ row }) => {
+            return (
+                <div className="max-w-[300px] truncate">
+                    {row.original.truncated_aliasHistory}
+                </div>
+            )
+        }
     },
     {
         id: "actions",

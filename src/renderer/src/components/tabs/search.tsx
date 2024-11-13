@@ -38,7 +38,6 @@ function Search() {
         return player
     }
 
-
     function onSubmit(data: z.infer<typeof SearchSchema>) {
         const search = data.search;
 
@@ -56,7 +55,7 @@ function Search() {
     }
 
     return (
-        <Container>
+        <Container className="h-[calc(100vh_-_60px)]">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex justify-between mb-2">
                     <div className="flex flex-row">

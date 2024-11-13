@@ -1,13 +1,40 @@
 import { Game, GetGameProcess, WriteToConsole } from './macro'
-import { IpcMainEvent } from 'electron'
+import { existsSync, readFileSync, writeFileSync } from 'fs'
+import { app, IpcMainEvent } from 'electron'
+import { join } from 'path'
 
 class CommandQueue {
   private commands: CommandEvent[] = []
   private processing: boolean = false
+  public history: SavedCommand[] = []
+
+  constructor() {
+    const filePath = join(app.getPath('userData'), 'history.json')
+    if (existsSync(filePath)) {
+      this.history = JSON.parse(readFileSync(filePath, 'utf-8')) as SavedCommand[]
+    }
+  }
 
   public add(command: CommandEvent) {
     this.commands.push(command)
     this.process()
+  }
+
+  private _saveCommandToHistory(command: Command) {
+    const filePath = join(app.getPath('userData'), 'history.json')
+    if (!existsSync(filePath)) {
+      writeFileSync(filePath, JSON.stringify([]))
+    }
+
+    const history = JSON.parse(readFileSync(filePath, 'utf-8')) as SavedCommand[]
+    history.push({
+      timestamp: Date.now(),
+      command
+    })
+
+    this.history = history
+
+    writeFileSync(filePath, JSON.stringify(history))
   }
 
   private _skip = () => {
@@ -20,8 +47,8 @@ class CommandQueue {
     this._skip()
   }
 
-  private _process_command = (game: Game, event: IpcMainEvent, command: Command) => {
-    WriteToConsole(
+  private _process_command = async (game: Game, event: IpcMainEvent, command: Command) => {
+    await WriteToConsole(
       game,
       { event, command },
       `${
@@ -38,6 +65,7 @@ class CommandQueue {
                 : '🫃'
       }`
     )
+    this._saveCommandToHistory(command)
   }
 
   public async process() {
@@ -56,7 +84,7 @@ class CommandQueue {
       return
     }
 
-    this._process_command(game, event, command)
+    await this._process_command(game, event, command)
 
     this.processing = false
     this.process()

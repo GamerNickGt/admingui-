@@ -181,3 +181,16 @@ export function createForm<Schema extends z.AnyZodObject>(
     defaultValues: defaultValues || getDefaults(schema)
   })
 }
+
+function parseDateString(dateString: string): number | null {
+  const [day, month, year] = dateString.split('/').map(Number)
+  const date = new Date(year, month - 1, day)
+  return isNaN(date.getTime()) ? null : date.getTime()
+}
+
+export function isTimestampInDayRange(timestamp: number, dateString: string): boolean {
+  const dayStart = parseDateString(dateString)
+  if (dayStart === null) return false
+  const dayEnd = dayStart + 24 * 60 * 60 * 1000 - 1
+  return timestamp >= dayStart && timestamp <= dayEnd
+}

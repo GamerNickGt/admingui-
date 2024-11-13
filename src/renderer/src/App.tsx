@@ -12,6 +12,7 @@ import { useToast } from "./hooks/use-toast"
 import { useEffect, useState } from "react"
 import { IPCEvent } from "./lib/events"
 import confetti from "canvas-confetti"
+import Container from "./components/container"
 
 const AppTabs = [
   { label: "Dashboard", component: Dashboard },
@@ -77,25 +78,30 @@ function App(): JSX.Element {
   }
 
   return (
-    <Background>
-      <APIProvider>
-        <Tabs value={tab} onValueChange={onTabChange}>
-          <TabsList className={`grid grid-flow-col grid-cols-${AppTabs.length}`}>
-            {AppTabs.map((tab) => (
-              <TabsTrigger key={tab.label} value={tab.label}>
-                {tab.label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          {AppTabs.map((tab) => (
-            <TabsContent key={tab.label} value={tab.label}>
-              <tab.component players={players} />
-            </TabsContent>
-          ))}
-        </Tabs>
-        <Toaster />
-      </APIProvider>
-    </Background>
+    <div className="flex flex-col h-screen w-screen">
+
+      <Background>
+        <APIProvider>
+          <Tabs value={tab} onValueChange={onTabChange}>
+            <TabsList className={`grid grid-flow-col grid-cols-${AppTabs.length}`}>
+              {AppTabs.map((tab) => (
+                <TabsTrigger key={tab.label} value={tab.label}>
+                  {tab.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+            <div className="flex-1 overflow-hidden">
+              {AppTabs.map((tab) => (
+                <TabsContent key={tab.label} value={tab.label}>
+                  <tab.component players={players} />
+                </TabsContent>
+              ))}
+            </div>
+          </Tabs>
+          <Toaster />
+        </APIProvider>
+      </Background>
+    </div>
   )
 }
 

@@ -1,7 +1,7 @@
 import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form";
 import { columns, TableColumns } from "../search-table/columns";
 import { createForm, truncateAliasHistory } from "@/lib/utils";
-import { DataTable } from "../search-table/data-table";
+import { DataTable } from "../ui/data-table";
 import { useAPI } from "../api-provider";
 import RateLimit from "../rate-limit";
 import { Button } from "../ui/button";

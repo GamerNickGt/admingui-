@@ -164,6 +164,10 @@ app.whenReady().then(async () => {
     return settings.getSync('console')
   })
 
+  ipcMain.handle('get-command-history', () => {
+    return commandQueue.history
+  })
+
   createWindow()
 
   app.on('activate', function () {

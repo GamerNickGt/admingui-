@@ -142,3 +142,8 @@ interface CommandEvent {
   event: Electron.IpcMainEvent
   error?: string
 }
+
+interface SavedCommand {
+  command: Command
+  timestamp: number
+}

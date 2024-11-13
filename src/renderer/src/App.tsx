@@ -12,7 +12,6 @@ import { useToast } from "./hooks/use-toast"
 import { useEffect, useState } from "react"
 import { IPCEvent } from "./lib/events"
 import confetti from "canvas-confetti"
-import Container from "./components/container"
 
 const AppTabs = [
   { label: "Dashboard", component: Dashboard },

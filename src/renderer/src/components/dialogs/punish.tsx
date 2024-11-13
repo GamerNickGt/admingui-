@@ -1,10 +1,9 @@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import { PunishmentSelector } from "../ui/punishment-selector";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Separator } from "../ui/separator";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { createForm } from "@/lib/utils";
 import { useAPI } from "../api-provider";
 import { Button } from "../ui/button";
 import { Slider } from "../ui/slider";
@@ -36,17 +35,11 @@ function PunishDialog({ type, player, setOpen }: PunishDialogProps) {
     const [reason, setReason] = useState('');
     const { api } = useAPI();
 
-    const form = useForm<z.infer<typeof PunishmentSchema>>({
-        resolver: zodResolver(PunishmentSchema),
-        defaultValues: {
-            reason: '',
-            duration: 1,
-        }
-    });
+    const form = createForm(PunishmentSchema);
 
     function onSubmit(data: z.infer<typeof PunishmentSchema>) {
         api.command({ type, player, ...data })
-        setOpen && setOpen(false);
+        setOpen?.(false);
     }
 
     useEffect(() => {

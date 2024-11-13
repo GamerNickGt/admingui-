@@ -4,25 +4,23 @@ import { Command, CommandGroup, CommandInput, CommandItem, CommandList, CommandS
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./form";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { clamp, cn, createForm, getBaseObject } from "@/lib/utils";
 import { Check, ChevronsUpDown, Edit2 } from "lucide-react";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
 import { useAPI } from "../api-provider";
-import { clamp, cn } from "@/lib/utils";
 import * as React from "react";
 import { z } from "zod";
 
 interface PunishmentSelectorProps {
+    setSelectedPunishments?: (punishments: Punishment[]) => void;
     setMaxDuration?: (duration: number) => void;
     setMinDuration?: (duration: number) => void;
     setDuration?: (duration: number) => void;
     setReason?: (reason: string) => void;
     className?: string;
-    setSelectedPunishments?: (punishments: Punishment[]) => void;
 }
 
 export function PunishmentSelector({ className, setDuration, setMaxDuration, setMinDuration, setReason, setSelectedPunishments }: PunishmentSelectorProps) {
@@ -43,20 +41,18 @@ export function PunishmentSelector({ className, setDuration, setMaxDuration, set
     React.useEffect(() => {
         if (selectedValues.length > 0) {
             const minDuration = Math.max(...selectedValues.map(({ min_duration }) => min_duration));
-            setMinDuration && setMinDuration(minDuration);
-
             const maxDuration = Math.max(...selectedValues.map(({ max_duration }) => max_duration));
-            setMaxDuration && setMaxDuration(maxDuration);
-
-            setDuration && setDuration(clamp(minDuration, maxDuration, Math.floor((maxDuration + minDuration) / 2)));
-
             const reason = selectedValues.map(({ reason }) => reason).join(", ");
-            setReason && setReason(reason);
+
+            setDuration?.(clamp(minDuration, maxDuration, Math.floor((maxDuration + minDuration) / 2)));
+            setMinDuration?.(minDuration);
+            setMaxDuration?.(maxDuration);
+            setReason?.(reason);
         } else {
-            setMinDuration && setMinDuration(1);
-            setMaxDuration && setMaxDuration(1);
-            setDuration && setDuration(1);
-            setReason && setReason("");
+            setMinDuration?.(1);
+            setMaxDuration?.(1);
+            setDuration?.(1);
+            setReason?.("");
         }
 
         setSelectedPunishments && setSelectedPunishments(selectedValues);
@@ -64,18 +60,18 @@ export function PunishmentSelector({ className, setDuration, setMaxDuration, set
 
     const createPunishment = (label: string) => {
         const newPunishment = {
-            label,
-            reason: label,
             min_duration: 1,
             max_duration: 1,
+            reason: label,
+            label,
         };
 
         if (inputRef && inputRef.current) {
             inputRef.current.value = "";
         }
 
-        setPunishments((prev) => [...prev, newPunishment]);
         setSelectedValues((prev) => [...prev, newPunishment]);
+        setPunishments((prev) => [...prev, newPunishment]);
 
         api.call('update_punishments', newPunishment);
     };
@@ -294,10 +290,9 @@ const DialogListItem = ({
 }) => {
     const [accordionValue, setAccordionValue] = React.useState("");
 
-    const form = useForm<z.infer<typeof PunishmentSchema>>({
-        resolver: zodResolver(PunishmentSchema),
-        defaultValues: { label, reason, min_duration, max_duration },
-    })
+    const form = createForm(getBaseObject(PunishmentSchema), {
+        label, reason, min_duration, max_duration
+    });
 
     return (
         <Accordion

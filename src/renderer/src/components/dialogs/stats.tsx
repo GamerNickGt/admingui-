@@ -43,10 +43,10 @@ function StatDialog({ player, data }: StatDialogProps) {
 
             <APIRate condition={playFabData} requestFailed={requestFailed} component={playFabData && (
                 <div>
-                    <p className="text-neutral-200">Last Lookup (<a className="text-green-400 underline" target="_blank" href="https://chivalry2stats.com/">C2S</a>): {playFabData.lastLookup ? parseISO(playFabData.lastLookup).toDateString() : "N/A"}</p>
-                    <p className="text-neutral-200">Lookup Count: {playFabData.lookupCount}</p>
+                    <p className="text-foreground">Last Lookup (<a className="text-green-400 underline" target="_blank" href="https://chivalry2stats.com/">C2S</a>): {playFabData.lastLookup ? parseISO(playFabData.lastLookup).toDateString() : "N/A"}</p>
+                    <p className="text-foreground">Lookup Count: {playFabData.lookupCount}</p>
                     <div className="h-4 w-full" />
-                    <p className="text-neutral-200 ">
+                    <p className="text-foreground">
                         Alias History
                     </p>
                     <ScrollArea className="h-32 p-2 border border-border rounded-lg">

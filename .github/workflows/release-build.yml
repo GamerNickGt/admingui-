@@ -48,9 +48,10 @@ jobs:
         run: |
           ls env:
 
-      # Optionally, upload the entire output directory as an artifact
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v3
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: "build-windows-output"
-          path: dist/${{ env.newsetupname }}
+          files: dist/${{ env.newsetupname }}

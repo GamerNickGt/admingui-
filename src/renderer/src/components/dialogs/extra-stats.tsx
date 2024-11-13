@@ -34,7 +34,7 @@ interface ExtraStatDialogProps {
 }
 
 function ExtraStatDialog({ player }: ExtraStatDialogProps) {
-    const [chartData, setChartData] = useState<ChartData[]>([]);
+    const [chartData, setChartData] = useState<ChartData[] | null>(null);
     const [level, setLevel] = useState<number>(0);
     const [favWeapon, setFavWeapon] = useState<string>("");
     const [requestFailed, setRequestFailed] = useState(false);
@@ -71,7 +71,7 @@ function ExtraStatDialog({ player }: ExtraStatDialogProps) {
                 </DialogDescription>
             </DialogHeader>
 
-            <APIRate condition={chartData.length > 0} requestFailed={requestFailed} component={chartData.length > 0 ? (
+            <APIRate condition={chartData} requestFailed={requestFailed} component={chartData && (
                 <div className="flex-1 pb-0">
                     <p>Level: {level}</p>
                     <p>Most used Weapon: {favWeapon}</p>
@@ -85,7 +85,7 @@ function ExtraStatDialog({ player }: ExtraStatDialogProps) {
                         </RadarChart>
                     </ChartContainer>
                 </div>
-            ) : null} />
+            )} />
         </>
     )
 }

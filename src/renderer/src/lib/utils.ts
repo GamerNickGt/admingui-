@@ -1,9 +1,9 @@
+import { z, ZodEffects, ZodObject, ZodTypeAny } from 'zod'
+import { DefaultValues, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import confetti from 'canvas-confetti'
-import { AnyZodObject, z, ZodEffects, ZodObject, ZodTypeAny } from 'zod'
-import { DefaultValues, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -39,6 +39,7 @@ export const convertUnicode = (str: string) => {
   return str.replace(/./g, (char) => unicode_lookup[char] || char)
 }
 
+// #region Credit to Report (chivalry2stats.com)
 const XPTable: number[] = [
   0, 200, 470, 875, 1415, 2090, 2900, 3845, 4925, 6140, 7240, 8450, 9770, 11200, 12740, 14390,
   16150, 18020, 20000, 22090, 24290, 26600, 29020, 31550, 34190
@@ -63,10 +64,6 @@ export function CalculateLevel(XP: number): number {
   return Math.floor((-b + Math.sqrt(discrim)) / (2 * a))
 }
 
-export const formatSeconds = (num: number) => {
-  return `${Math.floor(num)}s`
-}
-
 export const truncateAliasHistory = (aliasHistory: string, searchTerm: string) => {
   const aliases = aliasHistory.split(',')
   const matchIndex = aliases.findIndex(
@@ -87,6 +84,11 @@ export const truncateAliasHistory = (aliasHistory: string, searchTerm: string) =
     matchedAlias: aliases[matchIndex],
     truncatedAliasHistory: `${before} ${aliases.slice(start, end).join(', ')} ${after}`.trim()
   }
+}
+// #endregion
+
+export const formatSeconds = (num: number) => {
+  return `${Math.floor(num)}s`
 }
 
 export function ConstructToastMessage(command: Command) {

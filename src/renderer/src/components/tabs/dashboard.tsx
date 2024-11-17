@@ -32,7 +32,10 @@ function Dashboard({ players }: DashboardProps) {
                 }}>
                     <RefreshCcw />
                 </Button>
-                <Input placeholder="Search by Name or ID" className="mb-2" type="text" value={search} onChange={(e) => setSearch(e.target.value)} />
+                <Input placeholder="Search by Name or ID" className="caret-white" type="text" value={search} onChange={(e) => setSearch(e.target.value)} />
+            </div>
+            <div className="text-sm mb-2">
+                {search && `Searching for: ${unidecode(convertUnicode(search))}`}
             </div>
             <ScrollArea className="mx-auto w-full h-[calc(100vh_-_170px)]">
                 <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,_1fr))] gap-2">

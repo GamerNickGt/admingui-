@@ -20,7 +20,8 @@ function Dashboard({ players }: DashboardProps) {
 
     const player_list = players.filter((player) =>
         unidecode(convertUnicode(player.displayName)).toLowerCase().includes(unidecode(search.toLowerCase())) ||
-        player.playfabId.toLowerCase().includes(unidecode(search.toLowerCase()))
+        player.playfabId.toLowerCase().includes(unidecode(search.toLowerCase())) ||
+        player.displayName.toLowerCase().includes(search.toLowerCase())
     )
 
     return (

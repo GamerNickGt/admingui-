@@ -48,6 +48,7 @@ const unicode_lookup = {
   '𝐛': 'b',  // U+1D41B
   // B
   'ᴮ': 'B',  // U+1D2E
+  '乃': 'B',
   '𝔹': 'B',  // U+1D539
   '𝐁': 'B',  // U+1D402
   // c
@@ -204,7 +205,7 @@ const unicode_lookup = {
   'ℤ': 'Z',  // U+2124
 }
 
-
+// todo: ᶜᵘᵗᶦᵉ ˡᶦᵗᵗˡᵉ ᵖᶦᵉ
 
 export const convertUnicode = (str: string) => {
   return str.replace(/./g, (char) => unicode_lookup[char] || char)

@@ -62,6 +62,7 @@ const unicode_lookup = {
   'С': 'C',  // U+0421
   'ℂ': 'C',  // U+2102
   '₵': 'C',  // U+20B5
+  'с': 'C',  // U+0441
 
   // d
   '𝐝': 'd',  // U+1D41D
@@ -95,6 +96,7 @@ const unicode_lookup = {
   '𝐇': 'H',  // U+1D408
   'ℍ': 'H',  // U+210D
   'н': 'H',  // U+043D
+  'Н': 'H',  // U+041D
   'ℌ': 'H',  // U+210C
   'Ⱨ': 'H',   // U+2C67
   // i
@@ -137,6 +139,8 @@ const unicode_lookup = {
   'ℕ': 'N',  // U+2115
   'ℵ': 'N',  // U+2135
   'Ŋ': 'N',  // U+014A
+  'й': 'N',  // U+0439
+  'и': 'N',  // U+0438
   'ᴺ': 'N',  // U+1D1C
   'Й': 'N',
   // o
@@ -220,6 +224,8 @@ const unicode_lookup = {
 
 // todo: ᶜᵘᵗᶦᵉ ˡᶦᵗᵗˡᵉ ᵖᶦᵉ
 // find alphabet ᵀᴿ
+// Любер
+// STW ОсеННий_ (STW OseNNii_)
 export const convertUnicode = (str: string) => {
   return str.replace(/./g, (char) => unicode_lookup[char] || char)
 }

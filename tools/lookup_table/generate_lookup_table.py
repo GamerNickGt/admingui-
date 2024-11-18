@@ -6,7 +6,6 @@ import json
 import os
 
 def parse_arguments():
-    """Parse command-line arguments."""
     parser = argparse.ArgumentParser(description="A script with adjustable logging levels.")
     parser.add_argument("--logging", type=str, default="info",
                         help="Set the logging level (debug, info, warning, error, critical)")
@@ -16,7 +15,6 @@ def parse_arguments():
     return parser.parse_args()
 
 def get_log_level(level_name):
-    """Convert a string log level name to a logging level."""
     levels = {
         "debug": logging.DEBUG,
         "info": logging.INFO,
@@ -37,7 +35,7 @@ def increment_hex(hex_value):
     int_value = int(hex_value, 16)
     
     int_value += 1
-    
+
     # Convert back to hexadecimal and return, removing the "0x" prefix
     return hex(int_value)[2:].upper()
 
@@ -49,7 +47,6 @@ def get_character_data(char=None, list=None, linenumber=None):
         data = [char, result]
     
     return data
-
 
 def convert_unicode_to_char(unicode_str):
     # The input is expected to be in the format 'U+XXXX' or 'U+XXXXXXXX'
@@ -107,26 +104,6 @@ def convert_char_to_unicode(char=None, list=None, linenumber=None):
     
     return unicodes_string
 
-
-    # pass
-
-    # if len(char) == 1:
-    #     unicode_value = ord(char)
-
-    #     result = f"U+{unicode_value:04X}"
-        
-    #     return result
-    # else:
-    #     match (char is not None, list is not None, linenumber is not None):
-    #         case (True, False, False):  # Only `char` is specified
-    #             logging.warning("Please enter exactly one character: %s", char)
-            
-    #         case (True, True, True):  # All three variables are specified
-    #             logging.warning("Character: %s, List: %s, Line number: %s is not cooperating", char, list, linenumber)
-            
-    #         case _:  # Fallback for other cases
-    #             logging.warning("Invalid combination of inputs")
-
 def main():
     """Main function that runs the core logic."""
     # if args.character:
@@ -139,7 +116,6 @@ def main():
     code_points = [ord(char) for char in "₴̧"]
     print(code_points)
     # ord('₴̧')
-
 
 if __name__ == "__main__":
     # Parse arguments in a separate function

@@ -106,9 +106,9 @@ const unicode_lookup = {
   // I
   '𝕀': 'I',  // U+1D540
   '𝐈': 'I',  // U+1D409
+  '𝐥': 'l',  // U+1D42C
   // j
   '𝐣': 'j',  // U+1D423
-  '𝐥': 'l',  // U+1D42C
   // J
   '𝕁': 'J',  // U+1D541
   '𝐉': 'J',  // U+1D40A
@@ -178,6 +178,7 @@ const unicode_lookup = {
   'я': 'R',  // U+044F
   // s
   '𝐬': 's',  // U+1D42B
+  'ѕ': 's',  // U+0455
   // S
   '𝕊': 'S',  // U+1D54A
   '𝐒': 'S',  // U+1D413
@@ -229,8 +230,10 @@ const unicode_lookup = {
 
 // todo: ᶜᵘᵗᶦᵉ ˡᶦᵗᵗˡᵉ ᵖᶦᵉ
 // find alphabet ᵀᴿ
-//  (Liuber)
-// STW ОсеННий_ (STW OseNNii_)
+// BAC cₕₑₑₛₑ (BAC c[?][?][?][?][?])
+// ᴄᴋʟ K3ska (L K3ska)
+// ғᴜʟᴄʀᴜᴍ (g'LR)
+
 export const convertUnicode = (str: string) => {
   return str.replace(/./g, (char) => unicode_lookup[char] || char)
 }

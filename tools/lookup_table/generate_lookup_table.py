@@ -41,6 +41,16 @@ def increment_hex(hex_value):
     # Convert back to hexadecimal and return, removing the "0x" prefix
     return hex(int_value)[2:].upper()
 
+def get_character_data(char=None, list=None, linenumber=None):
+    result = convert_char_to_unicode(char=char, list=list, linenumber=linenumber)
+    
+    if result:
+        print(result)
+        data = [char, result]
+    
+    return data
+
+
 def convert_unicode_to_char(unicode_str):
     # The input is expected to be in the format 'U+XXXX' or 'U+XXXXXXXX'
     unicode_value = int(unicode_str.replace('U+', ''), 16)
@@ -72,7 +82,7 @@ def generate_lookup_table(input_dir):
         list_data = []
         for linenumber, character in enumerate(special_characters, start=1):
             # print(character, linenumber)
-            character_data = convert_char_to_unicode(char=character, list=list, linenumber=linenumber)
+            character_data = get_character_data(char=character, list=list, linenumber=linenumber)
             list_data.append(character_data)
             # print(character_data)
         # print(special_characters)

@@ -75,10 +75,10 @@
 @layer base {
   * {
     @apply border-border;
-    @apply dark;
     font-family: "MesloLGL Nerd Font Mono", sans-serif;
     text-rendering: optimizeLegibility;
   }
+
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;

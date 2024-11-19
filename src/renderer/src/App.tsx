@@ -1,5 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs"
 import { ConfettiOptions, ConstructToastMessage } from "./lib/utils"
+import { ColorPickerDemo } from "./components/tabs/dev"
 import { ToastAction } from "./components/ui/toast"
 import APIProvider from "./components/api-provider"
 import Dashboard from "./components/tabs/dashboard"
@@ -13,15 +14,29 @@ import { useEffect, useState } from "react"
 import { IPCEvent } from "./lib/events"
 import confetti from "canvas-confetti"
 
+interface ApplicationTabs {
+  label: string;
+  component: React.FC<any>;
+}
+
 const AppTabs = [
   { label: "Dashboard", component: Dashboard },
   { label: "Search", component: Search },
   { label: "History", component: History },
-  { label: "Settings", component: Settings }
-]
+  { label: "Settings", component: Settings },
+] as ApplicationTabs[]
+
+if (window.api.isDev) {
+  AppTabs.push({ label: "Dev", component: ColorPickerDemo })
+}
+
 const TabsDefault = AppTabs[0].label;
 
-function App(): JSX.Element {
+interface AppProps {
+  onThemeChange: (theme: ColorScheme) => void;
+}
+
+function App({ onThemeChange }: AppProps): JSX.Element {
   const { toast } = useToast();
 
   const handleErrorNoConsoleKey = () => {
@@ -92,7 +107,7 @@ function App(): JSX.Element {
             <div className="flex-1 overflow-hidden">
               {AppTabs.map((tab) => (
                 <TabsContent key={tab.label} value={tab.label}>
-                  <tab.component players={players} />
+                  <tab.component players={players} onThemeChange={onThemeChange} />
                 </TabsContent>
               ))}
             </div>

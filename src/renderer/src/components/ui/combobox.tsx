@@ -41,7 +41,7 @@ function ComboBox({ options, className, setLabel }: ComboBoxProps) {
                                     value={option.value}
                                     onSelect={(currentValue) => {
                                         setValue(currentValue === value ? "name" : currentValue);
-                                        setLabel && setLabel(option.label);
+                                        setLabel?.(option.label);
                                         setOpen(false);
                                     }}
                                 >

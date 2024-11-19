@@ -82,7 +82,7 @@ function History() {
             if (!search) return true;
 
             return Object.values(command).some(containsSearch)
-        });
+        }).reverse();
     }
 
     const filteredHistory = filterCommands();

@@ -68,6 +68,7 @@ def load_input(file_path):
         return [line.strip() for line in file]
 
 def generate_lookup_table(input_dir):
+    logging.info("Generating the lookup table")
     input_lists = get_filelist(input_dir)
     logging.debug("Found input lists: %s", input_lists)
     lookup_table = {}

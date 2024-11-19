@@ -27,6 +27,7 @@ def get_log_level(level_name):
 
 def get_filelist(dir):
     files = [f for f in os.listdir(dir) if os.path.isfile(os.path.join(dir, f))]
+    [f for f in os.listdir(dir) if os.path.isfile(os.path.join(dir, f))]
     sorted_files = sorted(files, key=lambda x: x.lower())
     
     return sorted_files
@@ -63,10 +64,12 @@ def output_lookup_table(filepath, data):
         file.write(str(json_data))
 
 def load_input(file_path):
+    logging.debug("Loading file: %s", file_path)
     with open(file_path, 'r') as file:
-        log_duplicate_lines(data=file, file=file_path)
+        data = [line.strip() for line in file if line.strip()]
         
-        return [line.strip() for line in file if line.strip()]
+        log_duplicate_lines(data=file, file=file_path)
+    return data
     
 def log_duplicate_lines(data, file):
     seen = set()
@@ -75,8 +78,7 @@ def log_duplicate_lines(data, file):
         if stripped_line in seen:
             logging.warning("Duplicate character %s on line %s in file %s", stripped_line, linenumber, file)
         seen.add(stripped_line)
-            
-            
+
 def generate_lookup_table(input_dir):
     logging.info("Generating the lookup table")
     input_lists = get_filelist(input_dir)
@@ -87,12 +89,13 @@ def generate_lookup_table(input_dir):
         logging.debug("Processing input list: %s", list)
         filepath = f"{input_dir}/{list}"
         special_characters = load_input(filepath)
+        logging.debug(special_characters)
         list_data = []
         for linenumber, character in enumerate(special_characters, start=1):
             # print(character, linenumber)
             character_data = get_character_data(char=character, list=list, linenumber=linenumber)
             list_data.append(character_data)
-            # print(character_data)
+            logging.debug("Characer_data: %s", character_data)
         # print(special_characters)
         lookup_table[list] = list_data
         # print(lookup_table)

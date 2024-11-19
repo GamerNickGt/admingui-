@@ -52,5 +52,7 @@ export async function WriteToConsole(game: Game, event: CommandEvent, text: stri
     game.workwindow.setForeground()
     await game.keyboard.sendKeys([consoleKey, ['ctrl', 'v'], 'enter'])
     event.event.reply('command-response', { command: event.command })
+
+    event.event.sender.focus()
   }, 100)
 }

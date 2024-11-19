@@ -64,9 +64,19 @@ def output_lookup_table(filepath, data):
 
 def load_input(file_path):
     with open(file_path, 'r') as file:
-
-        return [line.strip() for line in file]
-
+        log_duplicate_lines(data=file, file=file_path)
+        
+        return [line.strip() for line in file if line.strip()]
+    
+def log_duplicate_lines(data, file):
+    seen = set()
+    for linenumber, line in enumerate(data, start=1):
+        stripped_line = line.strip()
+        if stripped_line in seen:
+            logging.warning("Duplicate character %s on line %s in file %s", stripped_line, linenumber, file)
+        seen.add(stripped_line)
+            
+            
 def generate_lookup_table(input_dir):
     logging.info("Generating the lookup table")
     input_lists = get_filelist(input_dir)

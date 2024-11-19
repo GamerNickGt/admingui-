@@ -32,7 +32,7 @@ function Dashboard({ players }: DashboardProps) {
                 }}>
                     <RefreshCcw />
                 </Button>
-                <Input placeholder="Search by Name or ID" className=" caret-white" type="text" value={search} onChange={(e) => setSearch(e.target.value)} />
+                <Input placeholder="Search by Name or ID" className="caret-white" type="text" value={search} onChange={(e) => setSearch(e.target.value)} />
             </div>
             <div className="text-sm mb-2">
                 {search && `Searching for: ${unidecode(convertUnicode(search))}`}

@@ -55,7 +55,7 @@ function Search() {
     }
 
     return (
-        <Container className="h-[calc(100vh_-_60px)]">
+        <Container className="h-[calc(100vh_-_70px)]">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex justify-between mb-2">
                     <div className="flex flex-row">

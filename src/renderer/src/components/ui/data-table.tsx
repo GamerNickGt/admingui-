@@ -1,7 +1,7 @@
 import { ColumnDef, flexRender, useReactTable, getCoreRowModel, getPaginationRowModel } from "@tanstack/react-table"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "./button"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -10,6 +10,10 @@ interface DataTableProps<TData, TValue> {
 
 export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
     const [page, setPage] = useState(1)
+
+    useEffect(() => {
+        setPage(1)
+    }, [data])
 
     const paginatedData = data.slice((page - 1) * 5, page * 5)
 

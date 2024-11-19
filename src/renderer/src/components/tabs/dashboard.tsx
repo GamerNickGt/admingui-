@@ -36,7 +36,7 @@ function Dashboard({ players }: DashboardProps) {
             <div className="text-sm mb-2">
                 {search && `Searching for: ${unidecode(convertUnicode(search))}`}
             </div>
-            <ScrollArea className="mx-auto w-full h-[calc(100vh_-_170px)]">
+            <ScrollArea className="mx-auto w-full h-[calc(100vh_-_150px)]">
                 <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,_1fr))] gap-2">
                     {
                         player_list.length === 0 ? (

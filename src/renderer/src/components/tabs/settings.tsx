@@ -5,8 +5,10 @@ import Container from "../container";
 function Settings({ onThemeChange }) {
     return (
         <Container className="flex flex-col gap-2">
-            <ConsoleKeySettings />
-            <ThemeSelector onThemeChange={onThemeChange} />
+            <div className="w-full h-[calc(100vh_-_105px)]">
+                <ConsoleKeySettings />
+                <ThemeSelector onThemeChange={onThemeChange} />
+            </div>
         </Container>
     )
 }

@@ -40,7 +40,6 @@ export function GetConsoleKey() {
 
 export async function WriteToConsole(game: Game, event: CommandEvent, text: string) {
   if (text === '🫃') return
-
   const consoleKey = GetConsoleKey()
 
   if (!consoleKey) {
@@ -48,8 +47,10 @@ export async function WriteToConsole(game: Game, event: CommandEvent, text: stri
     return
   }
 
-  clipboard.writeText(text)
-  game.workwindow.setForeground()
-  await game.keyboard.sendKeys([consoleKey, ['ctrl', 'v'], 'enter'])
-  event.event.reply('command-response', { command: event.command })
+  setTimeout(async () => {
+    clipboard.writeText(text)
+    game.workwindow.setForeground()
+    await game.keyboard.sendKeys([consoleKey, ['ctrl', 'v'], 'enter'])
+    event.event.reply('command-response', { command: event.command })
+  }, 100)
 }

@@ -1,7 +1,5 @@
-[
-  {
-    "version": "local",
-    "branch": "dev",
-    "commit hash": "build"
-  }
-]
+{
+  "version": "local",
+  "branch": "dev",
+  "commit hash": "build"
+}

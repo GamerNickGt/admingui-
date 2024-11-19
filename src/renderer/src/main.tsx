@@ -6,8 +6,7 @@ import App from './App'
 import verData from '../src/assets/version.json';
 
 const getVersion = () => {
-  const data = verData[0];
-  return `${data.version}-${data.branch}-${data["commit hash"]}`;
+  return `${verData.version}-${verData.branch}-${verData["commit hash"]}`;
 }
 
 const changeTheme = (css: ColorScheme, theme?: 'light' | 'dark' | undefined) => {

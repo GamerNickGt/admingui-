@@ -32,7 +32,7 @@ jobs:
           ls
           cat output\lookuptable.json
           rm output\lookuptable.json
-          ./generate_lookup_table.py --logging debug
+          python3 ./generate_lookup_table.py --logging debug
           cat output\lookuptable.json
 
       # Set up Node.js

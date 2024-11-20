@@ -30,7 +30,9 @@ jobs:
           ls
           cd tools\lookup_table
           ls
-          ./generate_lookup_table.py --logging debug
+          rm output\lookuptable.json
+          python3 ./generate_lookup_table.py --logging debug
+          cat output\lookuptable.json
 
       # Set up Node.js
       - name: Set up Node.js

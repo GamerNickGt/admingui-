@@ -43,8 +43,8 @@ jobs:
           $version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version
           echo "version=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
 
-      - name: Generate character lookup table
-        id: gen_char_lookup
+      - name: Remove lookup table from git repo
+        id: del_char_lookup
         run: |
           rm tools\lookup_table\output\lookuptable.json
 
@@ -52,7 +52,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: lookup-output
-          path: tools/lookup_table/output/lookuptable.json
+          path: tools\lookup_table\output\lookuptable.json
+
+      - name: Debug lookup table from git repo
+        id: debug_char_lookup
+        run: |
+          cat tools\lookup_table\output\lookuptable.json
 
       - name: Set up Node.js
         uses: actions/setup-node@v4

@@ -30,7 +30,6 @@ jobs:
           ls
           cd tools\lookup_table
           ls
-          cat output\lookuptable.json
           rm output\lookuptable.json
           python3 ./generate_lookup_table.py --logging debug
           cat output\lookuptable.json

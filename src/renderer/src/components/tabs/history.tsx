@@ -95,7 +95,7 @@ function History() {
                     <CommandMultiSelect setSelectedTypes={setFilter} className="rounded-t-none border-t-0" />
                 </div>
                 <div className="flex-1 overflow-hidden">
-                    <ScrollArea className="h-[calc(100vh_-_180px)]">
+                    <ScrollArea className="h-[calc(100vh_-_195px)]">
                         {filteredHistory.length > 0 ? (
                             <>
                                 <Separator />

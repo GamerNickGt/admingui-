@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { defaultThemes } from "@/lib/utils";
 import ComboBox from "../ui/combobox";
+import { Badge } from "../ui/badge";
 
 function ThemeSelector({ onThemeChange }) {
     const localTheme = localStorage.getItem("theme")
@@ -23,8 +24,9 @@ function ThemeSelector({ onThemeChange }) {
     return (
         <div>
             <div className="flex flex-col items-center justify-center h-full">
-                <div>
+                <div className="flex gap-2 mb-1">
                     <h1>Theme Selector</h1>
+                    <Badge>WIP</Badge>
                 </div>
                 <ComboBox options={[
                     { value: "default", label: "Default" },

@@ -69,7 +69,7 @@ def output_lookup_table(filepath, data):
 
 def load_input(file_path):
     logging.debug("Loading file: %s", file_path)
-    with open(Path(file_path), 'r') as file:
+    with open(file_path, 'r') as file:
         data = [line.strip() for line in file if line.strip()]
         
         log_duplicate_lines(data=file, file=file_path)

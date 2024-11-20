@@ -38,7 +38,3 @@ initial structure:
 
 Ʋ
 £
-Kирюха Буданов (Kiriukha BudaHoB)
-ШУЕSĀB ثـثbеLяШ篮 (ShUESAB ththbeLRShLan )
-Chef G. Bolz [Оппа] (Chef G. Bolz [Oppa])
-ʞᴙʇ Draconis (kt Draconis)

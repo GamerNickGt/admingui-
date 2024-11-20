@@ -53,9 +53,10 @@ jobs:
       #     cat output\lookuptable.json
 
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: lookup-output
+          path: tools/lookup_table/output/lookuptable.json
 
       - name: Set up Node.js
         uses: actions/setup-node@v4

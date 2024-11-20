@@ -53,8 +53,9 @@ function App(): JSX.Element {
     ConfettiOptions[cType] && confetti(ConfettiOptions[cType]);
   }
 
-  const handlePlayerData = (_, data: Player[]) => {
-    setPlayers(data);
+  const handlePlayerData = (_, data: ParsedPlayerData) => {
+    setPlayers(data.players);
+    setServer(data.server);
   }
 
   useEffect(() => {
@@ -75,6 +76,8 @@ function App(): JSX.Element {
     displayName: "Ⱥ Smiggy",
     playfabId: "6F33D568A08FF682"
   }] : []);
+  const [server, setServer] = useState<string>("");
+
   const [tab, setTab] = useState(TabsDefault);
 
   const onTabChange = (value: string) => {
@@ -85,7 +88,7 @@ function App(): JSX.Element {
     <div className="flex flex-col h-screen w-screen">
 
       <Background>
-        <APIProvider>
+        <APIProvider server={server}>
           <Tabs value={tab} onValueChange={onTabChange}>
             <TabsList className={`grid grid-flow-col grid-cols-${AppTabs.length}`}>
               {AppTabs.map((tab) => (

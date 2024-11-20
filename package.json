@@ -55,6 +55,7 @@
     "node-global-key-listener": "^0.3.0",
     "poline": "^0.7.0",
     "react-hook-form": "^7.53.1",
+    "react-persistent-state": "^1.1.14",
     "recharts": "^2.13.3",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",

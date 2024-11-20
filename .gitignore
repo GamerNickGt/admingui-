@@ -5,3 +5,9 @@ out
 .DS_Store
 *.log*
 # tools/lookup_table/input_lists
+*.obj
+*.sln
+*.iobj
+*.node
+*.ipdb
+*.pdb

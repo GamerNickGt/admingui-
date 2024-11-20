@@ -46,7 +46,7 @@ jobs:
       - name: Generate character lookup table
         id: gen_char_lookup
         run: |
-          rm output\lookuptable.json
+          rm tools\lookup_table\output\lookuptable.json
 
       - name: Download Artifact
         uses: actions/download-artifact@v4

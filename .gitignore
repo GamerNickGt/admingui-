@@ -4,4 +4,4 @@ dist
 out
 .DS_Store
 *.log*
-tools/lookup_table/input_lists
+# tools/lookup_table/input_lists

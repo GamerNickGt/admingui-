@@ -9,6 +9,24 @@ on:
       - 'v*'  # Trigger only on tags matching version patterns
 
 jobs:
+  cross-platform-task:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Run Python Script on Linux
+        run: |
+          cd tools/lookup_table/
+          python3 generate_lookup_table.py --logging debug
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lookup-output
+          path: tools/lookup_table/output/lookuptable.json
+
   build-and-release:
     runs-on: windows-latest
 
@@ -22,11 +40,11 @@ jobs:
           $version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version
           echo "version=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
 
-      - name: Generate character lookup table
-        id: gen_char_lookup
-        run: |
-          cd tools/lookup-table
-          ./generate_lookup_table.py --logging debug
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: lookup-output
+          path: tools\lookup_table\output\
 
       - name: Set up Node.js
         uses: actions/setup-node@v4

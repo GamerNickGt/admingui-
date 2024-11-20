@@ -13,17 +13,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # Step 2: Run the script on Linux
       - name: Run Python Script on Linux
         run: |
           cd tools/lookup_table/
           python3 generate_lookup_table.py --logging debug
 
-      # Step 3: Upload the output as an artifact
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:

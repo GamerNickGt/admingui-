@@ -20,8 +20,9 @@ function Dashboard({ players }: DashboardProps) {
 
     const player_list = players.filter((player) =>
         unidecode(convertUnicode(player.displayName)).toLowerCase().includes(unidecode(search.toLowerCase())) ||
-        player.playfabId.toLowerCase().includes(unidecode(search.toLowerCase()))
-    ).sort((a, b) => a.displayName.localeCompare(b.displayName));
+        player.playfabId.toLowerCase().includes(unidecode(search.toLowerCase())) ||
+        player.displayName.toLowerCase().includes(search.toLowerCase())
+    )
 
     return (
         <Container>
@@ -31,7 +32,7 @@ function Dashboard({ players }: DashboardProps) {
                 }}>
                     <RefreshCcw />
                 </Button>
-                <Input placeholder="Search by Name or ID" className=" caret-white" type="text" value={search} onChange={(e) => setSearch(e.target.value)} />
+                <Input placeholder="Search by Name or ID" className="caret-white" type="text" value={search} onChange={(e) => setSearch(e.target.value)} />
             </div>
             <div className="text-sm mb-2">
                 {search && `Searching for: ${unidecode(convertUnicode(search))}`}

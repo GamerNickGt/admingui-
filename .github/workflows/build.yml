@@ -9,6 +9,24 @@ on:
       - '*'           # Runs on all branch pushes
 
 jobs:
+  cross-platform-task:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Run Python Script on Linux
+        run: |
+          cd tools/lookup_table/
+          python3 generate_lookup_table.py --logging debug
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lookup-output
+          path: tools/lookup_table/output/lookuptable.json
+
   build-win:
     runs-on: windows-latest
 
@@ -37,18 +55,31 @@ jobs:
           $version_data | ConvertTo-Json | set-content -Force -Path src/renderer/src/assets/version.json
           get-content src/renderer/src/assets/version.json
 
-      # Set up Node.js
+      - name: Remove lookup table from git repo
+        id: del_char_lookup
+        run: |
+          rm tools\lookup_table\output\lookuptable.json
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: lookup-output
+          path: tools\lookup_table\output\
+
+      - name: Debug lookup table from git repo
+        id: debug_char_lookup
+        run: |
+          cat tools\lookup_table\output\lookuptable.json
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'  # Adjust this to the required Node.js version
           cache: 'npm'
 
-      # Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Run the build command
       - name: Build for Windows
         run: npm run build:win
 
@@ -66,7 +97,6 @@ jobs:
         run: |
           ls env:
 
-      # Optionally, upload the entire output directory as an artifact
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v3
         with:

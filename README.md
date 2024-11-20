@@ -32,3 +32,7 @@ $ npm run build:mac
 # For Linux
 $ npm run build:linux
 ```
+
+## Bugs & feature requests
+
+Please make a ticket on our discord server

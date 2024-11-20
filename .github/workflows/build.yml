@@ -24,6 +24,12 @@ jobs:
           $version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version
           echo "version=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
 
+      - name: Generate character lookup table
+        id: gen_char_lookup
+        run: |
+          cd tools/lookup-table
+          ./generate_lookup_table.py --logging debug
+
       # Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v4

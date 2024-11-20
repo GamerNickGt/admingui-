@@ -4,6 +4,7 @@ import logging
 import argparse
 import json
 import os
+from pathlib import Path
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="A script with adjustable logging levels.")
@@ -26,11 +27,13 @@ def get_log_level(level_name):
     return levels.get(level_name.lower(), logging.INFO)
 
 def get_filelist(dir):
-    files = [f for f in os.listdir(dir) if os.path.isfile(os.path.join(dir, f))]
-    [f for f in os.listdir(dir) if os.path.isfile(os.path.join(dir, f))]
-    sorted_files = sorted(files, key=lambda x: x.lower())
+    dir_path = Path(dir)
+    files = list(dir_path.rglob('*'))
+    files = [f for f in files if f.is_file()]
+    sorted_files = sorted(files, key=lambda x: x.name.lower())
     
-    return sorted_files
+    return [(file, file.name) for file in sorted_files]
+
 
 def increment_hex(hex_value):
     int_value = int(hex_value, 16)
@@ -69,6 +72,7 @@ def load_input(file_path):
         data = [line.strip() for line in file if line.strip()]
         
         log_duplicate_lines(data=file, file=file_path)
+        
     return data
     
 def log_duplicate_lines(data, file):
@@ -81,24 +85,21 @@ def log_duplicate_lines(data, file):
 
 def generate_lookup_table(input_dir):
     logging.info("Generating the lookup table")
-    input_lists = get_filelist(input_dir)
+    input_lists = get_filelist(f"{input_dir}")
     logging.debug("Found input lists: %s", input_lists)
     lookup_table = {}
     
-    for list in input_lists:
+    for full_path, list in input_lists:
         logging.debug("Processing input list: %s", list)
-        filepath = f"{input_dir}/{list}"
+        filepath = f"{full_path}"
         special_characters = load_input(filepath)
         logging.debug(special_characters)
         list_data = []
         for linenumber, character in enumerate(special_characters, start=1):
-            # print(character, linenumber)
-            character_data = get_character_data(char=character, list=list, linenumber=linenumber)
+            character_data = get_character_data(char=character, list=full_path, linenumber=linenumber)
             list_data.append(character_data)
             logging.debug("Characer_data: %s", character_data)
-        # print(special_characters)
         lookup_table[list] = list_data
-        # print(lookup_table)
 
     return lookup_table
 
@@ -129,15 +130,11 @@ def main():
     output_lookup_table("./output/lookuptable.json", lookup_table)
     code_points = [ord(char) for char in "₴̧"]
     print(code_points)
-    # ord('₴̧')
 
 if __name__ == "__main__":
-    # Parse arguments in a separate function
     args = parse_arguments()
     log_level = get_log_level(args.logging)
 
-    # Configure logging level
     logging.basicConfig(level=log_level, format="%(asctime)s - %(levelname)s - %(message)s")
     
-    # Run the main function
     main()

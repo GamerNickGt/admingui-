@@ -52,7 +52,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: lookup-output
-          path: tools\lookup_table\output\lookuptable.json
+          path: tools\lookup_table\output\
 
       - name: Debug lookup table from git repo
         id: debug_char_lookup

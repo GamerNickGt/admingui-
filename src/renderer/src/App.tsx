@@ -1,6 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs"
 import { ConfettiOptions, ConstructToastMessage } from "./lib/utils"
-import { ColorPickerDemo } from "./components/tabs/dev"
 import { ToastAction } from "./components/ui/toast"
 import APIProvider from "./components/api-provider"
 import Dashboard from "./components/tabs/dashboard"
@@ -25,18 +24,9 @@ const AppTabs = [
   { label: "History", component: History },
   { label: "Settings", component: Settings },
 ] as ApplicationTabs[]
-
-if (window.api.isDev) {
-  AppTabs.push({ label: "Dev", component: ColorPickerDemo })
-}
-
 const TabsDefault = AppTabs[0].label;
 
-interface AppProps {
-  onThemeChange: (theme: ColorScheme) => void;
-}
-
-function App({ onThemeChange }: AppProps): JSX.Element {
+function App(): JSX.Element {
   const { toast } = useToast();
 
   const handleErrorNoConsoleKey = () => {
@@ -107,7 +97,7 @@ function App({ onThemeChange }: AppProps): JSX.Element {
             <div className="flex-1 overflow-hidden">
               {AppTabs.map((tab) => (
                 <TabsContent key={tab.label} value={tab.label}>
-                  <tab.component players={players} onThemeChange={onThemeChange} />
+                  <tab.component players={players} />
                 </TabsContent>
               ))}
             </div>

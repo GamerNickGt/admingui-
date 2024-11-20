@@ -147,7 +147,3 @@ interface SavedCommand {
   command: Command
   timestamp: number
 }
-
-type ColorScheme = {
-  [key: string]: string
-}

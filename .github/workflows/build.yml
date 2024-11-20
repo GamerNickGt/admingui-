@@ -43,15 +43,10 @@ jobs:
           $version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version
           echo "version=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
 
-      # - name: Generate character lookup table
-      #   id: gen_char_lookup
-      #   run: |
-      #     ls
-      #     cd tools\lookup_table
-      #     ls
-      #     rm output\lookuptable.json
-      #     python3 ./generate_lookup_table.py --logging debug
-      #     cat output\lookuptable.json
+      - name: Generate character lookup table
+        id: gen_char_lookup
+        run: |
+          rm output\lookuptable.json
 
       - name: Download Artifact
         uses: actions/download-artifact@v4

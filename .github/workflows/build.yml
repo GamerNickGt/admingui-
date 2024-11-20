@@ -9,43 +9,63 @@ on:
       - '*'           # Runs on all branch pushes
 
 jobs:
+  cross-platform-task:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Step 2: Run the script on Linux
+      - name: Run Python Script on Linux
+        run: |
+          python3 tools/lookup_table/generate_lookup_table.py --logging debug
+
+      # Step 3: Upload the output as an artifact
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: lookup-output
+          path: tools/lookup_table/output/lookuptable.json
+
   build-win:
     runs-on: windows-latest
 
     steps:
-      # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Get version from package.json
       - name: Get version from package.json
         id: get_version
         run: |
           $version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version
           echo "version=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
 
-      - name: Generate character lookup table
-        id: gen_char_lookup
-        run: |
-          ls
-          cd tools\lookup_table
-          ls
-          rm output\lookuptable.json
-          python3 ./generate_lookup_table.py --logging debug
-          cat output\lookuptable.json
+      # - name: Generate character lookup table
+      #   id: gen_char_lookup
+      #   run: |
+      #     ls
+      #     cd tools\lookup_table
+      #     ls
+      #     rm output\lookuptable.json
+      #     python3 ./generate_lookup_table.py --logging debug
+      #     cat output\lookuptable.json
 
-      # Set up Node.js
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: lookup-output
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'  # Adjust this to the required Node.js version
           cache: 'npm'
 
-      # Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Run the build command
       - name: Build for Windows
         run: npm run build:win
 
@@ -63,7 +83,6 @@ jobs:
         run: |
           ls env:
 
-      # Optionally, upload the entire output directory as an artifact
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v3
         with:

@@ -35,7 +35,6 @@ def get_filelist(dir_path):
     
     return sorted_files
 
-
 def increment_hex(hex_value):
     int_value = int(hex_value, 16)
     

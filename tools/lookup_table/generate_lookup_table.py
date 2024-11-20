@@ -92,7 +92,8 @@ def generate_lookup_table(input_dir):
     for list in input_lists:
         logging.debug("Processing input list: %s", list)
         filepath = Path(f"{input_dir}/{list}")
-        special_characters = load_input(filepath)
+        if filepath.is_file():
+            special_characters = load_input(filepath)
         logging.debug(special_characters)
         list_data = []
         for linenumber, character in enumerate(special_characters, start=1):

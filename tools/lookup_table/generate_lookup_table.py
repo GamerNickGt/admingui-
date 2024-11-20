@@ -25,10 +25,10 @@ def get_log_level(level_name):
 
     return levels.get(level_name.lower(), logging.INFO)
 
-def get_filelist(dir_path):
-    dir_path = dir_path
-    files = [f for f in dir_path.iterdir() if f.is_file()]
-    sorted_files = sorted(files, key=lambda x: x.name.lower())
+def get_filelist(dir):
+    files = [f for f in os.listdir(dir) if os.path.isfile(os.path.join(dir, f))]
+    [f for f in os.listdir(dir) if os.path.isfile(os.path.join(dir, f))]
+    sorted_files = sorted(files, key=lambda x: x.lower())
     
     return sorted_files
 
@@ -88,8 +88,7 @@ def generate_lookup_table(input_dir):
     for list in input_lists:
         logging.debug("Processing input list: %s", list)
         filepath = f"{input_dir}/{list}"
-        if filepath.is_file():
-            special_characters = load_input(filepath)
+        special_characters = load_input(filepath)
         logging.debug(special_characters)
         list_data = []
         for linenumber, character in enumerate(special_characters, start=1):

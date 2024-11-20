@@ -28,7 +28,7 @@ jobs:
         id: gen_char_lookup
         run: |
           ls
-          cd tools\
+          cd tools\lookup_table
           ls
           ./generate_lookup_table.py --logging debug
 

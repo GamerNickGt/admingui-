@@ -36,6 +36,5 @@ initial structure:
 
 # To Do
 
-Ʋ
+
 £
-STW ОсcеННий_

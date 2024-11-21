@@ -22,7 +22,10 @@ function Dashboard({ players }: DashboardProps) {
         unidecode(convertUnicode(player.displayName)).toLowerCase().includes(unidecode(search.toLowerCase())) ||
         player.playfabId.toLowerCase().includes(unidecode(search.toLowerCase())) ||
         player.displayName.toLowerCase().includes(search.toLowerCase())
-    );
+    ).sort((a, b) => {
+        return unidecode(convertUnicode(a.displayName)).localeCompare(unidecode(convertUnicode(b.displayName)))
+    })
+
 
     return (
         <Container>

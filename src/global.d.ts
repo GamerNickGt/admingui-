@@ -95,6 +95,7 @@ type APIEndpoint =
 interface APIResponse<T> {
   ok: boolean
   data: T
+  status: number
 }
 
 interface String {

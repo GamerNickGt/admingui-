@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface API {
-    fetchPlayFabData: (playfabId: string) => Promise<PlayFabDetails | null>;
-    fetchPlayerData: (playfabId: string) => Promise<PlayerDetails | null>;
-    nameLookup: (name: string, page: number) => Promise<NameLookup | null>;
+    fetchPlayFabData: (playfabId: string) => Promise<APIResponse<PlayFabDetails>>;
+    fetchPlayerData: (playfabId: string) => Promise<APIResponse<PlayerDetails>>;
+    nameLookup: (name: string, page: number) => Promise<APIResponse<NameLookup>>;
     call: <T>(endpoint: string, ...args: any[]) => Promise<T | null>;
     command: (command: Command) => void;
     server: () => string;
@@ -25,16 +25,12 @@ interface APIProviderProps {
     server: string;
 }
 
+
 function APICallFactory({ rate_remaining, setRateRemaining }) {
-    return async function <T>(endpoint: APIEndpoint, ...args: any[]): Promise<T | null> {
+    return async function <T>(endpoint: APIEndpoint, ...args: any[]): Promise<APIResponse<T>> {
         const response = await window.api.call<T>(endpoint, ...args);
         setRateRemaining(rate_remaining - 1 < 0 ? 0 : rate_remaining - 1);
-
-        if (response.ok) {
-            return response.data;
-        }
-
-        return null;
+        return response;
     }
 }
 

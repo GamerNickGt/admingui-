@@ -1,11 +1,11 @@
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "../ui/chart";
 import { DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
+import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts";
 import { GetLevelFromXP } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "../ui/chart";
 import { useAPI } from "../api-provider";
 import PlayerName from "../player-name";
 import APIRate from "../api-rate";
-import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts";
 
 interface ChartData {
     class: string;
@@ -38,23 +38,33 @@ function ExtraStatDialog({ player }: ExtraStatDialogProps) {
     const [level, setLevel] = useState<number>(0);
     const [favWeapon, setFavWeapon] = useState<string>("");
     const [requestFailed, setRequestFailed] = useState(false);
+    const [requestStatus, setRequestStatus] = useState<number>(0);
     const { api, rate_remaining } = useAPI();
 
     useEffect(() => {
         if (rate_remaining > 0) {
-            api.fetchPlayerData(player.playfabId).then((data) => {
-                if (data) {
-                    FillChartData(data, setChartData);
-                    setLevel(GetLevelFromXP(data.leaderboardStats.globalXp));
+            api.fetchPlayerData(player.playfabId).then((res) => {
+                if (res) {
+                    if (res.status === 200) {
+                        const data = res.data as PlayerDetails;
+                        FillChartData(data, setChartData);
+                        setLevel(GetLevelFromXP(data.leaderboardStats.globalXp));
 
-                    const stats = data.leaderboardStats as Record<string, number>;
-                    const weapon_stats = Object.entries(stats).filter(([key, _]) => key.startsWith("experienceWeapon") && !key.endsWith("Position"))
-                        .sort((a, b) => b[1] - a[1]);
-                    if (weapon_stats.length > 0) {
-                        setFavWeapon(weapon_stats[0][0].split("experienceWeapon")[1]);
+                        const stats = data.leaderboardStats as Record<string, number>;
+                        const weapon_stats = Object.entries(stats).filter(([key, _]) => key.startsWith("experienceWeapon") && !key.endsWith("Position"))
+                            .sort((a, b) => b[1] - a[1]);
+                        if (weapon_stats.length > 0) {
+                            setFavWeapon(weapon_stats[0][0].split("experienceWeapon")[1]);
+                        }
+                        setRequestFailed(false);
+                    } else {
+                        setRequestFailed(true);
                     }
+
+                    setRequestStatus(res.status);
                 } else {
                     setRequestFailed(true);
+                    setRequestStatus(-1);
                 }
             })
         }
@@ -71,7 +81,7 @@ function ExtraStatDialog({ player }: ExtraStatDialogProps) {
                 </DialogDescription>
             </DialogHeader>
 
-            <APIRate condition={chartData} requestFailed={requestFailed} component={chartData && (
+            <APIRate condition={chartData} requestFailed={requestFailed} requestStatus={requestStatus} component={chartData && (
                 <div className="flex-1 pb-0">
                     <p>Level: {level}</p>
                     <p>Most used Weapon: {favWeapon}</p>

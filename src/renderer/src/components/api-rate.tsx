@@ -1,15 +1,16 @@
 import { cloneElement } from "react";
 import { useAPI } from "./api-provider";
+import { statusMap } from "@/lib/utils";
 
 interface APIRateProps {
     condition: any | null;
     component: React.ReactElement | null;
     requestFailed: boolean;
+    requestStatus: number;
 }
 
-function APIRate({ condition, component, requestFailed }: APIRateProps) {
+function APIRate({ condition, component, requestFailed, requestStatus }: APIRateProps) {
     const rate_remaining = useAPI().rate_remaining;
-
 
     const conditionMet = () => {
         return condition !== null;
@@ -28,10 +29,7 @@ function APIRate({ condition, component, requestFailed }: APIRateProps) {
             ) : requestFailed ? (
                 <div className="flex mx-auto flex-col">
                     <span className="text-red-400 text-center">
-                        Failed to fetch data!
-                    </span>
-                    <span className="text-gray-400 text-center">
-                        Please try again later.
+                        {statusMap[requestStatus.toString()]}
                     </span>
                 </div>
             ) : (

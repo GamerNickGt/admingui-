@@ -8,7 +8,7 @@ import icon from '../../resources/icon.png?asset'
 import CommandQueue from './commands/queue'
 import settings from 'electron-settings'
 import { join } from 'path'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 
 const KeyboardListener = new GlobalKeyboardListener()
 let mainWindow: BrowserWindow
@@ -62,9 +62,11 @@ function createWindow(): void {
 async function API<T>(url: string): Promise<APIResponse<T | null>> {
   try {
     const { data, status } = await axios.get<T>(url)
-    return { ok: status === 200, data: status === 200 ? data : null }
-  } catch {
-    return { ok: false, data: null }
+    return { status, ok: status === 200, data: status === 200 ? data : null }
+  } catch (e) {
+    const error = e as AxiosError
+    const status = error.response?.status || -1
+    return { status, ok: false, data: null }
   }
 }
 

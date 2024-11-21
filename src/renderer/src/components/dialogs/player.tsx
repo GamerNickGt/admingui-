@@ -18,12 +18,25 @@ interface PlayerDialogProps {
 function PlayerDialog({ player, setOpen }: PlayerDialogProps) {
     const [playFabData, setplayFabData] = useState<PlayFabDetails | null>(null);
     const [failedRequest, setFailedRequest] = useState(false);
+    const [requestStatus, setRequestStatus] = useState<number>(0);
     const { api, rate_remaining } = useAPI();
 
     useEffect(() => {
         if (rate_remaining > 0) {
-            api.fetchPlayFabData(player.playfabId).then((data) => {
-                data ? setplayFabData(data) : setFailedRequest(true);
+            api.fetchPlayFabData(player.playfabId).then((res) => {
+                if (res) {
+                    if (res.status === 200) {
+                        setplayFabData(res.data);
+                        setFailedRequest(false);
+                    } else {
+                        setFailedRequest(true);
+                    }
+
+                    setRequestStatus(res.status);
+                } else {
+                    setFailedRequest(true);
+                    setRequestStatus(-1);
+                }
             })
         }
     }, []);
@@ -74,7 +87,7 @@ function PlayerDialog({ player, setOpen }: PlayerDialogProps) {
                                 <ExtraStatDialog player={player} />
                             </DialogContent>
                         </Dialog>
-                        <APIRate condition={playFabData} requestFailed={failedRequest} component={playFabData && (
+                        <APIRate condition={playFabData} requestFailed={failedRequest} requestStatus={requestStatus} component={playFabData && (
                             <div>
                                 <div className="h-4 w-full" />
                                 <p className="flex justify-center text-center text-foreground">

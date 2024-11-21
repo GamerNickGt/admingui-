@@ -4,7 +4,7 @@ import { Command, CommandGroup, CommandInput, CommandItem, CommandList, CommandS
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./form";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { clamp, cn, createForm, getBaseObject } from "@/lib/utils";
+import { cn, createForm, getBaseObject } from "@/lib/utils";
 import { Check, ChevronsUpDown, Edit2 } from "lucide-react";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
@@ -15,15 +15,11 @@ import * as React from "react";
 import { z } from "zod";
 
 interface PunishmentSelectorProps {
-    setSelectedPunishments?: (punishments: Punishment[]) => void;
-    setMaxDuration?: (duration: number) => void;
-    setMinDuration?: (duration: number) => void;
-    setDuration?: (duration: number) => void;
-    setReason?: (reason: string) => void;
+    onChange?: (punishments: Punishment[]) => void;
     className?: string;
 }
 
-export function PunishmentSelector({ className, setDuration, setMaxDuration, setMinDuration, setReason, setSelectedPunishments }: PunishmentSelectorProps) {
+export function PunishmentSelector({ className, onChange }: PunishmentSelectorProps) {
     const [selectedValues, setSelectedValues] = React.useState<Punishment[]>([]);
     const [punishments, setPunishments] = React.useState<Punishment[]>([]);
     const [inputValue, setInputValue] = React.useState<string>("");
@@ -40,22 +36,8 @@ export function PunishmentSelector({ className, setDuration, setMaxDuration, set
 
     React.useEffect(() => {
         if (selectedValues.length > 0) {
-            const minDuration = Math.max(...selectedValues.map(({ min_duration }) => min_duration));
-            const maxDuration = Math.max(...selectedValues.map(({ max_duration }) => max_duration));
-            const reason = selectedValues.map(({ reason }) => reason).join(", ");
-
-            setDuration?.(clamp(minDuration, maxDuration, Math.floor((maxDuration + minDuration) / 2)));
-            setMinDuration?.(minDuration);
-            setMaxDuration?.(maxDuration);
-            setReason?.(reason);
-        } else {
-            setMinDuration?.(1);
-            setMaxDuration?.(1);
-            setDuration?.(1);
-            setReason?.("");
+            onChange?.(selectedValues);
         }
-
-        setSelectedPunishments && setSelectedPunishments(selectedValues);
     }, [selectedValues])
 
     const createPunishment = (label: string) => {

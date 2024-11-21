@@ -7,6 +7,10 @@ interface API {
     call: <T>(endpoint: string, ...args: any[]) => Promise<T | null>;
     command: (command: Command) => void;
     server: () => string;
+    reason: string;
+    setReason: (reason: string) => void;
+    duration: number;
+    setDuration: (duration: number) => void;
 }
 
 interface APIContextProps {
@@ -47,6 +51,9 @@ const APIProvider = ({ server, children }: APIProviderProps) => {
     const [last_refresh, setLastRefresh] = useState<number>(Date.now());
     const [curServer, setServer] = useState<string>(server);
 
+    const [reason, setReason] = useState('');
+    const [duration, setDuration] = useState(1);
+
     const APICall = APICallFactory({ rate_remaining, setRateRemaining });
 
     useEffect(() => {
@@ -68,7 +75,11 @@ const APIProvider = ({ server, children }: APIProviderProps) => {
         nameLookup: async (name, page) => APICall<NameLookup>('name_lookup', name, page, 25),
         call: NativeAPICall,
         command: (command: Command) => window.electron.ipcRenderer.send('command', command),
-        server: () => curServer
+        server: () => curServer,
+        reason,
+        setReason,
+        duration,
+        setDuration
     }
 
     return (

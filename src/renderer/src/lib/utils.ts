@@ -382,7 +382,11 @@ export function createForm<Schema extends z.AnyZodObject>(
 ) {
   return useForm<z.infer<Schema>>({
     resolver: zodResolver(schema),
-    defaultValues: defaultValues || getDefaults(schema)
+    values: defaultValues || getDefaults(schema),
+    defaultValues: defaultValues || getDefaults(schema),
+    resetOptions: {
+      keepDirtyValues: true
+    }
   })
 }
 

@@ -18,19 +18,12 @@ function Dashboard({ players }: DashboardProps) {
     const { api } = useAPI();
 
     const player_list = players.filter((player) =>
-        unidecode(convertUnicode(player.displayName)).toLowerCase().includes(unidecode(search.toLowerCase())) ||
-        player.playfabId.toLowerCase().includes(unidecode(search.toLowerCase())) ||
-        player.displayName.toLowerCase().includes(search.toLowerCase())
+        unidecode(convertUnicode(player.displayName)).toLowerCase().includes(unidecode(search.trim().toLowerCase())) ||
+        player.playfabId.toLowerCase().includes(unidecode(search.trim().toLowerCase())) ||
+        player.displayName.toLowerCase().includes(search.trim().toLowerCase())
     ).sort((a, b) => {
         return unidecode(convertUnicode(a.displayName)).localeCompare(unidecode(convertUnicode(b.displayName)))
     })
-
-    console.log(`
-    search: ${search}
-    convertUnicode: ${convertUnicode(search)}
-    unidecode: ${unidecode(search)}
-    unidecode + convertUnicode: ${unidecode(convertUnicode(search))}
-    `);
 
     return (
         <div className="mx-10">
@@ -44,14 +37,14 @@ function Dashboard({ players }: DashboardProps) {
                     <Input placeholder="Search by Name or ID" className="caret-white" type="text" value={search} onChange={(e) => setSearch(e.target.value)} />
                 </div>
             </div>
-            {(search.length > 0 && (unidecode(convertUnicode(search)) !== search)) && (
+            {(search.length > 0 && (unidecode(convertUnicode(search.trim())) !== search)) && (
                 <div className="p-2 mt-2 bg-chart-1/10 border-2 border-dashed rounded-sm border-chart-1/50">
                     <div className="flex items-center justify-center">
                         <span className="text-3xl animate-wiggle-more">👋</span>
                         <span className="text-xs text-muted-foreground">Looks like your search contains some 🤔 characters.</span>
                     </div>
                     <div className="flex items-center justify-center">
-                        <span className="text-xs text-muted-foreground">so we've went ahead and decoded it for you: {unidecode(convertUnicode(search))}</span>
+                        <span className="text-xs text-muted-foreground">so we've went ahead and decoded it for you: {unidecode(convertUnicode(search.trim()))}</span>
                     </div>
                 </div>
             )}

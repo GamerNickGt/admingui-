@@ -35,6 +35,6 @@ initial structure:
 ```
 
 # To Do
-
-Ʋ
-£
+Ω
+ȸ
+▲

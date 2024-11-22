@@ -3,7 +3,6 @@ import { convertUnicode } from "@/lib/utils";
 import { RefreshCcw } from "lucide-react";
 import { useAPI } from "../api-provider";
 import { Button } from "../ui/button";
-import Container from "../container";
 import { Input } from "../ui/input";
 import unidecode from "unidecode";
 import { useState } from "react";
@@ -26,21 +25,37 @@ function Dashboard({ players }: DashboardProps) {
         return unidecode(convertUnicode(a.displayName)).localeCompare(unidecode(convertUnicode(b.displayName)))
     })
 
+    console.log(`
+    search: ${search}
+    convertUnicode: ${convertUnicode(search)}
+    unidecode: ${unidecode(search)}
+    unidecode + convertUnicode: ${unidecode(convertUnicode(search))}
+    `);
 
     return (
-        <Container>
+        <div className="mx-10">
             <div className="flex gap-1">
                 <Button variant="outline" onClick={() => {
                     api.command({ type: 'list_players', server: 'unknown' })
                 }}>
                     <RefreshCcw />
                 </Button>
-                <Input placeholder="Search by Name or ID" className="caret-white" type="text" value={search} onChange={(e) => setSearch(e.target.value)} />
-            </div>
-            <ScrollArea className="mx-auto w-full h-[calc(100vh_-_150px)]">
-                <div className="text-sm mb-2">
-                    {search && `Searching for: ${unidecode(convertUnicode(search))}`}
+                <div className="grow">
+                    <Input placeholder="Search by Name or ID" className="caret-white" type="text" value={search} onChange={(e) => setSearch(e.target.value)} />
                 </div>
+            </div>
+            {(search.length > 0 && (unidecode(convertUnicode(search)) !== search)) && (
+                <div className="p-2 mt-2 bg-chart-1/10 border-2 border-dashed rounded-sm border-chart-1/50">
+                    <div className="flex items-center justify-center">
+                        <span className="text-3xl animate-wiggle-more">👋</span>
+                        <span className="text-xs text-muted-foreground">Looks like your search contains some 🤔 characters.</span>
+                    </div>
+                    <div className="flex items-center justify-center">
+                        <span className="text-xs text-muted-foreground">so we've went ahead and decoded it for you: {unidecode(convertUnicode(search))}</span>
+                    </div>
+                </div>
+            )}
+            <ScrollArea className="mt-2 mx-auto w-full">
                 <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,_1fr))] gap-2">
                     {
                         player_list.length === 0 ? (
@@ -53,7 +68,7 @@ function Dashboard({ players }: DashboardProps) {
                     }
                 </div>
             </ScrollArea>
-        </Container>
+        </div>
     )
 }
 

@@ -4,7 +4,6 @@ import { ScrollArea } from "../ui/scroll-area";
 import { Separator } from "../ui/separator";
 import { useEffect, useState } from "react";
 import { useAPI } from "../api-provider";
-import Container from "../container";
 import { Badge } from "../ui/badge";
 import { Input } from "../ui/input";
 
@@ -89,7 +88,7 @@ function History() {
     const filteredHistory = filterCommands();
 
     return (
-        <Container>
+        <>
             <div className="flex flex-col h-full">
                 <div className="flex-1">
                     <Input placeholder="Search" className="rounded-b-none border-b-0" value={search} onChange={(e) => setSearch(e.currentTarget.value)} />
@@ -114,7 +113,7 @@ function History() {
                     </ScrollArea>
                 </div>
             </div>
-        </Container>
+        </>
     )
 }
 

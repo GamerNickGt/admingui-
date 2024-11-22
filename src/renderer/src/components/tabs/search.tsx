@@ -6,7 +6,6 @@ import { useAPI } from "../api-provider";
 import RateLimit from "../rate-limit";
 import { Button } from "../ui/button";
 import ComboBox from "../ui/combobox";
-import Container from "../container";
 import { Input } from "../ui/input";
 import { useState } from "react";
 import { z } from "zod";
@@ -77,7 +76,7 @@ function Search() {
     }
 
     return (
-        <Container className="h-[calc(100vh_-_70px)]">
+        <>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex justify-between mb-2">
                     <div className="flex flex-row">
@@ -103,7 +102,7 @@ function Search() {
             <div className="mt-2 flex-justify-center">
                 <RateLimit />
             </div>
-        </Container>
+        </>
     )
 }
 

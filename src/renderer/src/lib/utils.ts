@@ -382,7 +382,11 @@ export function createForm<Schema extends z.AnyZodObject>(
 ) {
   return useForm<z.infer<Schema>>({
     resolver: zodResolver(schema),
-    defaultValues: defaultValues || getDefaults(schema)
+    values: defaultValues || getDefaults(schema),
+    defaultValues: defaultValues || getDefaults(schema),
+    resetOptions: {
+      keepDirtyValues: true
+    }
   })
 }
 
@@ -457,3 +461,12 @@ const defaultThemes = {
 }
 defaultThemes.custom = defaultThemes.light
 export { defaultThemes }
+
+const statusMap = {
+  '404': 'Player not found for the given Playfab ID.',
+  '400': 'Invalid Playfab ID.',
+  '429': 'Rate limit reached. Please try again later.',
+  '-1': 'Failed to fetch data. Please try again later.'
+}
+
+export { statusMap }

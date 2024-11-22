@@ -1,12 +1,16 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface API {
-    fetchPlayFabData: (playfabId: string) => Promise<PlayFabDetails | null>;
-    fetchPlayerData: (playfabId: string) => Promise<PlayerDetails | null>;
-    nameLookup: (name: string, page: number) => Promise<NameLookup | null>;
+    fetchPlayFabData: (playfabId: string) => Promise<APIResponse<PlayFabDetails>>;
+    fetchPlayerData: (playfabId: string) => Promise<APIResponse<PlayerDetails>>;
+    nameLookup: (name: string, page: number) => Promise<APIResponse<NameLookup>>;
     call: <T>(endpoint: string, ...args: any[]) => Promise<T | null>;
     command: (command: Command) => void;
     server: () => string;
+    reason: string;
+    setReason: (reason: string) => void;
+    duration: number;
+    setDuration: (duration: number) => void;
 }
 
 interface APIContextProps {
@@ -21,16 +25,12 @@ interface APIProviderProps {
     server: string;
 }
 
+
 function APICallFactory({ rate_remaining, setRateRemaining }) {
-    return async function <T>(endpoint: APIEndpoint, ...args: any[]): Promise<T | null> {
+    return async function <T>(endpoint: APIEndpoint, ...args: any[]): Promise<APIResponse<T>> {
         const response = await window.api.call<T>(endpoint, ...args);
         setRateRemaining(rate_remaining - 1 < 0 ? 0 : rate_remaining - 1);
-
-        if (response.ok) {
-            return response.data;
-        }
-
-        return null;
+        return response;
     }
 }
 
@@ -46,6 +46,9 @@ const APIProvider = ({ server, children }: APIProviderProps) => {
     const [rate_remaining, setRateRemaining] = useState<number>(rate_limit);
     const [last_refresh, setLastRefresh] = useState<number>(Date.now());
     const [curServer, setServer] = useState<string>(server);
+
+    const [reason, setReason] = useState('');
+    const [duration, setDuration] = useState(1);
 
     const APICall = APICallFactory({ rate_remaining, setRateRemaining });
 
@@ -68,7 +71,11 @@ const APIProvider = ({ server, children }: APIProviderProps) => {
         nameLookup: async (name, page) => APICall<NameLookup>('name_lookup', name, page, 25),
         call: NativeAPICall,
         command: (command: Command) => window.electron.ipcRenderer.send('command', command),
-        server: () => curServer
+        server: () => curServer,
+        reason,
+        setReason,
+        duration,
+        setDuration
     }
 
     return (

@@ -1,13 +1,13 @@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import { PunishmentSelector } from "../ui/punishment-selector";
+import { clamp, createForm } from "@/lib/utils";
 import { Separator } from "../ui/separator";
-import { useEffect, useState } from "react";
-import { createForm } from "@/lib/utils";
 import { useAPI } from "../api-provider";
 import { Button } from "../ui/button";
 import { Slider } from "../ui/slider";
 import { Input } from "../ui/input";
+import { useState } from "react";
 import { z } from "zod";
 
 interface PunishDialogProps {
@@ -31,21 +31,31 @@ function PunishDialog({ type, player, setOpen }: PunishDialogProps) {
     const [selectedPunishments, setSelectedPunishments] = useState<Punishment[]>([]);
     const [maxDuration, setMaxDuration] = useState(1);
     const [minDuration, setMinDuration] = useState(1);
-    const [duration, setDuration] = useState(1);
-    const [reason, setReason] = useState('');
-    const { api } = useAPI();
 
-    const form = createForm(PunishmentSchema);
+    const { api } = useAPI();
+    const { reason, setReason, duration, setDuration } = api;
+
+    const form = createForm(PunishmentSchema, { reason, duration });
 
     function onSubmit(data: z.infer<typeof PunishmentSchema>) {
         api.command({ type, player, ...data, server: api.server() })
         setOpen?.(false);
+        setReason(data.reason);
+        setDuration(data.duration);
     }
 
-    useEffect(() => {
-        form.setValue('duration', duration);
-        form.setValue('reason', reason);
-    }, [reason, duration, minDuration, maxDuration])
+    function onPunishmentChange(punishments: Punishment[]) {
+        const minDuration = Math.max(...punishments.map(({ min_duration }) => min_duration));
+        const maxDuration = Math.max(...punishments.map(({ max_duration }) => max_duration));
+        const duration = clamp(minDuration, maxDuration, Math.floor((maxDuration + minDuration) / 2));
+        const reason = punishments.map(({ reason }) => reason).join(", ");
+
+        setSelectedPunishments(punishments);
+        setMinDuration(minDuration);
+        setMaxDuration(maxDuration);
+        setDuration(duration);
+        setReason(reason);
+    }
 
     return (
         <>
@@ -56,7 +66,7 @@ function PunishDialog({ type, player, setOpen }: PunishDialogProps) {
                 <DialogDescription className="text-center">You are about to {type} {player.displayName} ({player.playfabId})</DialogDescription>
             </DialogHeader>
 
-            <PunishmentSelector className="w-full" setSelectedPunishments={setSelectedPunishments} setDuration={setDuration} setMaxDuration={setMaxDuration} setMinDuration={setMinDuration} setReason={setReason} />
+            <PunishmentSelector className="w-full" onChange={onPunishmentChange} />
 
             {(type === 'ban' && selectedPunishments.length > 0) && (<>{
                 maxDuration !== minDuration ? (
@@ -85,7 +95,7 @@ function PunishDialog({ type, player, setOpen }: PunishDialogProps) {
                                 <FormItem>
                                     <FormLabel className="capitalize">{key}</FormLabel>
                                     <FormControl>
-                                        <Input placeholder={displayKey} {...field} type={key === "duration" ? "number" : "text"} />
+                                        <Input defaultValue={key === 'duration' ? duration : reason} placeholder={displayKey} {...field} type={key === "duration" ? "number" : "text"} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

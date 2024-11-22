@@ -22,7 +22,10 @@ function Dashboard({ players }: DashboardProps) {
         unidecode(convertUnicode(player.displayName)).toLowerCase().includes(unidecode(search.toLowerCase())) ||
         player.playfabId.toLowerCase().includes(unidecode(search.toLowerCase())) ||
         player.displayName.toLowerCase().includes(search.toLowerCase())
-    )
+    ).sort((a, b) => {
+        return unidecode(convertUnicode(a.displayName)).localeCompare(unidecode(convertUnicode(b.displayName)))
+    })
+
 
     return (
         <Container>
@@ -34,10 +37,10 @@ function Dashboard({ players }: DashboardProps) {
                 </Button>
                 <Input placeholder="Search by Name or ID" className="caret-white" type="text" value={search} onChange={(e) => setSearch(e.target.value)} />
             </div>
-            <div className="text-sm mb-2">
-                {search && `Searching for: ${unidecode(convertUnicode(search))}`}
-            </div>
             <ScrollArea className="mx-auto w-full h-[calc(100vh_-_150px)]">
+                <div className="text-sm mb-2">
+                    {search && `Searching for: ${unidecode(convertUnicode(search))}`}
+                </div>
                 <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,_1fr))] gap-2">
                     {
                         player_list.length === 0 ? (

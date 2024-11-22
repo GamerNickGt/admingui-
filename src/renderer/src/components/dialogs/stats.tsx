@@ -16,6 +16,7 @@ interface StatDialogProps {
 function StatDialog({ player, data }: StatDialogProps) {
     const [playFabData, setPlayFabData] = useState<PlayFabDetails | null>(null);
     const [requestFailed, setRequestFailed] = useState(false);
+    const [requestStatus, setRequestStatus] = useState<number>(0);
     const { api, rate_remaining } = useAPI();
 
     useEffect(() => {
@@ -24,8 +25,20 @@ function StatDialog({ player, data }: StatDialogProps) {
         }
 
         if (rate_remaining > 0) {
-            api.fetchPlayFabData(player.playfabId).then((data) => {
-                data ? setPlayFabData(data) : setRequestFailed(true);
+            api.fetchPlayFabData(player.playfabId).then((res) => {
+                if (res) {
+                    if (res.status === 200) {
+                        setPlayFabData(res.data);
+                        setRequestFailed(false);
+                    } else {
+                        setRequestFailed(true);
+                    }
+
+                    setRequestStatus(res.status);
+                } else {
+                    setRequestFailed(true);
+                    setRequestStatus(-1);
+                }
             });
         }
     }, []);
@@ -39,7 +52,7 @@ function StatDialog({ player, data }: StatDialogProps) {
                 <DialogDescription className="mx-auto select-all">{player.playfabId}</DialogDescription>
             </DialogHeader>
 
-            <APIRate condition={playFabData} requestFailed={requestFailed} component={playFabData && (
+            <APIRate condition={playFabData} requestFailed={requestFailed} requestStatus={requestStatus} component={playFabData && (
                 <div>
                     <p className="text-foreground">Last Lookup (<a className="text-green-400 underline" target="_blank" href="https://chivalry2stats.com/">C2S</a>): {playFabData.lastLookup ? parseISO(playFabData.lastLookup).toDateString() : "N/A"}</p>
                     <p className="text-foreground">Lookup Count: {playFabData.lookupCount}</p>

@@ -2,13 +2,16 @@ import { ColumnDef, flexRender, useReactTable, getCoreRowModel, getPaginationRow
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "./button"
 import { useEffect, useState } from "react"
+import { statusMap } from "@/lib/utils"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
+    requestFailed: boolean
+    requestStatus: number
 }
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, requestFailed, requestStatus }: DataTableProps<TData, TValue>) {
     const [page, setPage] = useState(1)
 
     useEffect(() => {
@@ -72,7 +75,11 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                                    No results.
+                                    {requestFailed ? (
+                                        <span className="text-red-400">
+                                            {statusMap[requestStatus.toString()]}
+                                        </span>
+                                    ) : "No Results."}
                                 </TableCell>
                             </TableRow>
                         )}

@@ -10,6 +10,8 @@ import { Input } from "../ui/input";
 import { useState } from "react";
 import { z } from "zod";
 
+import { motion } from "framer-motion";
+
 interface PunishDialogProps {
     type: | 'kick' | 'ban';
     player: Player;
@@ -103,7 +105,38 @@ function PunishDialog({ type, player, setOpen }: PunishDialogProps) {
                         )
                     })}
                     <Button type="submit" variant="outline" className="w-full">
-                        {type === 'ban' ? '🔨' : '🥾'}
+                        {(() => {
+                            const icon = type === "ban" ? "🔨" : "🥾";
+
+                            const animationVariants = {
+                                swing: {
+                                    x: [0, 2, -2, 1, -1, 0],
+                                    y: [0, 5, -5, 2.5, -2.5, 0],
+                                    rotate: [0, -30, 30, -15, 15, 0],
+                                    transition: { duration: 1, repeat: Infinity, ease: "easeInOut" },
+                                },
+                                kick: {
+                                    rotate: [0, 90, -20, 30, -10, 0],
+                                    x: [0, -5, 20, -5, 0],
+                                    y: [0, 0, -5, 0, 0],
+                                    transition: {
+                                        duration: 1.2,
+                                        times: [0, 0.4, 0.6, 0.8, 1],
+                                        ease: ["easeOut", "easeIn", "easeOut", "easeInOut"],
+                                        repeat: Infinity,
+                                    },
+                                },
+                            };
+
+                            return (
+                                <motion.span
+                                    animate={type === "ban" ? "swing" : "kick"}
+                                    variants={animationVariants}
+                                >
+                                    {icon}
+                                </motion.span>
+                            );
+                        })()}
                     </Button>
                 </form>
             </Form>
@@ -112,3 +145,4 @@ function PunishDialog({ type, player, setOpen }: PunishDialogProps) {
 }
 
 export default PunishDialog;
+// {type === 'ban' ? '🔨' : '🥾'}

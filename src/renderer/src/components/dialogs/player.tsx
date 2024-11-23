@@ -54,8 +54,8 @@ function PlayerDialog({ player, setOpen }: PlayerDialogProps) {
                     <div className="flex mx-auto gap-2">
                         <Dialog>
                             <DialogTrigger asChild>
-                                <Button variant="outline">
-                                    <Ban className="mr-2 h-4 w-4" />
+                                <Button variant="outline" className="group">
+                                    <Ban className="mr-2 h-4 w-4 animate-ease-in-out animate-infinite animate-duration-1000 group-hover:animate-spin" />
                                     Ban
                                 </Button>
                             </DialogTrigger>
@@ -65,8 +65,8 @@ function PlayerDialog({ player, setOpen }: PlayerDialogProps) {
                         </Dialog>
                         <Dialog>
                             <DialogTrigger asChild>
-                                <Button variant="outline">
-                                    <UserRoundMinus className="mr-2 h-4 w-4" />
+                                <Button variant="outline" className="group">
+                                    <UserRoundMinus className="mr-2 h-4 w-4 animate-ease-in-out animate-infinite animate-duration-1000 group-hover:animate-jump" />
                                     Kick
                                 </Button>
                             </DialogTrigger>
@@ -78,8 +78,8 @@ function PlayerDialog({ player, setOpen }: PlayerDialogProps) {
                     <div className="flex justify-center flex-col py-2">
                         <Dialog>
                             <DialogTrigger asChild>
-                                <Button variant="outline" size="sm">
-                                    <FileUser className="mr-2 h-4 w-4" />
+                                <Button variant="outline" className="group">
+                                    <FileUser className="mr-2 h-4 w-4 animate-ease-in-out animate-infinite animate-duration-1000 group-hover:animate-wiggle-more" />
                                     View Additional Information
                                 </Button>
                             </DialogTrigger>

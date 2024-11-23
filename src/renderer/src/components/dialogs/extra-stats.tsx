@@ -5,8 +5,8 @@ import { GetLevelFromXP } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useAPI } from "../api-provider";
 import PlayerName from "../player-name";
-import APIRate from "../api-rate";
 import { Badge } from "../ui/badge";
+import APIRate from "../api-rate";
 
 interface ChartData {
     class: string;

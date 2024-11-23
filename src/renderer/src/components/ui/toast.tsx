@@ -5,8 +5,6 @@ import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-import { motion } from "framer-motion"
-
 const ToastProvider = ToastPrimitives.Provider
 
 const ToastViewport = React.forwardRef<

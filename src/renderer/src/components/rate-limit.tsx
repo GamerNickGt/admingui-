@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
-import { cn, formatSeconds } from "@/lib/utils";
+import { secondsLeft, setSecondsLeft } from "@/main";
 import { useAPI } from "./api-provider";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { cn } from "@/lib/utils";
 
-const RateLimitBadge = ({ className, rate_remaining, rate_limit }) => {
+const RateLimitBadge = ({ className }) => {
+    const { rate_remaining, rate_limit } = useAPI();
     const percentage = rate_remaining / rate_limit;
 
     return (
@@ -30,7 +32,7 @@ const RateLimitBadge = ({ className, rate_remaining, rate_limit }) => {
     );
 };
 
-const RefreshBadge = ({ className, secondsLeft }) => {
+const RefreshBadge = ({ className }) => {
     return (
         <div className={cn("p-2 mt-2 bg-chart-1/10 border-2 border-dashed rounded-sm rounded-l-none border-chart-1/50", className)}>
             <div className="flex flex-row gap-2 items-center">
@@ -41,7 +43,7 @@ const RefreshBadge = ({ className, secondsLeft }) => {
                     animate={{ backgroundColor: "#3b82f6" }}
                     transition={{ duration: 0.5, ease: "easeInOut" }}
                 >
-                    {formatSeconds(secondsLeft)}
+                    {secondsLeft}s
                 </motion.div>
             </div>
         </div>
@@ -49,8 +51,7 @@ const RefreshBadge = ({ className, secondsLeft }) => {
 }
 
 function RateLimit() {
-    const { rate_remaining, rate_limit, last_refresh } = useAPI();
-    const [secondsLeft, setSecondsLeft] = useState(60);
+    const { last_refresh } = useAPI();
 
     useEffect(() => {
         const updateCountdown = () => {
@@ -72,8 +73,8 @@ function RateLimit() {
             transition={{ duration: 0.1 }}
             className="flex flex-row"
         >
-            <RateLimitBadge className="rounded-r-none" rate_remaining={rate_remaining} rate_limit={rate_limit} />
-            <RefreshBadge className="rounded-l-none" secondsLeft={secondsLeft} />
+            <RateLimitBadge className="rounded-r-none" />
+            <RefreshBadge className="rounded-l-none" />
         </motion.div>
     )
 }

@@ -9,12 +9,9 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import unidecode from "unidecode";
 import { useState } from "react";
+import { players } from "@/main";
 
-interface DashboardProps {
-    players: Player[];
-}
-
-function Dashboard({ players }: DashboardProps) {
+function Dashboard() {
     const [search, setSearch] = useState("");
     const { api } = useAPI();
 
@@ -28,7 +25,7 @@ function Dashboard({ players }: DashboardProps) {
         return unidecode(convertUnicode(a.displayName)).localeCompare(unidecode(convertUnicode(b.displayName)))
     }
 
-    const player_list = players.filter(player_filter).sort(player_sort)
+    const player_list = players.value.filter(player_filter).sort(player_sort)
 
     const showPopup = unidecode(convertUnicode(search.trim())) !== search.trim()
     const [animateRefresh, setAnimateRefresh] = useState(false);

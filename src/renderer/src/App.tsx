@@ -10,6 +10,7 @@ import { Toaster } from "./components/ui/toaster";
 import AppSidebar from "./components/app-sidebar"
 import Background from "./components/background"
 import History from "./components/tabs/history";
+import { setPlayers, setServer } from "./main";
 import Search from "./components/tabs/search";
 import { useToast } from "./hooks/use-toast";
 import { IPCEvent } from "./lib/events";
@@ -71,18 +72,13 @@ function App() {
     }, [])
 
     const [tab, setTab] = useState<Tab>("Dashboard");
-    const [server, setServer] = useState<string>("");
-    const [players, setPlayers] = useState<Player[]>(window.api.isDev ? [{
-        displayName: "Ⱥ Smiggy",
-        playfabId: "6F33D568A08FF682"
-    }] : []);
 
     function onTabChange(tab: string) {
         setTab(tab as Tab);
     }
 
     return (
-        <APIProvider server={server}>
+        <APIProvider>
             <Background>
                 <div className="bg-background/50 backdrop-blur-[2px]">
                     <SidebarProvider>
@@ -99,7 +95,7 @@ function App() {
                                         transition={{ duration: 0.2 }}
                                         className="h-full w-full"
                                     >
-                                        {createElement(AppTabs[tab], { players })}
+                                        {createElement(AppTabs[tab])}
                                     </motion.div>
                                 )}
                             </AnimatePresence>

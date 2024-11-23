@@ -1,12 +1,12 @@
 import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form";
 import { columns, TableColumns } from "../search-table/columns";
 import { createForm, truncateAliasHistory } from "@/lib/utils";
+import { FloatingLabelInput } from "../ui/floating-input";
 import { DataTable } from "../ui/data-table";
 import { useAPI } from "../api-provider";
 import RateLimit from "../rate-limit";
 import { Button } from "../ui/button";
 import ComboBox from "../ui/combobox";
-import { Input } from "../ui/input";
 import { useState } from "react";
 import { z } from "zod";
 
@@ -83,7 +83,7 @@ function Search() {
                         <FormField control={form.control} name="search" render={({ field }) => (
                             <FormItem>
                                 <FormControl>
-                                    <Input {...field} placeholder={`Search by ${label}`} className="rounded-r-none" />
+                                    <FloatingLabelInput {...field} label="Search by" className="rounded-r-none" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>

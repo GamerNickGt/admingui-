@@ -158,3 +158,10 @@ interface ParsedPlayerData {
   server: string
   players: Player[]
 }
+
+interface Contributor {
+  avatar_url: string
+  contributions: number
+  html_url: string
+  login: string
+}

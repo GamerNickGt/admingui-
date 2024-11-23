@@ -28,6 +28,7 @@ jobs:
           path: tools/lookup_table/output/lookuptable.json
 
   build-and-release:
+    needs: cross-platform-task
     runs-on: windows-latest
 
     steps:

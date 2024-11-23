@@ -11,6 +11,7 @@ import { useState } from "react";
 import { z } from "zod";
 
 import { motion } from "framer-motion";
+import { FloatingLabelInput } from "../ui/floating-input";
 
 interface PunishDialogProps {
     type: | 'kick' | 'ban';
@@ -95,9 +96,8 @@ function PunishDialog({ type, player, setOpen }: PunishDialogProps) {
                         return (
                             <FormField key={key} control={form.control} name={key} render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="capitalize">{key}</FormLabel>
                                     <FormControl>
-                                        <Input defaultValue={key === 'duration' ? duration : reason} placeholder={displayKey} {...field} type={key === "duration" ? "number" : "text"} />
+                                        <FloatingLabelInput label={displayKey} {...field} type={key === "duration" ? "number" : "text"} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

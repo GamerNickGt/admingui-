@@ -86,7 +86,6 @@ function App(): JSX.Element {
 
   return (
     <div className="flex flex-col h-screen w-screen">
-
       <Background>
         <APIProvider server={server}>
           <Tabs value={tab} onValueChange={onTabChange}>

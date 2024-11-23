@@ -88,7 +88,7 @@ function History() {
     const filteredHistory = filterCommands();
 
     return (
-        <>
+        <div className="mx-10">
             <div className="flex flex-col h-full">
                 <div className="flex-1">
                     <Input placeholder="Search" className="rounded-b-none border-b-0" value={search} onChange={(e) => setSearch(e.currentTarget.value)} />
@@ -113,7 +113,7 @@ function History() {
                     </ScrollArea>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 

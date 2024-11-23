@@ -76,7 +76,7 @@ function Search() {
     }
 
     return (
-        <>
+        <div className="mx-10">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex justify-between mb-2">
                     <div className="flex flex-row">
@@ -99,10 +99,10 @@ function Search() {
                     <DataTable columns={columns} data={tableData} requestFailed={failedRequest} requestStatus={requestStatus} />
                 </div>
             </Form>
-            <div className="mt-2 flex-justify-center">
+            <div className="mt-2 flex justify-center">
                 <RateLimit />
             </div>
-        </>
+        </div>
     )
 }
 

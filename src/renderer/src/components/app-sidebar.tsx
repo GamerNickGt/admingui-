@@ -4,6 +4,7 @@ import { History, ListRestart, Search, Settings } from "lucide-react";
 import verData from '../assets/version.json';
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
+import { useState } from "react";
 
 const items = [
     {
@@ -29,6 +30,8 @@ interface AppSidebarProps {
 }
 
 function AppSidebar({ onTabChange }: AppSidebarProps) {
+    const [activeTab, setActiveTab] = useState<string>("Dashboard");
+
     return (
         <Sidebar>
             <SidebarHeader>
@@ -51,7 +54,15 @@ function AppSidebar({ onTabChange }: AppSidebarProps) {
                         <SidebarMenu>
                             {items.map((item) => (
                                 <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton className="cursor-pointer" onClick={() => onTabChange(item.title)} asChild>
+                                    <SidebarMenuButton
+                                        isActive={item.title === activeTab}
+                                        className="cursor-pointer"
+                                        onClick={() => {
+                                            onTabChange(item.title)
+                                            setActiveTab(item.title)
+                                        }}
+                                        asChild
+                                    >
                                         <div>
                                             <item.icon />
                                             <span>{item.title}</span>

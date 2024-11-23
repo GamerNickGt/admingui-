@@ -90,16 +90,17 @@ function PlayerDialog({ player, setOpen }: PlayerDialogProps) {
                         <APIRate condition={playFabData} requestFailed={failedRequest} requestStatus={requestStatus} component={playFabData && (
                             <div>
                                 <div className="h-4 w-full" />
-                                <p className="flex justify-center text-center text-foreground">
-                                    Alias History
-                                </p>
+                                <div className="flex flex-row justify-center items-center gap-2">
+                                    <span>Alias History</span>
+                                    <a target="_blank" href="https://chivalry2stats.com">
+                                        <span className="text-muted-foreground text-xs">(</span>
+                                        <span className="text-green-400 underline text-xs">chivalry2stats</span>
+                                        <span className="text-muted-foreground text-xs">)</span>
+                                    </a>
+                                </div>
                                 <ScrollArea className="h-32 p-2 border border-border rounded-lg">
                                     {playFabData.aliasHistory}
                                 </ScrollArea>
-                                <p className="flex justify-center gap-1 text-sm text-muted">
-                                    from
-                                    <a target="_blank" href="https://chivalry2stats.com" className="text-green-400 underline">chivalry2stats</a>
-                                </p>
                             </div>
                         )} />
                         <div className="flex justify-center mt-4">

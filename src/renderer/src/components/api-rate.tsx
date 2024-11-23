@@ -53,7 +53,7 @@ function APIRate({ condition, component, requestFailed, requestStatus }: APIRate
             ) : (
                 <AlertContainer variant="loading" className="flex items-center justify-center">
                     <span className="text-gray-400 text-center">
-                        Loading...
+                        Loading
                     </span>
                 </AlertContainer>
             )}

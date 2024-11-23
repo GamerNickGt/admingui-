@@ -22,8 +22,8 @@ function App() {
     const [tab, setTab] = useState<Tab>("Dashboard");
     const [server, setServer] = useState<string>("");
     const [players, setPlayers] = useState<Player[]>([{
-        displayName: "𝐛ruh",
-        playfabId: "1234567890"
+        displayName: "Ⱥ Smiggy",
+        playfabId: "6F33D568A08FF682"
     }]);
 
     function onTabChange(tab: string) {

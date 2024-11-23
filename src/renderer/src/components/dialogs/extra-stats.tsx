@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useAPI } from "../api-provider";
 import PlayerName from "../player-name";
 import APIRate from "../api-rate";
+import { Badge } from "../ui/badge";
 
 interface ChartData {
     class: string;
@@ -83,8 +84,16 @@ function ExtraStatDialog({ player }: ExtraStatDialogProps) {
 
             <APIRate condition={chartData} requestFailed={requestFailed} requestStatus={requestStatus} component={chartData && (
                 <div className="flex-1 pb-0">
-                    <p>Level: {level}</p>
-                    <p>Most used Weapon: {favWeapon}</p>
+                    <div className="p-2 mt-2 bg-chart-1/10 border-2 border-dashed rounded-sm border-chart-1/50">
+                        <div className="flex flex-row gap-2 items-center">
+                            <p className="text-xs text-muted-foreground">Level</p>
+                            <Badge className="text-xs bg-blue-500 hover:bg-blue-400 text-foreground font-normal rounded-md">{level}</Badge>
+                        </div>
+                        <div className="flex flex-row gap-2 items-center">
+                            <p className="text-xs text-muted-foreground">Most used Weapon</p>
+                            <Badge className="text-xs bg-blue-500 hover:bg-blue-400 text-foreground font-normal rounded-md">{favWeapon}</Badge>
+                        </div>
+                    </div>
 
                     <ChartContainer config={chartConfig} className="mx-auto">
                         <RadarChart data={chartData}>

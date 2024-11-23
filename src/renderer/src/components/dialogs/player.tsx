@@ -88,7 +88,7 @@ function PlayerDialog({ player, setOpen }: PlayerDialogProps) {
                             </DialogContent>
                         </Dialog>
                         <APIRate condition={playFabData} requestFailed={failedRequest} requestStatus={requestStatus} component={playFabData && (
-                            <div>
+                            <div className="animate-fade">
                                 <div className="h-4 w-full" />
                                 <div className="flex flex-row justify-center items-center gap-2">
                                     <span>Alias History</span>

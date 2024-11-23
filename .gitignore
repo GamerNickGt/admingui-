@@ -25,3 +25,4 @@ local_modules/keysender/build/Release/obj/key_sender/src/addon/mouse.obj
 local_modules/keysender/build/Release/obj/key_sender/src/addon/utilities.obj
 local_modules/keysender/build/Release/obj/key_sender/src/addon/virtual.obj
 local_modules/keysender/build/Release/obj/key_sender/src/addon/workwindow.obj
+local_modules/keysender/build/Release/key_sender.node

@@ -17,6 +17,7 @@ function createWindow(): void {
     width: 800,
     height: 600,
     show: false,
+    title: 'DEFSAK',
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {

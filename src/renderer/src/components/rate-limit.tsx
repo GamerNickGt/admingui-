@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import { formatSeconds } from "@/lib/utils";
+import { cn, formatSeconds } from "@/lib/utils";
 import { useAPI } from "./api-provider";
 import { motion } from "framer-motion";
-import clsx from "clsx";
 
 const RateLimitBadge = ({ className, rate_remaining, rate_limit }) => {
     const percentage = rate_remaining / rate_limit;
 
     return (
-        <div className={clsx("p-2 mt-2 bg-chart-1/10 border-2 border-dashed rounded-sm rounded-r-none border-chart-1/50", className)}>
+        <div className={cn("p-2 mt-2 bg-chart-1/10 border-2 border-dashed rounded-sm rounded-r-none border-chart-1/50", className)}>
             <div className="flex flex-row gap-2 items-center">
                 <span className="text-xs text-muted-foreground">Rate Limit</span>
                 <motion.div
@@ -33,7 +32,7 @@ const RateLimitBadge = ({ className, rate_remaining, rate_limit }) => {
 
 const RefreshBadge = ({ className, secondsLeft }) => {
     return (
-        <div className={clsx("p-2 mt-2 bg-chart-1/10 border-2 border-dashed rounded-sm rounded-l-none border-chart-1/50", className)}>
+        <div className={cn("p-2 mt-2 bg-chart-1/10 border-2 border-dashed rounded-sm rounded-l-none border-chart-1/50", className)}>
             <div className="flex flex-row gap-2 items-center">
                 <span className="text-xs text-muted-foreground">Refresh in</span>
                 <motion.div

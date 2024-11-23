@@ -6,6 +6,8 @@
 # DEFSAK Admin GUI
 THE Admin GUI for [Chivalry 2](https://store.steampowered.com/app/1824220/Chivalry_2/)
 
+<img src="resources/icon.png" width="256" />
+
 ## Recommended IDE Setup
 
 - [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)

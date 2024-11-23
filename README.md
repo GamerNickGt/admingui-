@@ -1,6 +1,10 @@
-# admin-goowee-finale
+![GitHub Tag](https://img.shields.io/github/v/tag/defsak/admin-gui?label=version) 
+![GitHub branch check runs](https://img.shields.io/github/check-runs/defsak/admin-gui/main)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/defsak/admin-gui)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-pr/defsak/admin-gui)
 
-An Electron application with React and TypeScript
+# DEFSAK Admin GUI
+THE Admin GUI for [Chivalry 2](https://store.steampowered.com/app/1824220/Chivalry_2/)
 
 ## Recommended IDE Setup
 
@@ -25,14 +29,8 @@ $ npm run dev
 ```bash
 # For windows
 $ npm run build:win
-
-# For macOS
-$ npm run build:mac
-
-# For Linux
-$ npm run build:linux
 ```
 
 ## Bugs & feature requests
 
-Please make a ticket on our discord server
+Please make a ticket on our [discord server](https://discord.gg/sakclan)

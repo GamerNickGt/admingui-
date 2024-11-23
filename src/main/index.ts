@@ -6,9 +6,9 @@ import clipboardWatcher from 'electron-clipboard-watcher'
 import { ParsePlayerData } from './commands/macro'
 import icon from '../../resources/icon.png?asset'
 import CommandQueue from './commands/queue'
+import axios, { AxiosError } from 'axios'
 import settings from 'electron-settings'
 import { join } from 'path'
-import axios, { AxiosError } from 'axios'
 
 const KeyboardListener = new GlobalKeyboardListener()
 let mainWindow: BrowserWindow

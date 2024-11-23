@@ -240,7 +240,9 @@ const unicode_lookup = Object.fromEntries(
 )
 
 export const convertUnicode = (str: string) => {
-  return str.replace(/./g, (char) => unicode_lookup[char] || char)
+  return Array.from(str)
+    .map((char) => unicode_lookup[char] || char)
+    .join('')
 }
 
 // #region Credit to Report (chivalry2stats.com)

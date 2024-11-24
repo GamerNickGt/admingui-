@@ -1,5 +1,5 @@
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "./ui/sidebar";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { History, ListRestart, Search, Settings } from "lucide-react";
 import verData from '../assets/version.json';
 import { Button } from "./ui/button";
@@ -75,13 +75,13 @@ function AppSidebar({ onTabChange }: AppSidebarProps) {
                 </SidebarGroup>
             </SidebarContent>
             <SidebarFooter>
-                <HoverCard>
-                    <HoverCardTrigger asChild>
+                <Popover>
+                    <PopoverTrigger asChild>
                         <div className="flex items-center justify-center">
                             <Button variant="link" size="xs" className="text-muted-foreground">Developer Info</Button>
                         </div>
-                    </HoverCardTrigger>
-                    <HoverCardContent className="w-fit">
+                    </PopoverTrigger>
+                    <PopoverContent className="w-fit">
                         <div className="flex flex-col gap-1">
                             <div className="flex flex-row gap-2">
                                 Version
@@ -96,8 +96,8 @@ function AppSidebar({ onTabChange }: AppSidebarProps) {
                                 <Badge className="select-all">{verData["commit hash"]}</Badge>
                             </div>
                         </div>
-                    </HoverCardContent>
-                </HoverCard>
+                    </PopoverContent>
+                </Popover>
             </SidebarFooter>
         </Sidebar>
     )

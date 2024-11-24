@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Command, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from "@/components/ui/command";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { FormField, FormItem, FormControl, FormMessage } from "./form";
+import { Form, FormField, FormItem, FormControl, FormMessage } from "./form";
 import { Check, ChevronsUpDown, Edit2 } from "lucide-react";
 import { createForm, getBaseObject } from "@/lib/forms";
 import { FloatingLabelInput } from "./floating-input";
@@ -11,7 +11,6 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAPI } from "../api-provider";
-import { Form } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import * as React from "react";
 import { z } from "zod";
@@ -323,9 +322,10 @@ const DialogListItem = ({
                     </div>
                 </div>
                 <AccordionContent className="p-2">
+
                     <Form {...form}>
                         <form
-                            className="flex flex-col gap-4"
+                            className="flex flex-col gap-4 overflow-auto"
                             onSubmit={form.handleSubmit((data) => {
                                 onSubmit(data);
                                 setAccordionValue("");

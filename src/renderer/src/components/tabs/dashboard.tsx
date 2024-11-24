@@ -8,7 +8,7 @@ import { useAPI } from "../api-provider";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import unidecode from "unidecode";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { players } from "@/main";
 
 function Dashboard() {
@@ -30,8 +30,21 @@ function Dashboard() {
     const showPopup = unidecode(convertUnicode(search.trim())) !== search.trim()
     const [animateRefresh, setAnimateRefresh] = useState(false);
 
+    const containerHeight = window.innerHeight - 90;
+    const containerRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        const handleResize = () => {
+            if (containerRef.current) {
+                containerRef.current.style.height = `${window.innerHeight - 125}px`;
+            }
+        }
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [])
+
     return (
-        <div className="mx-10">
+        <div className="mx-10 h-screen">
             <div className="flex gap-1">
                 <Button variant="outline" className="group" onClick={() => {
                     api.command({ type: 'list_players', server: 'unknown' })
@@ -65,7 +78,7 @@ function Dashboard() {
                     </motion.div>
                 )}
             </AnimatePresence>
-            <ScrollArea className="mt-2 h-96">
+            <ScrollArea className="overflow-auto mt-2" ref={containerRef} style={{ height: containerHeight }}>
                 <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,_1fr))] gap-2">
                     <AnimatePresence mode="wait">
                         {

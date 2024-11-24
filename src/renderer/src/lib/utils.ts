@@ -1,10 +1,5 @@
-import unicode_data from '../../../../tools/lookup_table/output/lookuptable.json'
-import { z, ZodEffects, ZodObject, ZodTypeAny } from 'zod'
-import { DefaultValues, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-import confetti from 'canvas-confetti'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -13,6 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 export function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max)
 }
+<<<<<<< HEAD
 
 // todo: ᶜᵘᵗᶦᵉ ˡᶦᵗᵗˡᵉ ᵖᶦᵉ
 // find alphabet ᵀᴿ
@@ -198,3 +194,5 @@ const statusMap = {
 }
 
 export { statusMap }
+=======
+>>>>>>> main

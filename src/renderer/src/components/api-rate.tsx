@@ -1,7 +1,8 @@
-import { cloneElement } from "react";
 import { useAPI } from "./api-provider";
-import { cn, statusMap } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { statusMap } from "@/lib/api";
+import { cloneElement } from "react";
+import { cn } from "@/lib/utils";
 
 interface APIRateProps {
     condition: any | null;

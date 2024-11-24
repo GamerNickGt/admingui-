@@ -3,14 +3,20 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Command, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from "@/components/ui/command";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+<<<<<<< HEAD
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./form";
 import { cn, createForm, getBaseObject } from "@/lib/utils";
 import { Check, ChevronsUpDown, Edit2 } from "lucide-react";
 import { FloatingLabelInput } from "./floating-input";
+=======
+import { Check, ChevronsUpDown, Edit2 } from "lucide-react";
+import { createForm, getBaseObject } from "@/lib/forms";
+>>>>>>> main
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAPI } from "../api-provider";
+import { cn } from "@/lib/utils";
 import * as React from "react";
 import { z } from "zod";
 

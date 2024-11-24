@@ -1,4 +1,4 @@
-import { convertUnicode } from '@/lib/utils'
+import { convertUnicode } from '@/lib/unicode';
 import unidecode from 'unidecode'
 
 interface PlayerNameProps {

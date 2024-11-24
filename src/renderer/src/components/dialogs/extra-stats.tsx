@@ -1,8 +1,8 @@
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "../ui/chart";
 import { DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts";
-import { GetLevelFromXP } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import { GetLevelFromXP } from "@/lib/api";
 import { useAPI } from "../api-provider";
 import PlayerName from "../player-name";
 import { Badge } from "../ui/badge";

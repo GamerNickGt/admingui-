@@ -1,12 +1,13 @@
 import { SidebarProvider, SidebarTrigger } from "./components/ui/sidebar"
-import { ConfettiOptions, ConstructToastMessage } from "./lib/utils";
 import { createElement, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import APIProvider from "./components/api-provider";
 import Dashboard from "./components/tabs/dashboard";
 import { ToastAction } from "./components/ui/toast";
+import { ConstructToastMessage } from "./lib/toast";
 import Settings from "./components/tabs/settings";
 import { Toaster } from "./components/ui/toaster";
+import { ConfettiOptions } from "./lib/confetti";
 import AppSidebar from "./components/app-sidebar"
 import Background from "./components/background"
 import History from "./components/tabs/history";

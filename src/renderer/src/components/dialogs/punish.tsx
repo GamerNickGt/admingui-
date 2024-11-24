@@ -2,23 +2,15 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form"
 import { DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import { duration, reason, server, setDuration, setReason } from "@/main";
 import { PunishmentSelector } from "../ui/punishment-selector";
-<<<<<<< HEAD
 import { useSignals } from "@preact/signals-react/runtime";
 import { FloatingLabelInput } from "../ui/floating-input";
-import { clamp, createForm } from "@/lib/utils";
-=======
->>>>>>> main
 import { Separator } from "../ui/separator";
 import { createForm } from "@/lib/forms";
 import { useAPI } from "../api-provider";
 import { motion } from "framer-motion";
 import { Button } from "../ui/button";
 import { Slider } from "../ui/slider";
-<<<<<<< HEAD
-=======
-import { Input } from "../ui/input";
 import { clamp } from "@/lib/utils";
->>>>>>> main
 import { useState } from "react";
 import { z } from "zod";
 

@@ -105,22 +105,23 @@
     height: 100%;
     margin: 0;
   }
-
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: var(--input); 
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: hsl(var(--input)/10%); 
-    border-radius: 5px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--input)/50%); 
-  }
 }
+
+/* scroll bar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--sidebar-accent)/40%);
+  border-radius: var(--radius);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted)/40%);
+}
+

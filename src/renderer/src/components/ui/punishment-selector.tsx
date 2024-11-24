@@ -4,13 +4,14 @@ import { Command, CommandGroup, CommandInput, CommandItem, CommandList, CommandS
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./form";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { cn, createForm, getBaseObject } from "@/lib/utils";
 import { Check, ChevronsUpDown, Edit2 } from "lucide-react";
+import { createForm, getBaseObject } from "@/lib/forms";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useAPI } from "../api-provider";
+import { cn } from "@/lib/utils";
 import * as React from "react";
 import { z } from "zod";
 

@@ -1,8 +1,8 @@
 import { ColumnDef, flexRender, useReactTable, getCoreRowModel, getPaginationRowModel } from "@tanstack/react-table"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Button } from "./button"
 import { useEffect, useState } from "react"
-import { statusMap } from "@/lib/utils"
+import { statusMap } from "@/lib/api"
+import { Button } from "./button"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]

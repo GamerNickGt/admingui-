@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { formatSeconds } from "@/lib/utils";
 import { useAPI } from "./api-provider";
 
 function RateLimit() {
@@ -19,7 +18,7 @@ function RateLimit() {
         return () => clearInterval(intervalId);
     }, [last_refresh])
 
-    return <p className="text-sm">Rate Limit: {rate_remaining}/{rate_limit} | Refresh in: {formatSeconds(secondsLeft)}</p>
+    return <p className="text-sm">Rate Limit: {rate_remaining}/{rate_limit} | Refresh in: {secondsLeft}s</p>
 }
 
 export default RateLimit;

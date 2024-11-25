@@ -38,3 +38,4 @@ initial structure:
 Ω
 ȸ
 ▲
+Tᕼᘿ ᖇᘿᗩᕵᘿᖇ get entire alphabet

@@ -78,30 +78,30 @@ jobs:
           ls env:
 
       - name: Overrule stuffs
-        run: |
-        
-          # exe name 
-          $NewSetupName = "Admin-GooWee-Setup-${{ github.ref_name }}-${{ github.run_number }}.exe"
-          echo "newsetupname=$NewSetupName" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
-          Rename-Item -Path "dist\admin-goowee-finale-${{ env.envversion }}-setup.exe" -NewName "$NewSetupName"
+      run: |
+      
+        # exe name 
+        $NewSetupName = "Admin-GooWee-Setup-${{ github.ref_name }}-${{ github.run_number }}.exe"
+        echo "newsetupname=$NewSetupName" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+        Rename-Item -Path "dist/admin-goowee-finale-${{ env.envversion }}-setup.exe" -NewName "$NewSetupName"
 
-          # latest.yml content
+        # latest.yml content
 
-          # [0]version: 1.0.0
-          # [1]files:
-          # [2]  - url: admin-goowee-finale-1.0.0-setup.exe
-          # [3]    sha512: NSo0bzE6FE9p8TOyeHn3OX8vIMZJqm+r68JqzjxqHGTfjSA8kDvE1xK5TS4nU1UoJW7EUYEBfidXRZcONtp3TA==
-          # [4]    size: 94177366
-          # [5]path: admin-goowee-finale-1.0.0-setup.exe
-          # [6]sha512: NSo0bzE6FE9p8TOyeHn3OX8vIMZJqm+r68JqzjxqHGTfjSA8kDvE1xK5TS4nU1UoJW7EUYEBfidXRZcONtp3TA==
-          # [7]releaseDate: '2024-11-25T20:49:34.125Z'
+        # [0]version: 1.0.0
+        # [1]files:
+        # [2]  - url: admin-goowee-finale-1.0.0-setup.exe
+        # [3]    sha512: NSo0bzE6FE9p8TOyeHn3OX8vIMZJqm+r68JqzjxqHGTfjSA8kDvE1xK5TS4nU1UoJW7EUYEBfidXRZcONtp3TA==
+        # [4]    size: 94177366
+        # [5]path: admin-goowee-finale-1.0.0-setup.exe
+        # [6]sha512: NSo0bzE6FE9p8TOyeHn3OX8vIMZJqm+r68JqzjxqHGTfjSA8kDvE1xK5TS4nU1UoJW7EUYEBfidXRZcONtp3TA==
+        # [7]releaseDate: '2024-11-25T20:49:34.125Z'
 
-          $latest_content = get-content -Path dist\latest.yml
-          $latest_content[0] = $latest_content[0] -replace "version: 1.0.0", "version: ${{ env.envversion }}"
-          $latest_content[2] = $latest_content[2] -replace "  - url: admin-goowee-finale-1.0.0-setup.exe", "  - url: $NewSetupName"
-          $latest_content[5] = $latest_content[5] -replace "path: admin-goowee-finale-1.0.0-setup.exe", "path: $NewSetupName"
-          $latest_content | Set-Content -Path dist\latest.yml -force
-          cat -Path dist\latest.yml
+        $latest_content = get-content -Path dist/latest.yml
+        $latest_content[0] = $latest_content[0] -replace "version: 1.0.0", "version: ${{ env.envversion }}"
+        $latest_content[2] = $latest_content[2] -replace "  - url: admin-goowee-finale-1.0.0-setup.exe", "  - url: $NewSetupName"
+        $latest_content[5] = $latest_content[5] -replace "path: admin-goowee-finale-1.0.0-setup.exe", "path: $NewSetupName"
+        $latest_content | Set-Content -Path dist/latest.yml -force
+        cat -Path dist/latest.yml
 
       - name: Create Release
         id: create_release

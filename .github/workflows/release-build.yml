@@ -83,10 +83,10 @@ jobs:
           # exe name 
           $NewSetupName = "Admin-GooWee-Setup-${{ github.ref_name }}-${{ github.run_number }}.exe"
           echo "newsetupname=$NewSetupName" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
-          Rename-Item -Path "dist/admin-goowee-finale-${{ env.envversion }}-setup.exe" -NewName "$NewSetupName"
+          Rename-Item -Path "dist\admin-goowee-finale-${{ env.envversion }}-setup.exe" -NewName "$NewSetupName"
 
           # latest.yml content
-          $latest_file = dist/latest.yml
+          $latest_file = dist\latest.yml
 
           # [0]version: 1.0.0
           # [1]files:

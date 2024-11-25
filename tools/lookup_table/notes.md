@@ -39,3 +39,4 @@ initial structure:
 ȸ
 ▲
 ᚢᚾᚷᚨᚾᛞᛁᛉ add alphabet
+ʋͮ

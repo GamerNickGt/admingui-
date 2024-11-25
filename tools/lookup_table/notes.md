@@ -38,3 +38,4 @@ initial structure:
 Ω
 ȸ
 ▲
+ᚢᚾᚷᚨᚾᛞᛁᛉ add alphabet

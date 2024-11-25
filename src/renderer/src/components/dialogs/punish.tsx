@@ -5,7 +5,7 @@ import { PunishmentSelector } from "../ui/punishment-selector";
 import { useSignals } from "@preact/signals-react/runtime";
 import { FloatingLabelInput } from "../ui/floating-input";
 import { Separator } from "../ui/separator";
-import { createForm } from "@/lib/forms";
+import { createForm, PunishmentSchema } from "@/lib/forms";
 import { useAPI } from "../api-provider";
 import { motion } from "framer-motion";
 import { Button } from "../ui/button";
@@ -13,6 +13,7 @@ import { Slider } from "../ui/slider";
 import { clamp } from "@/lib/utils";
 import { useState } from "react";
 import { z } from "zod";
+import { PresetSelector } from "../ui/preset-selector";
 
 interface PunishDialogProps {
     type: | 'kick' | 'ban';
@@ -20,7 +21,7 @@ interface PunishDialogProps {
     setOpen?: (open: boolean) => void;
 }
 
-const PunishmentSchema = z.object({
+const PunishSchema = z.object({
     reason: z.string().min(1, {
         message: "Reason is required",
     }),
@@ -36,8 +37,8 @@ function PunishDialog({ type, player, setOpen }: PunishDialogProps) {
     const { api } = useAPI();
     useSignals();
 
-    const form = createForm(PunishmentSchema, { reason: reason.value, duration: duration.value.avg });
-    function onSubmit(data: z.infer<typeof PunishmentSchema>) {
+    const form = createForm(PunishSchema, { reason: reason.value, duration: duration.value.avg });
+    function onSubmit(data: z.infer<typeof PunishSchema>) {
         api.command({ type, player, ...data, server: server.value })
         setOpen?.(false);
         setReason(data.reason);
@@ -53,6 +54,8 @@ function PunishDialog({ type, player, setOpen }: PunishDialogProps) {
         setSelectedPunishments(punishments);
         setDuration({ min: minDuration, max: maxDuration, avg: duration });
         setReason(reason);
+
+        console.log(punishments);
     }
 
     return (
@@ -64,7 +67,8 @@ function PunishDialog({ type, player, setOpen }: PunishDialogProps) {
                 <DialogDescription className="text-center">You are about to {type} {player.displayName} ({player.playfabId})</DialogDescription>
             </DialogHeader>
 
-            <PunishmentSelector className="w-full" onChange={onPunishmentChange} />
+            {/* <PunishmentSelector className="w-full" onChange={onPunishmentChange} /> */}
+            <PresetSelector presetKey="punishments" schema={PunishmentSchema} onChange={onPunishmentChange} className="w-full" />
 
             {(type === 'ban' && selectedPunishments.length > 0) && (<>{
                 duration.value.max !== duration.value.min ? (

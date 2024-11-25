@@ -17,7 +17,6 @@ function ComboBox({ options, className, setLabel, setExtValue }: ComboBoxProps) 
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(options[0].value);
 
-
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>

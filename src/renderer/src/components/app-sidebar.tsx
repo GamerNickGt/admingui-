@@ -1,30 +1,10 @@
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "./ui/sidebar";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { History, ListRestart, Search, Settings } from "lucide-react";
 import verData from '../assets/version.json';
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { useState } from "react";
-
-const items = [
-    {
-        title: "Dashboard",
-        icon: ListRestart,
-    },
-    {
-        title: "Search",
-        icon: Search,
-    },
-    {
-        title: "History",
-        icon: History,
-    },
-    {
-        title: "Settings",
-        icon: Settings,
-    },
-]
-
+import Tabs from "@/lib/tabs";
 interface AppSidebarProps {
     onTabChange: (title: string) => void;
 }
@@ -52,7 +32,7 @@ function AppSidebar({ onTabChange }: AppSidebarProps) {
                     <SidebarGroupLabel>Application</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {items.map((item) => (
+                            {Tabs.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton
                                         isActive={item.title === activeTab}

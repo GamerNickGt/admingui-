@@ -1,30 +1,18 @@
-import { SidebarProvider, SidebarTrigger } from "./components/ui/sidebar"
+import { SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";
 import { createElement, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import APIProvider from "./components/api-provider";
-import Dashboard from "./components/tabs/dashboard";
 import { ToastAction } from "./components/ui/toast";
 import { ConstructToastMessage } from "./lib/toast";
-import Settings from "./components/tabs/settings";
 import { Toaster } from "./components/ui/toaster";
+import AppSidebar from "./components/app-sidebar";
 import { ConfettiOptions } from "./lib/confetti";
-import AppSidebar from "./components/app-sidebar"
-import Background from "./components/background"
-import History from "./components/tabs/history";
+import Background from "./components/background";
 import { setPlayers, setServer } from "./main";
-import Search from "./components/tabs/search";
 import { useToast } from "./hooks/use-toast";
 import { IPCEvent } from "./lib/events";
 import confetti from "canvas-confetti";
-
-type Tab = "Dashboard" | "Search" | "History" | "Settings";
-
-const AppTabs = {
-    "Dashboard": Dashboard,
-    "Search": Search,
-    "History": History,
-    "Settings": Settings
-}
+import { TabMap } from "./lib/tabs";
 
 function App() {
     const { toast } = useToast();
@@ -72,10 +60,10 @@ function App() {
         }
     }, [])
 
-    const [tab, setTab] = useState<Tab>("Dashboard");
+    const [tab, setTab] = useState("Dashboard");
 
     function onTabChange(tab: string) {
-        setTab(tab as Tab);
+        setTab(tab);
     }
 
     return (
@@ -87,7 +75,7 @@ function App() {
                         <main className="w-svw h-svh overflow-hidden">
                             <SidebarTrigger />
                             <AnimatePresence>
-                                {AppTabs[tab] && (
+                                {TabMap[tab] && (
                                     <motion.div
                                         key={tab}
                                         initial={{ opacity: 0 }}
@@ -96,7 +84,7 @@ function App() {
                                         transition={{ duration: 0.2 }}
                                         className="h-full w-full"
                                     >
-                                        {createElement(AppTabs[tab])}
+                                        {createElement(TabMap[tab])}
                                     </motion.div>
                                 )}
                             </AnimatePresence>

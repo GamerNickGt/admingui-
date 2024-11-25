@@ -9,6 +9,12 @@ import CommandQueue from './commands/queue'
 import axios, { AxiosError } from 'axios'
 import settings from 'electron-settings'
 import { join } from 'path'
+import { autoUpdater } from 'electron-updater'
+const log = require('electron-log')
+
+log.transports.file.level = 'debug'
+autoUpdater.logger = log
+log.info('App starting...')
 
 const KeyboardListener = new GlobalKeyboardListener()
 let mainWindow: BrowserWindow
@@ -23,6 +29,24 @@ function createWindow(): void {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
     }
+  })
+
+  const AppUpdaterEvent = (text: string) => {
+    log.info(text)
+    mainWindow.webContents.send('update', text)
+  }
+
+  AppUpdaterEvent('App started...')
+  autoUpdater.on('checking-for-update', () => AppUpdaterEvent('Checking for update...'))
+  autoUpdater.on('update-available', () => AppUpdaterEvent('Update available. Downloading...'))
+  autoUpdater.on('update-not-available', () => AppUpdaterEvent('No updates available'))
+  autoUpdater.on('error', (err) => AppUpdaterEvent(`Error in auto-updater: ${err}`))
+  autoUpdater.on('download-progress', (progress) =>
+    AppUpdaterEvent(`Download progress: ${progress.percent}`)
+  )
+  autoUpdater.on('update-downloaded', () => {
+    AppUpdaterEvent('Update downloaded. Installing...')
+    // autoUpdater.quitAndInstall()
   })
 
   mainWindow.on('ready-to-show', () => {
@@ -90,7 +114,8 @@ String.prototype.format = function (): string {
 }
 
 app.whenReady().then(async () => {
-  electronApp.setAppUserModelId('com.electron')
+  autoUpdater.checkForUpdates()
+  electronApp.setAppUserModelId('com.dek.sak')
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)

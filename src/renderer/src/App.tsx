@@ -19,6 +19,11 @@ interface ApplicationTabs {
   component: React.FC<any>;
 }
 
+window.electron.ipcRenderer.on('update', (_, data) => {
+  console.log('update')
+  console.log(data)
+})
+
 const AppTabs = [
   { label: "Dashboard", component: Dashboard },
   { label: "Search", component: Search },
@@ -63,7 +68,7 @@ function App(): JSX.Element {
     const Events = [
       IPCEvent('error-no-console-key', handleErrorNoConsoleKey),
       IPCEvent('command-response', handleCommandResponse),
-      IPCEvent('player-data', handlePlayerData)
+      IPCEvent('player-data', handlePlayerData),
     ]
 
     return () => {

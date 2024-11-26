@@ -17,6 +17,8 @@ import { useToast } from "./hooks/use-toast";
 import { IPCEvent } from "./lib/events";
 import confetti from "canvas-confetti";
 
+type Tab = "Dashboard" | "Search" | "History" | "Settings";
+
 const AppTabs = {
     "Dashboard": Dashboard,
     "Search": Search,
@@ -46,6 +48,10 @@ function App() {
             title: response.error ? "Command Error" : "Command Success",
             description: response.error ? response.error : ConstructToastMessage(response.command),
         })
+
+        const cType = response.command.type
+        ConfettiOptions[cType] && confetti(ConfettiOptions[cType]);
+    }
 
     const handlePlayerData = (_, data: ParsedPlayerData) => {
         setPlayers(data.players);
@@ -103,4 +109,4 @@ function App() {
     )
 }
 
-export default App
+export default App;

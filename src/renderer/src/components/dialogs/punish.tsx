@@ -1,12 +1,13 @@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import { PunishmentSelector } from "../ui/punishment-selector";
-import { clamp, createForm } from "@/lib/utils";
 import { Separator } from "../ui/separator";
+import { createForm } from "@/lib/forms";
 import { useAPI } from "../api-provider";
 import { Button } from "../ui/button";
 import { Slider } from "../ui/slider";
 import { Input } from "../ui/input";
+import { clamp } from "@/lib/utils";
 import { useState } from "react";
 import { z } from "zod";
 

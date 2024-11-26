@@ -15,7 +15,7 @@ win:
   executableName: admin-goowee-finale
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
-  shortcutName: ${productName}
+  shortcutName: DEFSAK - Admin GUI
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
 npmRebuild: false

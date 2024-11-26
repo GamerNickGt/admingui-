@@ -1,5 +1,7 @@
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { ScrollArea } from "../ui/scroll-area";
-import { convertUnicode } from "@/lib/utils";
+import { convertUnicode } from "@/lib/unicode";
+import PlayerDialog from "../dialogs/player";
 import { RefreshCcw } from "lucide-react";
 import { useAPI } from "../api-provider";
 import { Button } from "../ui/button";
@@ -7,8 +9,6 @@ import Container from "../container";
 import { Input } from "../ui/input";
 import unidecode from "unidecode";
 import { useState } from "react";
-import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
-import PlayerDialog from "../dialogs/player";
 
 interface DashboardProps {
     players: Player[];

@@ -1,6 +1,6 @@
-import { cloneElement } from "react";
 import { useAPI } from "./api-provider";
-import { statusMap } from "@/lib/utils";
+import { statusMap } from "@/lib/api";
+import { cloneElement } from "react";
 
 interface APIRateProps {
     condition: any | null;

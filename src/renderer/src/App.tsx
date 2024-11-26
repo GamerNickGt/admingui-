@@ -1,10 +1,11 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs"
-import { ConfettiOptions, ConstructToastMessage } from "./lib/utils"
 import { ToastAction } from "./components/ui/toast"
 import APIProvider from "./components/api-provider"
 import Dashboard from "./components/tabs/dashboard"
+import { ConstructToastMessage } from "./lib/toast"
 import { Toaster } from "./components/ui/toaster"
 import Settings from "./components/tabs/settings"
+import { ConfettiOptions } from "./lib/confetti"
 import Background from "./components/background"
 import History from "./components/tabs/history"
 import Search from "./components/tabs/search"
@@ -17,6 +18,11 @@ interface ApplicationTabs {
   label: string;
   component: React.FC<any>;
 }
+
+window.electron.ipcRenderer.on('update', (_, data) => {
+  console.log('update')
+  console.log(data)
+})
 
 const AppTabs = [
   { label: "Dashboard", component: Dashboard },
@@ -62,7 +68,7 @@ function App(): JSX.Element {
     const Events = [
       IPCEvent('error-no-console-key', handleErrorNoConsoleKey),
       IPCEvent('command-response', handleCommandResponse),
-      IPCEvent('player-data', handlePlayerData)
+      IPCEvent('player-data', handlePlayerData),
     ]
 
     return () => {

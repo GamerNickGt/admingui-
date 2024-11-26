@@ -73,13 +73,12 @@ jobs:
       - name: Build for Windows
         run: npm run build:win
         
-      - name: Get env
-        run: |
-          ls env:
+      # - name: Get env
+      #   run: |
+      #     ls env:
 
       - name: Overrule stuffs
         run: |
-        
           # exe name 
           $NewSetupName = "Admin-GooWee-Setup-${{ github.ref_name }}-${{ github.run_number }}.exe"
           echo "newsetupname=$NewSetupName" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8

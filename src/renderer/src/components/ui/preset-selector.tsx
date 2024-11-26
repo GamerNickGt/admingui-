@@ -1,7 +1,7 @@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Command, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from "@/components/ui/command";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Form, FormField, FormItem, FormControl, FormMessage } from "./form";
 import { createForm, getBaseObject, getDefaults } from "@/lib/forms";
@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 import { z } from "zod";
 
 type Preset<T> = { label: string } & T;
-type Schema = z.ZodEffects<z.ZodEffects<z.AnyZodObject>>;
+type Schema = z.ZodEffects<z.ZodEffects<z.AnyZodObject>> | z.AnyZodObject;
 
 interface PresetSelectorProps<T> {
     onChange?: (selected: T[]) => void;
@@ -122,7 +122,7 @@ export function PresetSelector<T>({ presetKey, schema, className, onChange }: Pr
                                     const isActive = selected.includes(value);
                                     return (
                                         <CommandItem
-                                            key={value.label}
+                                            key={`command-${value.label}`}
                                             value={value.label}
                                             onSelect={() => toggleValue(value)}
                                         >
@@ -172,12 +172,15 @@ export function PresetSelector<T>({ presetKey, schema, className, onChange }: Pr
                     <DialogHeader>
                         <DialogTitle>Edit Presets</DialogTitle>
                     </DialogHeader>
+                    <DialogDescription>
+                        Manage your Presets here. You can edit or delete them.
+                    </DialogDescription>
                     <div className="-mx-6 flex-1 overflow-auto px-6 py-2">
                         {values.map((value) => {
                             return (
                                 <DialogListItem<T>
                                     schema={schema}
-                                    key={value.label}
+                                    key={`dialog-list-${value.label}`}
                                     onDelete={() => deleteValue(value)}
                                     onSubmit={(data: Preset<T>) => updateValue(value, data)}
                                     value={value}
@@ -210,7 +213,7 @@ function CommandItemCreate<T>({ inputValue, values, onSelect }: CommandItemCreat
 
     return (
         <CommandItem
-            key={`${inputValue}`}
+            key={`command-item-create-${inputValue}`}
             value={`${inputValue}`}
             className="text-xs text-muted-foreground"
             onSelect={onSelect}
@@ -240,7 +243,7 @@ function DialogListItem<T>({ schema, value, onDelete, onSubmit }: DialogListItem
 
     return (
         <Accordion
-            key={value.label}
+            key={`accordion-${value.label}`}
             type="single"
             collapsible
             value={accordionValue}

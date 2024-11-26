@@ -92,3 +92,16 @@ export const PunishmentSchema = z
     message: 'Max. Duration must be greater than or equal to Min. Duration',
     path: ['max_duration']
   })
+
+export const AnnouncementSchema = z.object({
+  label: z.string().min(1, {
+    message: 'Label must be at least 1 character long'
+  }),
+  type: z.enum(['server', 'admin']).default('admin'),
+  message: z
+    .string()
+    .min(1, {
+      message: 'Message must be at least 1 character long'
+    })
+    .default('')
+})

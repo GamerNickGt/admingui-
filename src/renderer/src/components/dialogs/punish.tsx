@@ -1,11 +1,11 @@
 import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form";
 import { DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import { duration, reason, server, setDuration, setReason } from "@/main";
-import { PunishmentSelector } from "../ui/punishment-selector";
 import { useSignals } from "@preact/signals-react/runtime";
-import { FloatingLabelInput } from "../ui/floating-input";
-import { Separator } from "../ui/separator";
 import { createForm, PunishmentSchema } from "@/lib/forms";
+import { FloatingLabelInput } from "../ui/floating-input";
+import { PresetSelector } from "../ui/preset-selector";
+import { Separator } from "../ui/separator";
 import { useAPI } from "../api-provider";
 import { motion } from "framer-motion";
 import { Button } from "../ui/button";
@@ -13,7 +13,6 @@ import { Slider } from "../ui/slider";
 import { clamp } from "@/lib/utils";
 import { useState } from "react";
 import { z } from "zod";
-import { PresetSelector } from "../ui/preset-selector";
 
 interface PunishDialogProps {
     type: | 'kick' | 'ban';
@@ -67,7 +66,6 @@ function PunishDialog({ type, player, setOpen }: PunishDialogProps) {
                 <DialogDescription className="text-center">You are about to {type} {player.displayName} ({player.playfabId})</DialogDescription>
             </DialogHeader>
 
-            {/* <PunishmentSelector className="w-full" onChange={onPunishmentChange} /> */}
             <PresetSelector presetKey="punishments" schema={PunishmentSchema} onChange={onPunishmentChange} className="w-full" />
 
             {(type === 'ban' && selectedPunishments.length > 0) && (<>{

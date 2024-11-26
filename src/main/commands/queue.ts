@@ -42,8 +42,8 @@ class CommandQueue {
     this.process()
   }
 
-  private _error_fail = (event: IpcMainEvent, error: string) => {
-    event.reply('command-response', { error })
+  private _error_fail = (event: IpcMainEvent, command: Command, error: string) => {
+    event.reply('command-response', { error, command })
     this._skip()
   }
 
@@ -74,13 +74,13 @@ class CommandQueue {
 
     const { event, command } = this.commands.shift() as CommandEvent
     if (!command) {
-      this._error_fail(event, 'Invalid command')
+      this._error_fail(event, command, 'Invalid command')
       return
     }
 
     const game = GetGameProcess()
     if (!game) {
-      this._error_fail(event, 'Game not running')
+      this._error_fail(event, command, 'Game not running')
       return
     }
 

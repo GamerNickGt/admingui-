@@ -1,12 +1,15 @@
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form";
 import { DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
+import { duration, reason, server, setDuration, setReason } from "@/main";
 import { PunishmentSelector } from "../ui/punishment-selector";
+import { useSignals } from "@preact/signals-react/runtime";
+import { FloatingLabelInput } from "../ui/floating-input";
 import { Separator } from "../ui/separator";
 import { createForm } from "@/lib/forms";
 import { useAPI } from "../api-provider";
+import { motion } from "framer-motion";
 import { Button } from "../ui/button";
 import { Slider } from "../ui/slider";
-import { Input } from "../ui/input";
 import { clamp } from "@/lib/utils";
 import { useState } from "react";
 import { z } from "zod";
@@ -30,19 +33,15 @@ const PunishmentSchema = z.object({
 
 function PunishDialog({ type, player, setOpen }: PunishDialogProps) {
     const [selectedPunishments, setSelectedPunishments] = useState<Punishment[]>([]);
-    const [maxDuration, setMaxDuration] = useState(1);
-    const [minDuration, setMinDuration] = useState(1);
-
     const { api } = useAPI();
-    const { reason, setReason, duration, setDuration } = api;
+    useSignals();
 
-    const form = createForm(PunishmentSchema, { reason, duration });
-
+    const form = createForm(PunishmentSchema, { reason: reason.value, duration: duration.value.avg });
     function onSubmit(data: z.infer<typeof PunishmentSchema>) {
-        api.command({ type, player, ...data, server: api.server() })
+        api.command({ type, player, ...data, server: server.value })
         setOpen?.(false);
         setReason(data.reason);
-        setDuration(data.duration);
+        setDuration({ ...duration.value, avg: data.duration });
     }
 
     function onPunishmentChange(punishments: Punishment[]) {
@@ -52,9 +51,7 @@ function PunishDialog({ type, player, setOpen }: PunishDialogProps) {
         const reason = punishments.map(({ reason }) => reason).join(", ");
 
         setSelectedPunishments(punishments);
-        setMinDuration(minDuration);
-        setMaxDuration(maxDuration);
-        setDuration(duration);
+        setDuration({ min: minDuration, max: maxDuration, avg: duration });
         setReason(reason);
     }
 
@@ -70,12 +67,14 @@ function PunishDialog({ type, player, setOpen }: PunishDialogProps) {
             <PunishmentSelector className="w-full" onChange={onPunishmentChange} />
 
             {(type === 'ban' && selectedPunishments.length > 0) && (<>{
-                maxDuration !== minDuration ? (
-                    <Slider min={minDuration} max={maxDuration} value={[duration]} step={1} className="p-4" onValueChange={(value) => setDuration(value[0])} />
+                duration.value.max !== duration.value.min ? (
+                    <Slider min={duration.value.min} max={duration.value.max} value={[duration.value.avg]} step={1} className="p-4" onValueChange={(value) => {
+                        setDuration({ ...duration.value, avg: value[0] })
+                    }} />
                 ) : (
                     <div className="text-xs p-2 text-center bg-background/50 border border-border/50 rounded-lg flex flex-col">
                         <span>
-                            One or more of the selected punishments do not allow for a custom duration. (min: {minDuration} hours, max: {maxDuration} hours)
+                            One or more of the selected punishments do not allow for a custom duration. (min: {duration.value.min} hours, max: {duration.value.max} hours)
                         </span>
                     </div>
                 )}
@@ -94,9 +93,8 @@ function PunishDialog({ type, player, setOpen }: PunishDialogProps) {
                         return (
                             <FormField key={key} control={form.control} name={key} render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="capitalize">{key}</FormLabel>
                                     <FormControl>
-                                        <Input defaultValue={key === 'duration' ? duration : reason} placeholder={displayKey} {...field} type={key === "duration" ? "number" : "text"} />
+                                        <FloatingLabelInput label={displayKey} {...field} type={key === "duration" ? "number" : "text"} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -104,7 +102,38 @@ function PunishDialog({ type, player, setOpen }: PunishDialogProps) {
                         )
                     })}
                     <Button type="submit" variant="outline" className="w-full">
-                        {type === 'ban' ? '🔨' : '🥾'}
+                        {(() => {
+                            const icon = type === "ban" ? "🔨" : "🥾";
+
+                            const animationVariants = {
+                                swing: {
+                                    x: [0, 2, -2, 1, -1, 0],
+                                    y: [0, 5, -5, 2.5, -2.5, 0],
+                                    rotate: [0, -30, 30, -15, 15, 0],
+                                    transition: { duration: 1, repeat: Infinity, ease: "easeInOut" },
+                                },
+                                kick: {
+                                    rotate: [0, 90, -20, 30, -10, 0],
+                                    x: [0, -5, 20, -5, 0],
+                                    y: [0, 0, -5, 0, 0],
+                                    transition: {
+                                        duration: 1.2,
+                                        times: [0, 0.4, 0.6, 0.8, 1],
+                                        ease: ["easeOut", "easeIn", "easeOut", "easeInOut"],
+                                        repeat: Infinity,
+                                    },
+                                },
+                            };
+
+                            return (
+                                <motion.span
+                                    animate={type === "ban" ? "swing" : "kick"}
+                                    variants={animationVariants}
+                                >
+                                    {icon}
+                                </motion.span>
+                            );
+                        })()}
                     </Button>
                 </form>
             </Form>

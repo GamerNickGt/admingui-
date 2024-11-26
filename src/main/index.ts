@@ -23,6 +23,7 @@ function createWindow(): void {
     width: 800,
     height: 600,
     show: false,
+    title: 'DEFSAK',
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
@@ -193,6 +194,19 @@ app.whenReady().then(async () => {
 
   ipcMain.handle('get-command-history', () => {
     return commandQueue.history
+  })
+
+  const contributor_enpoint = 'https://api.github.com/repos/defsak/admin-gui/contributors'
+  let contributors: any[] = []
+  try {
+    const { data } = await axios.get(contributor_enpoint)
+    contributors = data
+  } catch (e) {
+    console.error(e)
+  }
+
+  ipcMain.handle('fetch_contributors', () => {
+    return contributors
   })
 
   createWindow()

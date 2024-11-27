@@ -67,14 +67,10 @@ jobs:
           name: lookup-output
           path: tools\lookup_table\output\
 
-      - name: Debug lookup table from git repo
-        id: debug_char_lookup
-        run: |
-<<<<<<< HEAD
-          cat tools\lookup_table\output\lookuptable.json
-=======
-          Get-ChildItem -Depth 2
->>>>>>> ff70dba (Squashed commit of the following:)
+      # - name: Debug lookup table from git repo
+      #   id: debug_char_lookup
+      #   run: |
+      #     Get-ChildItem -Depth 2
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -82,10 +78,6 @@ jobs:
           node-version: '22'  # Adjust this to the required Node.js version
           cache: 'npm'
 
-<<<<<<< HEAD
-      - name: Install dependencies
-        run: npm install
-=======
       - name: Cache node modules
         id: cache-nodemodules
         uses: actions/cache@v4
@@ -111,19 +103,14 @@ jobs:
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
         run: npm ci
->>>>>>> ff70dba (Squashed commit of the following:)
 
       - name: Build for Windows
         run: npm run build:win
 
-<<<<<<< HEAD
       - name: Get debug info
         run: |
           cat dist/latest.yml
 
-
-=======
->>>>>>> ff70dba (Squashed commit of the following:)
       - name: Overrule stuffs
         run: |
         

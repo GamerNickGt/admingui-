@@ -84,25 +84,44 @@ function createWindow(): void {
   }
 }
 
-async function API<T>(url: string): Promise<APIResponse<T | null>> {
+async function API<T>(
+  method: 'get' | 'post',
+  url: string,
+  body_params?: Record<string, string>
+): Promise<APIResponse<T | null>> {
+  console.log('API', method, url, body_params)
+
   try {
-    const { data, status } = await axios.get<T>(url)
+    const { data, status } = await axios({
+      method,
+      url,
+      data: body_params
+    })
+
     return { status, ok: status === 200, data: status === 200 ? data : null }
   } catch (e) {
     const error = e as AxiosError
+    console.log(error)
     const status = error.response?.status || -1
     return { status, ok: false, data: null }
   }
 }
 
 function APIHandler<T>(
+  method: 'get' | 'post',
   ident: APIEndpoint,
-  url: string
+  url: string,
+  body_params?: Record<string, any>
 ): [string, (event: any, args: any[]) => Promise<APIResponse<T | null>>] {
   return [
     ident,
     async (_, args) => {
-      return await API<T>(url.format(...args))
+      if (ident === 'name_lookup' && body_params) {
+        body_params.page = args[1]
+        args.splice(1, 1)
+      }
+
+      return await API<T>(method, url.format(...args), body_params)
     }
   ]
 }
@@ -132,18 +151,25 @@ app.whenReady().then(async () => {
   })
 
   const API_URL = 'https://chivalry2stats.com:8443'
-  ipcMain.handle(...APIHandler<PlayFabDetails>('fetch_playfab_data', `${API_URL}/players/{0}`))
   ipcMain.handle(
-    ...APIHandler<PlayerDetails>(
-      'fetch_player_data',
-      `${API_URL}/players/fetch-all-leaderboards-around-player/{0}?distinctId=undefined`
+    ...APIHandler<PlayFabDetails>(
+      'get',
+      'fetch_playfab_data',
+      `${API_URL}/api/player/findByPlayFabId/{0}`
     )
   )
   ipcMain.handle(
-    ...APIHandler<NameLookup>(
-      'name_lookup',
-      `${API_URL}/players/search?searchTerm={0}&page={1}&pageSize={2}&distinctId=undefined`
+    ...APIHandler<PlayerDetails>(
+      'get',
+      'fetch_player_data',
+      `${API_URL}/api/player/getLeaderboardAroundPlayer/{0}?distinctId=undefined`
     )
+  )
+  ipcMain.handle(
+    ...APIHandler<NameLookup>('post', 'name_lookup', `${API_URL}/api/player/usernameSearch/{0}`, {
+      pageSize: 10,
+      distinctId: 'undefined'
+    })
   )
 
   const user_data = app.getPath('userData')

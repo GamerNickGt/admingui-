@@ -67,7 +67,7 @@ class CommandQueue {
           : command.type === 'list_players'
             ? 'listplayers'
             : command.type === 'unban'
-              ? `unbanbyid ${command.player.playfabId}`
+              ? `unbanbyid ${command.id}`
               : command.type === 'admin' || command.type === 'server'
                 ? `${command.type === 'admin' ? 'adminsay' : 'serversay'} "${command.message}"`
                 : '🫃'

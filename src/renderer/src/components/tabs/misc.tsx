@@ -17,19 +17,18 @@ function Misc() {
     const [unbanId, setUnbanId] = useState<string>("");
     const { api } = useAPI();
 
-    function onPresetChange(presets: Announcement[]) {
-        setPresets(presets);
-    }
-
     function sendMessage(type: 'admin' | 'server', message: string) {
-        console.log({ type, message, server: server.value });
-
         api.command({ type, message, server: server.value });
     }
 
-    function unbanPlayer(id: string) {
-        console.log({ id, server: server.value });
+    function sendPresets() {
+        if (presets.length === 0) return
+        presets.forEach((preset) => {
+            api.command({ type: preset.type, message: preset.message, server: server.value });
+        })
+    }
 
+    function unbanPlayer(id: string) {
         api.command({ type: 'unban', id, server: server.value });
     }
 
@@ -37,9 +36,9 @@ function Misc() {
         <div className="mx-10">
             <div className="flex mb-2">
                 <div className="w-full">
-                    <PresetSelector onChange={onPresetChange} presetKey="announcements" schema={AnnouncementSchema} className="rounded-r-none w-full" />
+                    <PresetSelector onChange={(selected) => setPresets(selected as Announcement[])} presetKey="announcements" schema={AnnouncementSchema} className="rounded-r-none w-full" />
                 </div>
-                <Button variant="outline" className="rounded-l-none group px-16">
+                <Button variant="outline" className="rounded-l-none group px-16" onClick={() => sendPresets()}>
                     Send
                     <SendHorizonal className="ml-1 animate-ease-in-out animate-infinite animate-duration-1000 group-hover:animate-pulse" />
                 </Button>

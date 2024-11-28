@@ -89,10 +89,7 @@ function Search() {
                                 <FormMessage />
                             </FormItem>
                         )} />
-                        <ComboBox options={[
-                            { value: "name", label: "Name" },
-                            { value: "playfabId", label: "PlayFab ID" }
-                        ]} className="rounded-l-none" setLabel={setLabel} />
+                        <ComboBox options={['Name', 'PlayFab ID']} className="rounded-l-none" onChange={(value) => setLabel(value)} />
                     </div>
                     <Button type="submit" variant="outline" className="ml-2">Search</Button>
                 </form>

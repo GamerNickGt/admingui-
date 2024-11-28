@@ -29,3 +29,9 @@ interface Contributor {
   html_url: string
   contributions: number
 }
+
+interface Announcement {
+  label: string
+  type: 'admin' | 'server'
+  message: string
+}

@@ -89,8 +89,6 @@ async function API<T>(
   url: string,
   body_params?: Record<string, string>
 ): Promise<APIResponse<T | null>> {
-  console.log('API', method, url, body_params)
-
   try {
     const { data, status } = await axios({
       method,
@@ -101,7 +99,6 @@ async function API<T>(
     return { status, ok: status === 200, data: status === 200 ? data : null }
   } catch (e) {
     const error = e as AxiosError
-    console.log(error)
     const status = error.response?.status || -1
     return { status, ok: false, data: null }
   }

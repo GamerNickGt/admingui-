@@ -1,6 +1,6 @@
 import { Game, GetGameProcess, WriteToConsole } from './macro'
 import { existsSync, readFileSync, writeFileSync } from 'fs'
-import { app, IpcMainEvent } from 'electron'
+import { app, IpcMain, IpcMainEvent } from 'electron'
 import { join } from 'path'
 
 class CommandQueue {
@@ -8,11 +8,19 @@ class CommandQueue {
   private processing: boolean = false
   public history: SavedCommand[] = []
 
-  constructor() {
+  constructor(ipcMain: IpcMain) {
     const filePath = join(app.getPath('userData'), 'history.json')
     if (existsSync(filePath)) {
       this.history = JSON.parse(readFileSync(filePath, 'utf-8')) as SavedCommand[]
     }
+
+    ipcMain.on('command', (event, command) => {
+      this.add({ event, command })
+    })
+
+    ipcMain.handle('get-command-history', () => {
+      return this.history
+    })
   }
 
   public add(command: CommandEvent) {
@@ -59,7 +67,7 @@ class CommandQueue {
           : command.type === 'list_players'
             ? 'listplayers'
             : command.type === 'unban'
-              ? `unbanbyid ${command.player.playfabId}`
+              ? `unbanbyid ${command.id}`
               : command.type === 'admin' || command.type === 'server'
                 ? `${command.type === 'admin' ? 'adminsay' : 'serversay'} "${command.message}"`
                 : '🫃'
@@ -91,4 +99,6 @@ class CommandQueue {
   }
 }
 
-export default CommandQueue
+export function InitializeCommandQueue(ipcMain: IpcMain) {
+  new CommandQueue(ipcMain)
+}

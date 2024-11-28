@@ -23,9 +23,12 @@ function Misc() {
 
     function sendPresets() {
         if (presets.length === 0) return
-        presets.forEach((preset) => {
-            api.command({ type: preset.type, message: preset.message, server: server.value });
-        })
+
+        presets.forEach((preset, index) => {
+            setTimeout(() => {
+                api.command({ type: preset.type, message: preset.message, server: server.value });
+            }, index * 1000);
+        });
     }
 
     function unbanPlayer(id: string) {

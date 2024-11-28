@@ -9,7 +9,18 @@ function IntializeIPC(mainWindow: BrowserWindow) {
   forEachPreset(
     ipcMain.handle,
     InitializePreset('announcements', [
-      { type: 'admin', label: 'Example', message: 'This is an example announcement' }
+      {
+        type: 'server',
+        label: 'NO FFA/RDM ...',
+        message:
+          'NO FFA/RDM (only in the pit) Flourish[Press Scroll Wheel] to duel someone! To votekick a FFAer Press ESC - Scoreboard and klick on the name'
+      },
+      {
+        type: 'admin',
+        label: 'Problem/Appeal/Invite',
+        message:
+          'If you have a problem with a player/ appeal a ban visit discord.gg/sakclan and go to server tickets. Dont throw stuff or people into the pit!!!'
+      }
     ])
   )
   forEachPreset(

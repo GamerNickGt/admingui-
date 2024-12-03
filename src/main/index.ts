@@ -53,9 +53,9 @@ app.whenReady().then(async () => {
     }
   })
 
-  InitializeIPC(mainWindow)
-
+  
   createWindow()
+  InitializeIPC(mainWindow)
 
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()

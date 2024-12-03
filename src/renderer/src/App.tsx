@@ -13,9 +13,11 @@ import { useToast } from "./hooks/use-toast";
 import { IPCEvent } from "./lib/events";
 import confetti from "canvas-confetti";
 import { TabMap } from "./lib/tabs";
+import { useSignals } from "@preact/signals-react/runtime";
 
 function App() {
     const { toast } = useToast();
+    useSignals();
 
     const handleErrorNoConsoleKey = () => {
         toast({

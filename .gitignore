@@ -1,4 +1,5 @@
 node_modules
+custom-electron-builder-cache
 dist
 /local_modules/keysender/build
 !local_modules/keysender/dist

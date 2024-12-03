@@ -1,7 +1,6 @@
 import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form";
 import { DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import { duration, reason, server, setDuration, setReason } from "@/main";
-import { useSignals } from "@preact/signals-react/runtime";
 import { createForm, PunishmentSchema } from "@/lib/forms";
 import { FloatingLabelInput } from "../ui/floating-input";
 import { PresetSelector } from "../ui/preset-selector";
@@ -13,6 +12,7 @@ import { Slider } from "../ui/slider";
 import { clamp } from "@/lib/utils";
 import { useState } from "react";
 import { z } from "zod";
+import { useSignals } from "@preact/signals-react/runtime";
 
 interface PunishDialogProps {
     type: | 'kick' | 'ban';
@@ -20,7 +20,7 @@ interface PunishDialogProps {
     setOpen?: (open: boolean) => void;
 }
 
-const PunishSchema = z.object({
+const BanSchema = z.object({
     reason: z.string().min(1, {
         message: "Reason is required",
     }),
@@ -31,17 +31,25 @@ const PunishSchema = z.object({
     })
 })
 
+const KickSchema = z.object({
+    reason: z.string().min(1, {
+        message: "Reason is required",
+    })
+})
+
 function PunishDialog({ type, player, setOpen }: PunishDialogProps) {
     const [selectedPunishments, setSelectedPunishments] = useState<Punishment[]>([]);
     const { api } = useAPI();
     useSignals();
 
-    const form = createForm(PunishSchema, { reason: reason.value, duration: duration.value.avg });
-    function onSubmit(data: z.infer<typeof PunishSchema>) {
-        api.command({ type, player, ...data, server: server.value })
+    const formValues = type === 'kick' ? { reason: reason.value } : { reason: reason.value, duration: duration.value.avg };
+    const formSchema = type === 'kick' ? KickSchema : BanSchema;
+    const form = createForm(formSchema, formValues);
+    function onSubmit(data: typeof formValues) {
+        api.command({ type, player, reason: data.reason, duration: data.duration || 1, server: server.value })
         setOpen?.(false);
         setReason(data.reason);
-        setDuration({ ...duration.value, avg: data.duration });
+        setDuration({ min: duration.value.min, max: duration.value.max, avg: data.duration || 1 });
     }
 
     function onPunishmentChange(punishments: Punishment[]) {
@@ -53,8 +61,6 @@ function PunishDialog({ type, player, setOpen }: PunishDialogProps) {
         setSelectedPunishments(punishments);
         setDuration({ min: minDuration, max: maxDuration, avg: duration });
         setReason(reason);
-
-        console.log(punishments);
     }
 
     return (
@@ -86,14 +92,13 @@ function PunishDialog({ type, player, setOpen }: PunishDialogProps) {
 
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    {['reason', 'duration'].map((_key) => {
-                        if (_key === 'duration' && type === 'kick') return;
-
-                        const key = _key as 'reason' | 'duration';
+                    {['reason', 'duration'].map((key) => {
+                        useSignals();
+                        if (key === 'duration' && type === 'kick') return;
                         const displayKey = key === 'reason' ? 'Reason' : 'Duration';
 
                         return (
-                            <FormField key={key} control={form.control} name={key} render={({ field }) => (
+                            <FormField key={key} control={form.control} name={key as any} render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
                                         <FloatingLabelInput label={displayKey} {...field} type={key === "duration" ? "number" : "text"} />

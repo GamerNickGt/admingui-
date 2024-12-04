@@ -4,6 +4,8 @@ permissions:
   contents: write
 
 on:
+  pull_request:
+    types: [opened, synchronize]
   push:
     branches:
       - '*'           # Runs on all branch pushes
@@ -67,11 +69,6 @@ jobs:
           name: lookup-output
           path: tools\lookup_table\output\
 
-      # - name: Debug lookup table from git repo
-      #   id: debug_char_lookup
-      #   run: |
-      #     Get-ChildItem -Depth 2
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -84,7 +81,6 @@ jobs:
         env:
           cache-name: cache-node-modules
         with:
-          # caching node_modules
           path: node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
@@ -92,24 +88,12 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: Cache Electron
-        uses: actions/cache@v4
-        with:
-          path: ${{ github.workspace }}/custom-electron-builder-cache
-          key: ${{ runner.os }}-electron-cache-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-electron-cache-
-
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Build for Windows
         run: npm run build:win
-
-      - name: Get debug info
-        run: |
-          cat dist/latest.yml
 
       - name: Overrule stuffs
         run: |
@@ -136,12 +120,6 @@ jobs:
           $latest_content[5] = $latest_content[5] -replace "path: admin-goowee-finale-1.0.0-setup.exe", "path: $NewSetupName"
           $latest_content | Set-Content -Path dist/latest.yml -force
           cat -Path dist/latest.yml
-
-      # - name: Get debug info
-      #   run: |
-      #     ls env:
-      #     ls
-      #     cat latest.yml
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v3

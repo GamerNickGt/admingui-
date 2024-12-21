@@ -39,5 +39,6 @@ initial structure:
 ȸ
 ▲
 ᚢᚾᚷᚨᚾᛞᛁᛉ add alphabet
-
+SIXᴾᴼᵁᴺᴰᴱᴿ (SIXONDER)
 ᚲ Elder Futhark runic alphabet < not accepted as filename
+Ⱳⱥƶƶƴ (WA)

@@ -39,6 +39,3 @@ initial structure:
 ȸ
 ▲
 ᵻ
-ᚢᚾᚷᚨᚾᛞᛁᛉ add alphabet
-ᎯŔƁ นℭዙŢℛℰᗫ > hiRB uEzuTD
-HΛL sтεℓℓαяcн (HAL sTeaRcH)

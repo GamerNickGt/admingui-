@@ -3,8 +3,14 @@
 import logging
 import argparse
 import json
-import os
+import sys
 from pathlib import Path
+
+override_name_lookup = {
+    "questionmark": "?",
+    "arrow_left": "<",
+}
+
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="A script with adjustable logging levels.")
@@ -26,13 +32,35 @@ def get_log_level(level_name):
 
     return levels.get(level_name.lower(), logging.INFO)
 
+def override_list_name(sorted_files):
+    # logging.debug(sorted_files)
+    output = []
+    for file in sorted_files:
+        path = file
+        original_name = file.name
+        if original_name in override_name_lookup:
+            newname = override_name_lookup[original_name]
+            logging.debug("New name: %s", newname)
+        else:
+            newname = original_name
+        output.append((path, newname))
+    return output
+    # override the actual character the list is used for. Special characters like "?", that cannot be a filename.
+    # if file.name in symbol_lookup:
+        # character = "A"
+        # logging.debug("Overridden list: %s with %s", file.name, character)
+    
+
 def get_filelist(dir):
     dir_path = Path(dir)
     files = list(dir_path.rglob('*'))
     files = [f for f in files if f.is_file()]
     sorted_files = sorted(files, key=lambda x: x.name.lower())
-    
-    return [(file, file.name) for file in sorted_files]
+    # output = [(file, file.name) for file in sorted_files]
+    output = override_list_name(sorted_files)
+    logging.debug(output)
+    # sys.exit()
+    return output
 
 
 def increment_hex(hex_value):
@@ -87,6 +115,7 @@ def generate_lookup_table(input_dir):
     logging.info("Generating the lookup table")
     input_lists = get_filelist(f"{input_dir}")
     logging.debug("Found input lists: %s", input_lists)
+    # sys.exit()
     lookup_table = {}
     
     for full_path, list in input_lists:

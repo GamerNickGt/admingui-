@@ -1,7 +1,7 @@
 // #region Credit to Report (chivalry2stats.com)
 const XPTable: number[] = [
-  0, 200, 470, 875, 1415, 2090, 2900, 3845, 4925, 6140, 7240, 8450, 9770, 11200, 12740, 14390,
-  16150, 18020, 20000, 22090, 24290, 26600, 29020, 31550, 34190
+  0, 200, 470, 875, 1415, 2090, 2900, 3845, 4925, 6140, 7240, 8450, 9770, 11_200, 12_740, 14_390,
+  16_150, 18_020, 20_000, 22_090, 24_290, 26_600, 29_020, 31_550, 34_190
 ]
 
 const MAX_TABLE_LEVEL = XPTable.length - 1
@@ -15,7 +15,7 @@ export function GetLevelFromXP(XP: number): number {
 }
 
 export function CalculateLevel(XP: number): number {
-  const [a, b, c] = [0.873, 2653.9, -30677 - XP]
+  const [a, b, c] = [0.873, 2653.9, -30_677 - XP]
 
   const discrim = b ** 2 - 4 * a * c
   if (discrim < 0) return -1

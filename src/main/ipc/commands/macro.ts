@@ -7,7 +7,7 @@ const Hardware = KeySender.Hardware
 export function ParsePlayerData(text: string): ParsedPlayerData {
   const lines = text.split('\n')
 
-  let tmp = lines[0].replace('ServerName - ', '')
+  const tmp = lines[0].replace('ServerName - ', '')
   const serverName = tmp.slice(0, tmp.lastIndexOf(' ')).trim()
 
   const playerDataLines = lines.slice(2)

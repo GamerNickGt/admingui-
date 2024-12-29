@@ -19,9 +19,8 @@ export function getBaseObject<T extends ZodTypeAny>(
 
   if (currentSchema instanceof ZodObject) {
     return currentSchema as EnsureZodObject<UnwrapZodEffects<T>>
-  } else {
-    throw new Error('Base schema is not a ZodObject')
   }
+  throw new Error('Base schema is not a ZodObject')
 }
 
 export function getDefaults<Schema extends z.AnyZodObject>(
@@ -70,7 +69,7 @@ export const PunishmentSchema = z
       .min(1, {
         message: 'Min. Duration must be at least 1 hour'
       })
-      .max(999999, {
+      .max(999_999, {
         message: 'Min. Duration must be at most 999999 hours'
       })
       .default(1),
@@ -79,7 +78,7 @@ export const PunishmentSchema = z
       .min(1, {
         message: 'Max. Duration must be at least 1 hour'
       })
-      .max(999999, {
+      .max(999_999, {
         message: 'Max. Duration must be at most 999999 hours'
       })
       .default(1)

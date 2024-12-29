@@ -59,19 +59,17 @@ class CommandQueue {
     await WriteToConsole(
       game,
       { event, command },
-      `${
-        command.type === 'ban' || command.type === 'kick'
-          ? `${command.type}byid ${command.player.playfabId} ${
-              command.type === 'ban' ? command.duration : ''
-            } "${command.reason}"`
-          : command.type === 'list_players'
-            ? 'listplayers'
-            : command.type === 'unban'
-              ? `unbanbyid ${command.id}`
-              : command.type === 'admin' || command.type === 'server'
-                ? `${command.type === 'admin' ? 'adminsay' : 'serversay'} "${command.message}"`
-                : '🫃'
-      }`
+      command.type === 'ban' || command.type === 'kick'
+        ? `${command.type}byid ${command.player.playfabId} ${
+            command.type === 'ban' ? command.duration : ''
+          } "${command.reason}"`
+        : command.type === 'list_players'
+          ? 'listplayers'
+          : command.type === 'unban'
+            ? `unbanbyid ${command.id}`
+            : command.type === 'admin' || command.type === 'server'
+              ? `${command.type === 'admin' ? 'adminsay' : 'serversay'} "${command.message}"`
+              : '🫃'
     )
     this._saveCommandToHistory(command)
   }

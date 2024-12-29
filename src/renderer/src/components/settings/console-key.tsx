@@ -8,15 +8,16 @@ const send = window.electron.ipcRenderer.send;
 
 function ConsoleKeySettings() {
     const setConsoleKey = (key) => {
-        ('vKey' in key) && setCurKey(`${key.name}[${key.vKey}]`);
+        if (('vKey' in key)) setCurKey(`${key.name}[${key.vKey}]`);
     }
 
     const onConsoleKeyChanged = (key) => {
-        if (self.current) {
-            self.current.disabled = false;
-            setLabel("Change Console Key");
-            setConsoleKey(key);
+        if (!self.current) {
+            return;
         }
+        self.current.disabled = false;
+        setLabel("Change Console Key");
+        setConsoleKey(key);
     }
 
     useEffect(() => {

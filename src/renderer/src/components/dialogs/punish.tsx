@@ -26,7 +26,7 @@ const BanSchema = z.object({
     }),
     duration: z.coerce.number().int().min(1, {
         message: "Duration is required",
-    }).max(999999, {
+    }).max(999_999, {
         message: "Duration is too long",
     })
 })
@@ -75,16 +75,16 @@ function PunishDialog({ type, player, setOpen }: PunishDialogProps) {
             <PresetSelector presetKey="punishments" schema={PunishmentSchema} onChange={onPunishmentChange} className="w-full" />
 
             {(type === 'ban' && selectedPunishments.length > 0) && (<>{
-                duration.value.max !== duration.value.min ? (
-                    <Slider min={duration.value.min} max={duration.value.max} value={[duration.value.avg]} step={1} className="p-4" onValueChange={(value) => {
-                        setDuration({ ...duration.value, avg: value[0] })
-                    }} />
-                ) : (
+                duration.value.max === duration.value.min ? (
                     <div className="text-xs p-2 text-center bg-background/50 border border-border/50 rounded-lg flex flex-col">
                         <span>
                             One or more of the selected punishments do not allow for a custom duration. (min: {duration.value.min} hours, max: {duration.value.max} hours)
                         </span>
                     </div>
+                ) : (
+                    <Slider min={duration.value.min} max={duration.value.max} value={[duration.value.avg]} step={1} className="p-4" onValueChange={(value) => {
+                        setDuration({ ...duration.value, avg: value[0] })
+                    }} />
                 )}
             </>)}
 

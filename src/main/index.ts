@@ -2,9 +2,14 @@ import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import clipboardWatcher from 'electron-clipboard-watcher'
 import { ParsePlayerData } from './ipc/commands/macro'
 import { app, BrowserWindow, shell } from 'electron'
-import icon from '../../resources/icon.png?asset'
 import InitializeIPC from './ipc/main'
+import { update } from './update'
 import { join } from 'path'
+
+if (!app.requestSingleInstanceLock()) {
+  app.quit()
+  process.exit(0)
+}
 
 let mainWindow: BrowserWindow
 function createWindow(): void {
@@ -14,7 +19,6 @@ function createWindow(): void {
     show: false,
     title: 'DEFSAK',
     autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
@@ -30,15 +34,17 @@ function createWindow(): void {
     return { action: 'deny' }
   })
 
-  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+  if (is.dev && process.env.ELECTRON_RENDERER_URL) {
+    mainWindow.loadURL(process.env.ELECTRON_RENDERER_URL)
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
+
+  update(mainWindow)
 }
 
 app.whenReady().then(async () => {
-  electronApp.setAppUserModelId('com.dek.sak')
+  electronApp.setAppUserModelId(app.getName())
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
@@ -53,11 +59,10 @@ app.whenReady().then(async () => {
     }
   })
 
-  
   createWindow()
   InitializeIPC(mainWindow)
 
-  app.on('activate', function () {
+  app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 })

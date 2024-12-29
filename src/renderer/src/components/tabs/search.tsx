@@ -31,11 +31,7 @@ function Search() {
         player.current_name = aliasHistory[aliasHistory.length - 1];
 
         const truncated = truncateAliasHistory(player.aliasHistory, search_term ? search_term : player.current_name);
-        if (typeof truncated === "string") {
-            player.truncated_aliasHistory = truncated;
-        } else {
-            player.truncated_aliasHistory = truncated.truncatedAliasHistory;
-        }
+        player.truncated_aliasHistory = typeof truncated === "string" ? truncated : truncated.truncatedAliasHistory;
 
         return player
     }
@@ -51,11 +47,11 @@ function Search() {
             }
 
             setRequestStatus(res.status);
-        } else {
-            setFailedRequest(true);
-            setRequestStatus(-1);
-            setTableData([]);
+            return;
         }
+        setFailedRequest(true);
+        setRequestStatus(-1);
+        setTableData([]);
     }
 
     function onSubmit(data: z.infer<typeof SearchSchema>) {

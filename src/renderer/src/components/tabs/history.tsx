@@ -55,7 +55,7 @@ function History() {
 
     useEffect(() => {
         api.call<SavedCommand[]>('get-command-history').then((history) => {
-            history && setHistory(history);
+            if (history) setHistory(history);
         });
     }, []);
 

@@ -83,7 +83,7 @@ function Dashboard() {
                     <AnimatePresence mode="wait">
                         {
                             player_list.length === 0 ? (
-                                <div className="text-center col-span-3"></div>
+                                <div className="text-center col-span-3" />
                             ) : (
                                 player_list.map((player, index) => (
                                     <Card key={`player-${player.playfabId}-${index}`} player={player} />

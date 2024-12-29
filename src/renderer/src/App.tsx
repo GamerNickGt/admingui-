@@ -40,7 +40,7 @@ function App() {
         })
 
         const cType = response.command.type
-        ConfettiOptions[cType] && confetti(ConfettiOptions[cType]);
+        if (ConfettiOptions[cType]) confetti(ConfettiOptions[cType]);
     }
 
     const handlePlayerData = (_, data: ParsedPlayerData) => {

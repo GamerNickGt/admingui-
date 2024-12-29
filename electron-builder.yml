@@ -13,6 +13,10 @@ asarUnpack:
   - resources/**
 win:
   executableName: admin-goowee-finale
+  publish:
+    provider: github
+    owner: DEFSAK
+    repo: admin-gui
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: DEFSAK - Admin GUI

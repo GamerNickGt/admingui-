@@ -2,9 +2,7 @@ import axios, { AxiosError, AxiosResponse, Method } from 'axios'
 
 String.prototype.format = function (): string {
   const args = arguments
-  return this.replace(/{(\d+)}/g, function (match, number) {
-    return typeof args[number] != 'undefined' ? args[number] : match
-  })
+  return this.replace(/{(\d+)}/g, (match, number) => typeof args[number] == 'undefined' ? match : args[number])
 }
 
 type APIResponse<T> = {

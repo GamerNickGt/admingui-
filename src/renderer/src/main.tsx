@@ -24,11 +24,9 @@ export const setDuration = (new_duration: Duration) => {
   duration.value = new_duration;
 }
 
-let player_list: Player[] = [];
-
-if (window.api.isDev) {
-  player_list = [{ displayName: 'Ⱥ Smiggy', playfabId: '6F33D568A08FF682' }];
-}
+const player_list: Player[] = window.api.isDev
+  ? [{ displayName: 'Ⱥ Smiggy', playfabId: '6F33D568A08FF682' }]
+  : []
 
 export const players = signal<Player[]>(player_list);
 export const setPlayers = (new_players: Player[]) => {

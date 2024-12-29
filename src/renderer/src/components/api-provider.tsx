@@ -34,7 +34,7 @@ async function NativeAPICall<T>(listener: string, ...args: any[]): Promise<T> {
 const APIContext = createContext<APIContextProps | undefined>(undefined);
 const APIProvider = ({ children }: APIProviderProps) => {
     const rate_limit = 20;
-    const refresh_rate = 60000;
+    const refresh_rate = 60_000;
 
     const [rate_remaining, setRateRemaining] = useState<number>(rate_limit);
     const [last_refresh, setLastRefresh] = useState<number>(Date.now());

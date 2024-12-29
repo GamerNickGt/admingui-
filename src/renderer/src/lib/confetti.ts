@@ -1,5 +1,11 @@
 import confetti from 'canvas-confetti'
 
+interface ConfettiOptions {
+  default: confetti.Options
+  ban: confetti.Options
+  kick: confetti.Options
+}
+
 const ConfettiOptions = {
   default: {
     particleCount: 100,
@@ -9,7 +15,6 @@ const ConfettiOptions = {
     decay: 1,
     gravity: 1,
     drift: 0,
-    flat: true,
     ticks: 200,
     origin: {
       x: 0.5,
@@ -17,12 +22,13 @@ const ConfettiOptions = {
     },
     scalar: 2
   }
-}
-ConfettiOptions['ban'] = {
+} as ConfettiOptions
+
+ConfettiOptions.ban = {
   ...ConfettiOptions.default,
   shapes: [confetti.shapeFromText({ text: '🔨', scalar: 2 })]
 }
-ConfettiOptions['kick'] = {
+ConfettiOptions.kick = {
   ...ConfettiOptions.default,
   shapes: [confetti.shapeFromText({ text: '🥾', scalar: 2 })]
 }

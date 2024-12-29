@@ -1,6 +1,6 @@
 {
   "name": "admin-goowee-finale",
-  "version": "1.0.0",
+  "version": "1.4.5",
   "description": "ban plebs n stuff",
   "main": "./out/main/index.js",
   "author": "Smiggy",
@@ -34,6 +34,7 @@
     "@radix-ui/react-hover-card": "^1.1.2",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-popover": "^1.1.2",
+    "@radix-ui/react-progress": "^1.1.1",
     "@radix-ui/react-scroll-area": "^1.2.0",
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slider": "^1.2.1",
@@ -51,6 +52,7 @@
     "date-fns": "^4.1.0",
     "electron-clipboard-watcher": "^1.0.1",
     "electron-settings": "^4.0.4",
+    "electron-updater": "^6.3.9",
     "framer-motion": "^11.11.17",
     "keysender": "file:local_modules/keysender",
     "lucide-react": "^0.454.0",

@@ -149,7 +149,6 @@ def convert_char_to_unicode(char=None, list=None, linenumber=None):
     return unicodes_string
 
 def main():
-    """Main function that runs the core logic."""
     # if args.character:
     #     args.character
     #     print(convert_char_to_unicode(args.character))

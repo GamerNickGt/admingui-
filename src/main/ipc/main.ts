@@ -33,11 +33,12 @@ function IntializeIPC(mainWindow: BrowserWindow) {
         max_duration: 12
       }
     ])
-  )
+	)
+
   IntializeConsoleKeyHandlers(mainWindow, ipcMain)
-  InitializeContributors(ipcMain.handle)
-  InitializeAPIHandlers(ipcMain.handle)
+  InitializeContributors(ipcMain)
   InitializeCommandQueue(ipcMain)
+  InitializeAPIHandlers(ipcMain)
 }
 
 export default IntializeIPC

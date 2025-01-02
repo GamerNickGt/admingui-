@@ -7,25 +7,42 @@ type IPCHandler = {
   listener: (event: IpcMainInvokeEvent, ...args: any[]) => Promise<any> | any
 }
 
+const PRESET_VER = 1;
+
+function generatePresetFile(key: string, defaultData?: any) {
+	return {
+		[key]: [],
+		[`default_${key}`]: defaultData || [],
+		[`version_${key}`]: PRESET_VER
+	}
+}
+
 export function InitializePreset<T>(key: string, defaultData?: T): IPCHandler[] {
   const userData = app.getPath('userData')
   const presetPath = join(userData, `${key}.json`)
 
-  if (!existsSync(presetPath)) {
-    writeFileSync(
-      presetPath,
-      JSON.stringify({
-        [key]: defaultData
-      })
-    )
-  }
+	const data = generatePresetFile(key, defaultData)
+	if (existsSync(presetPath)) {
+		const old_data = JSON.parse(readFileSync(presetPath, 'utf-8'))
+		if (!old_data[`version_${key}`] || old_data[`version_${key}`] !== PRESET_VER) {
+			const user_data = old_data[key] || []
+			data[key] = user_data
+			writeFileSync(presetPath, JSON.stringify(data))
+		}
+	} else {
+		writeFileSync(presetPath, JSON.stringify(data))
+	}
 
   return [
     {
       channel: `fetch_${key}`,
       listener: () => {
-        const data = readFileSync(presetPath, 'utf-8')
-        return JSON.parse(data)[key]
+				const data = JSON.parse(readFileSync(presetPath, 'utf-8'))
+				return {
+					data: data[key],
+					defaultData: data[`default_${key}`],
+					version: PRESET_VER
+				}
       }
     },
     {

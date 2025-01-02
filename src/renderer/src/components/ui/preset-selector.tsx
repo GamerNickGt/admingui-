@@ -63,7 +63,6 @@ export function PresetSelector<T>({
   const [selected, setSelected] = useState<Preset<T>[]>([])
   const [values, setValues] = useState<Preset<T>[]>([])
   const [defaultValues, setDefaultValues] = useState<Preset<T>[]>([])
-  const [presetVersion, setPresetVersion] = useState<number>(0)
   const [inputValue, setInputValue] = useState('')
   const [comboOpen, setComboOpen] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -74,7 +73,6 @@ export function PresetSelector<T>({
     api.call<Preset<T>[]>(`fetch_${presetKey}`).then((newValues) => {
       if (newValues) setValues((newValues as any).data)
       if (newValues) setDefaultValues((newValues as any).defaultData)
-      if (newValues) setPresetVersion((newValues as any).version)
     })
   }, [])
 

@@ -1,8 +1,11 @@
 import axios, { AxiosError, AxiosResponse, Method } from 'axios'
+import { IpcMain } from 'electron'
 
 String.prototype.format = function (): string {
   const args = arguments
-  return this.replace(/{(\d+)}/g, (match, number) => typeof args[number] == 'undefined' ? match : args[number])
+  return this.replace(/{(\d+)}/g, (match, number) =>
+    typeof args[number] == 'undefined' ? match : args[number]
+  )
 }
 
 type APIResponse<T> = {
@@ -81,8 +84,8 @@ const Commands = {
       .execute(args)
 }
 
-export function InitializeAPIHandlers(handle: Function) {
+export function InitializeAPIHandlers(ipc: IpcMain) {
   for (const [channel, listener] of Object.entries(Commands)) {
-    handle(channel, listener)
+    ipc.handle(channel, listener)
   }
 }

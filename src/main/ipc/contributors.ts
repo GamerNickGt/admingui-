@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { IpcMain } from 'electron'
 
-async function InitializeContributors(f: Function) {
+async function InitializeContributors(f: IpcMain) {
   const contributor_enpoint = 'https://api.github.com/repos/defsak/admin-gui/contributors'
 
   let contributors: any[] = []
@@ -11,7 +12,7 @@ async function InitializeContributors(f: Function) {
     console.error(e)
   }
 
-  f('fetch_contributors', () => {
+  f.handle('fetch_contributors', () => {
     return contributors
   })
 }

@@ -27,20 +27,6 @@ function IntializeIPC(mainWindow: BrowserWindow) {
     ipcMain.handle,
     InitializePreset('punishments', [
       {
-<<<<<<< Updated upstream
-        label: 'FFA',
-        reason:
-          'FFA is not allowed. Flourish with middle mouse button to initiate a duel. Get more information at discord.gg/sakclan',
-        min_duration: 1,
-        max_duration: 12
-      },
-      {
-        label: 'Pit Rules',
-        reason:
-          'Throwing objects or pushing people into the pit is not allowed. Get more information at discord.gg/sakclan',
-        min_duration: 1,
-        max_duration: 6
-=======
         label: 'FFA (warning 1 hour)',
         reason:
           "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. This is a 1 hour long ban meant to serve as a serious warning. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Read the rules at discord.gg/sakclan or appeal your ban in there.",
@@ -157,7 +143,6 @@ function IntializeIPC(mainWindow: BrowserWindow) {
           'You have been permanently banned from this server, depending on the details of your case this can be due to various different reasons. Make an appeal at discord.gg/sakclan if you believe this was unfair, ask questions about this ban or appeal it. Playing on any alts in the mean time will only worsen your situation, please refrain from doing so.',
         min_duration: 999_999,
         max_duration: 999_999
->>>>>>> Stashed changes
       }
     ])
   )

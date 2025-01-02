@@ -1,7 +1,7 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import clipboardWatcher from 'electron-clipboard-watcher'
 import { ParsePlayerData } from './ipc/commands/macro'
-import { app, BrowserWindow, shell } from 'electron'
+import { app, BrowserWindow, ipcMain, shell } from 'electron'
 import InitializeIPC from './ipc/main'
 import { update } from './update'
 import { join } from 'path'

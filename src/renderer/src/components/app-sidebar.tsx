@@ -3,14 +3,21 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import verData from '../assets/version.json';
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Tabs from "@/lib/tabs";
 interface AppSidebarProps {
-    onTabChange: (title: string) => void;
+	onTabChange: (title: string) => void;
+	ext_activeTab?: string;
 }
 
-function AppSidebar({ onTabChange }: AppSidebarProps) {
+function AppSidebar({ onTabChange, ext_activeTab }: AppSidebarProps) {
     const [activeTab, setActiveTab] = useState<string>("Dashboard");
+
+	useEffect(() => {
+		if (ext_activeTab) {
+			setActiveTab(ext_activeTab);
+		}
+	}, [ext_activeTab])
 
     return (
         <Sidebar>

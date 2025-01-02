@@ -10,7 +10,7 @@ import { ConfettiOptions } from './lib/confetti'
 import Background from './components/background'
 import { setPlayers, setServer } from './main'
 import { useToast } from './hooks/use-toast'
-import { IPCEvent } from './lib/events'
+import { IPCEvent, IPCEventOnce } from './lib/events'
 import confetti from 'canvas-confetti'
 import { TabMap } from './lib/tabs'
 import { useSignals } from '@preact/signals-react/runtime'
@@ -60,13 +60,32 @@ function App() {
 			title: 'Player Data',
 			description: 'Player data has been updated.'
 		})
-  }
+	}
+
+	const handleUpdateToast = () => {
+		toast({
+			variant: 'default',
+			title: 'Update Available',
+			action: (
+				<ToastAction
+					altText="Open Settings"
+					onClick={() => {
+						setTab('Settings')
+					}}
+					className="border-2 border-border/50"
+				>
+					Open Settings
+				</ToastAction>
+			)
+		})
+	}
 
   useEffect(() => {
     const Events = [
       IPCEvent('error-no-console-key', handleErrorNoConsoleKey),
       IPCEvent('command-response', handleCommandResponse),
-      IPCEvent('player-data', handlePlayerData)
+			IPCEventOnce('toast-update', handleUpdateToast),
+			IPCEvent('player-data', handlePlayerData)
     ]
 
     return () => {
@@ -87,7 +106,7 @@ function App() {
       <Background>
         <div className="bg-background/50 backdrop-blur-[2px]">
           <SidebarProvider>
-            <AppSidebar onTabChange={onTabChange} />
+            <AppSidebar onTabChange={onTabChange} ext_activeTab={tab} />
             <main className="w-svw h-svh overflow-hidden">
               <SidebarTrigger />
               <AnimatePresence>

@@ -9,13 +9,23 @@ export function update(win: Electron.BrowserWindow) {
   autoUpdater.disableWebInstaller = false
   autoUpdater.allowDowngrade = false
 
+	const startup_check = async () => {
+		try {
+			autoUpdater.checkForUpdatesAndNotify()
+		} catch (error) {
+			console.error('Error checking for updates:', error)
+		}
+	}
+	startup_check()
+
   autoUpdater.on('checking-for-update', () => {})
   autoUpdater.on('update-available', (arg: UpdateInfo) => {
     win.webContents.send('update-can-available', {
       update: true,
       version: app.getVersion(),
       newVersion: arg?.version
-    })
+		})
+		win.webContents.send('toast-update')
   })
   autoUpdater.on('update-not-available', (arg: UpdateInfo) => {
     win.webContents.send('update-can-available', {

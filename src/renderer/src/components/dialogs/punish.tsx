@@ -11,6 +11,8 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { motion } from 'framer-motion'
+import { useAPI } from '../api-provider'
+import { server } from '@/main'
 
 function GetPunishmentData(puns: Punishment[]) {
   const min_duration = Math.max(...puns.map(({ min_duration }) => min_duration))
@@ -37,6 +39,7 @@ const KickSchema = z.object({
 
 export function KickDialog({ player, setOpen }: PunishmentDialogProps) {
   const { setReason, reason } = usePunishments()
+	const { api } = useAPI()
 
 	const icon = '🥾'
 	const animation = {
@@ -60,7 +63,8 @@ export function KickDialog({ player, setOpen }: PunishmentDialogProps) {
     }
   })
 
-  const onSubmit = (data: z.infer<typeof KickSchema>) => {
+	const onSubmit = (data: z.infer<typeof KickSchema>) => {
+		api.command({ type: 'kick', player, reason: data.reason, server: server.value })
     setReason(data.reason)
     setOpen?.(false)
   }
@@ -132,6 +136,7 @@ const BanSchema = z.object({
 export function BanDialog({ player, setOpen }: PunishmentDialogProps) {
   const { setReason, setDuration, reason, duration } = usePunishments()
   const [selPuns, setSelPuns] = useState<Punishment[]>([])
+	const { api } = useAPI()
 
 	const icon = '🔨'
 	const animation = {
@@ -151,7 +156,8 @@ export function BanDialog({ player, setOpen }: PunishmentDialogProps) {
     }
   })
 
-  const onSubmit = (data: z.infer<typeof BanSchema>) => {
+	const onSubmit = (data: z.infer<typeof BanSchema>) => {
+		api.command({ type: 'ban', player, reason: data.reason, duration: data.duration, server: server.value })
     setDuration({ min: duration.min, max: duration.max, avg: data.duration })
     setReason(data.reason)
     setOpen?.(false)

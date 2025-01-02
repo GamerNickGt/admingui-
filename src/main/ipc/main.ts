@@ -28,12 +28,20 @@ function IntializeIPC(mainWindow: BrowserWindow) {
     InitializePreset('punishments', [
       {
         label: 'FFA',
-        reason: 'FFA is not allowed. Get more information at discord.gg/sakclan',
+        reason:
+          'FFA is not allowed. Flourish with middle mouse button to initiate a duel. Get more information at discord.gg/sakclan',
         min_duration: 1,
         max_duration: 12
+      },
+      {
+        label: 'Pit Rules',
+        reason:
+          'Throwing objects or pushing people into the pit is not allowed. Get more information at discord.gg/sakclan',
+        min_duration: 1,
+        max_duration: 6
       }
     ])
-	)
+  )
 
   IntializeConsoleKeyHandlers(mainWindow, ipcMain)
   InitializeContributors(ipcMain)

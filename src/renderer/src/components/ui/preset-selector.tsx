@@ -82,14 +82,13 @@ export function PresetSelector<T>({
         setValues((newValues as any).data)
         setDefaultValues((newValues as any).defaultData)
       }
-      setCanChange(true)
+      if (!canChange) setCanChange(true)
 		})
   }, [])
 
   useEffect(() => {
     if (canChange) {
       onChange?.(selected)
-      console.log('preset-selector [selected]', selected)
     }
   }, [selected])
 
@@ -164,7 +163,7 @@ export function PresetSelector<T>({
             />
             <CommandList>
               <CommandGroup className="max-h-[145px] overflow-auto">
-                {defaultValues.map((value) => {
+                {defaultValues?.map((value) => {
                   const isActive = selected.includes(value)
                   return (
                     <CommandItem
@@ -183,7 +182,7 @@ export function PresetSelector<T>({
                   )
                 })}
 
-                {values.map((value) => {
+                {values?.map((value) => {
                   const isActive = selected.includes(value)
                   return (
                     <CommandItem
@@ -238,11 +237,11 @@ export function PresetSelector<T>({
             Manage your Presets here. You can edit or delete them.
           </DialogDescription>
           <div className="-mx-6 flex-1 overflow-auto px-6 py-2">
-            {values.map((value) => {
+            {values?.map((value, i) => {
               return (
                 <DialogListItem<T>
                   schema={schema}
-                  key={`dialog-list-${value.label}`}
+                  key={`dialog-list-${i}-${value.label}`}
                   onDelete={() => deleteValue(value)}
                   onSubmit={(data: Preset<T>) => updateValue(value, data)}
                   value={value}

@@ -38,6 +38,7 @@ export function InitializePreset<T>(key: string, defaultData?: T): IPCHandler[] 
       channel: `fetch_${key}`,
       listener: () => {
 				const data = JSON.parse(readFileSync(presetPath, 'utf-8'))
+
 				return {
 					data: data[key],
 					defaultData: data[`default_${key}`],
@@ -63,9 +64,11 @@ export function InitializePreset<T>(key: string, defaultData?: T): IPCHandler[] 
     {
       channel: `delete_${key}`,
       listener: (_, label) => {
-        const data = JSON.parse(readFileSync(presetPath, 'utf-8'))
-        const preset = data[key].filter((item: any) => item.label !== label)
-        writeFileSync(presetPath, JSON.stringify({ [key]: preset }))
+				const data = JSON.parse(readFileSync(presetPath, 'utf-8'))
+				const preset = data[key].filter((item: any) => item.label !== label)
+
+				data[key] = preset
+				writeFileSync(presetPath, JSON.stringify(data))
       }
     }
   ]

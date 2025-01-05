@@ -48,8 +48,8 @@ type Preset<T> = { label: string } & T
 type Schema = z.ZodEffects<z.ZodEffects<z.AnyZodObject>> | z.AnyZodObject
 
 interface PresetSelectorProps<T> {
-	onChange?: (selected: T[]) => void
-	insertSelected?: T[]
+  onChange?: (selected: T[]) => void
+  insertSelected?: T[]
   className?: string
   presetKey: string
   schema: Schema
@@ -59,8 +59,8 @@ export function PresetSelector<T>({
   presetKey,
   schema,
   className,
-	onChange,
-	insertSelected
+  onChange,
+  insertSelected
 }: PresetSelectorProps<Preset<T>>) {
   const [selected, setSelected] = useState<Preset<T>[]>([])
   const [values, setValues] = useState<Preset<T>[]>([])
@@ -72,10 +72,10 @@ export function PresetSelector<T>({
   const inputRef = useRef<HTMLInputElement>(null)
   const { api } = useAPI()
 
-	useEffect(() => {
-		if (insertSelected) {
-			setSelected(insertSelected)
-		}
+  useEffect(() => {
+    if (insertSelected) {
+      setSelected(insertSelected)
+    }
 
     api.call<Preset<T>[]>(`fetch_${presetKey}`).then((newValues) => {
       if (newValues) {
@@ -83,7 +83,7 @@ export function PresetSelector<T>({
         setDefaultValues((newValues as any).defaultData)
       }
       if (!canChange) setCanChange(true)
-		})
+    })
   }, [])
 
   useEffect(() => {
@@ -134,6 +134,8 @@ export function PresetSelector<T>({
     setComboOpen(value)
   }
 
+  const listValues = defaultValues?.concat(values)
+
   return (
     <div>
       <Popover open={comboOpen} onOpenChange={onOpenChange}>
@@ -161,29 +163,16 @@ export function PresetSelector<T>({
               value={inputValue}
               onValueChange={setInputValue}
             />
-            <CommandList>
-              <CommandGroup className="max-h-[145px] overflow-auto">
-                {defaultValues?.map((value) => {
+            <CommandList
+              onWheel={(e) => {
+                e.currentTarget.scrollTop += e.deltaY
+                e.preventDefault()
+              }}
+            >
+              <CommandGroup className="overflow-auto">
+                {listValues?.map((value) => {
                   const isActive = selected.includes(value)
-                  return (
-                    <CommandItem
-                      key={`command-default-${value.label}`}
-                      value={`${value.label} (Default)`}
-                      onSelect={() => toggleValue(value)}
-                    >
-                      <Check
-                        className={cn('mr-2 h-4 w-4', isActive ? 'opacity-100' : 'opacity-0')}
-                      />
-                      <div className="flex gap-2 ">
-                        {value.label}
-                        <Lock />
-                      </div>
-                    </CommandItem>
-                  )
-                })}
-
-                {values?.map((value) => {
-                  const isActive = selected.includes(value)
+                  const isDefault = defaultValues.includes(value)
                   return (
                     <CommandItem
                       key={`command-${value.label}`}
@@ -193,8 +182,10 @@ export function PresetSelector<T>({
                       <Check
                         className={cn('mr-2 h-4 w-4', isActive ? 'opacity-100' : 'opacity-0')}
                       />
-                      <div className="flex-1">{value.label}</div>
-                      {/* TODO: custom display somewhere */}
+                      <div className={cn('', isDefault ? 'flex gap-2' : 'flex-1')}>
+                        {value.label}
+                        {isDefault && <Lock />}
+                      </div>
                     </CommandItem>
                   )
                 })}

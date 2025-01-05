@@ -14,8 +14,10 @@ if (!app.requestSingleInstanceLock()) {
 let mainWindow: BrowserWindow
 function createWindow(): void {
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1024,
+		height: 720,
+		minHeight: 640,
+		minWidth: 720,
     show: false,
     title: 'DEFSAK',
     autoHideMenuBar: true,

@@ -29,7 +29,7 @@ function IntializeIPC(mainWindow: BrowserWindow) {
       {
         label: 'FFA (warning 1 hour)',
         reason:
-          "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. This is a 1 hour long ban meant to serve as a serious warning. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Read the rules at discord.gg/ghc or appeal your ban in there.",
+          "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Read the rules at discord.gg/ghc or appeal your ban in there.",
         min_duration: 1,
         max_duration: 1
       },
@@ -99,28 +99,28 @@ function IntializeIPC(mainWindow: BrowserWindow) {
       {
         label: 'Offensive username',
         reason:
-          'Ur username is not allowed on this server, appeal this at discord.gg/ghc when you have changed it to something that is in line with the rules of the server (disc.gg/sakclan). Appeal your ban here incase you believe this was either unwaranted, you have changed ur name and want to resume playing, or have any questions.',
+          'Your username is not allowed on this server, appeal this at discord.gg/ghc when you have changed it to something that is in line with the rules of the server (disc.gg/sakclan). Appeal your ban here incase you believe this was either unwaranted, you have changed ur name and want to resume playing, or have any questions.',
         min_duration: 999,
         max_duration: 999_999
       },
       {
         label: ' Suspected Alt Account, appeal:',
         reason:
-          'This account is suspected of being an alt account being used by a banned player, if this ban is unjust/incorrect you need to appeal your ban at discord.gg/ghc and we will look at your case as soon as we can.',
+          'This account is suspected of being an alt account being used by a banned player, if this ban is unjust/incorrect you need to appeal your ban at discord.gg/ghc.',
         min_duration: 9999,
         max_duration: 999_999
       },
       {
         label: 'Cheating / DDOS',
         reason:
-          'Cheating and/or DDOS attempts are strictly prohibited, please make a ticket at discord.gg/ghc if you wish to appeal this ban. Using alt accounts in the mean time will be a surefire way to get yourself in even more trouble with the community, take the right approach and contact us.',
+          'Cheating is strictly prohibited, please make a ticket at discord.gg/ghc if you wish to appeal this ban. Using alt accounts in the mean time will be a surefire way to get yourself in even more trouble with the community, take the right approach and contact us.',
         min_duration: 999_999,
         max_duration: 999_999
       },
       {
         label: 'Trollvote (1st offense = 1-4H, 2nd offense <24H, 3rd offense >48H)',
         reason:
-          'Creating votekicks against players without any valid reason to do so will be considered troll voting. The admins are there to help out if you need it, if you see this, you are someone that has been repeatedly doing this or has simply done it to the wrong group of players at the time. Read the rules at discord.gg/ghc before you continue playing, here you can also appeal your ban or ask further questions.',
+          'Creating votekicks against players without any valid reason to do so is considered to be troll voting. Read the rules at discord.gg/ghc before you continue playing, here you can also appeal your ban or ask further questions.',
         min_duration: 1,
         max_duration: 1000
       },

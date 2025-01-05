@@ -10,7 +10,7 @@ THE Admin GUI for [Chivalry 2](https://store.steampowered.com/app/1824220/Chival
 
 ## Bugs & feature requests 🐞
 
-Please make a ticket on our [discord server](https://discord.gg/sakclan)
+Please make a ticket on our [discord server](https://discord.gg/ghc)
 
 <hr />
 

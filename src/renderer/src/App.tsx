@@ -8,7 +8,7 @@ import { Toaster } from './components/ui/toaster'
 import AppSidebar from './components/app-sidebar'
 import { ConfettiOptions } from './lib/confetti'
 import Background from './components/background'
-import { setPlayers, setServer } from './main'
+import { commandHistory, hasHistoryInitialized, setPlayers, setServer } from './main'
 import { useToast } from './hooks/use-toast'
 import { IPCEvent, IPCEventOnce } from './lib/events'
 import confetti from 'canvas-confetti'
@@ -45,7 +45,7 @@ function App() {
         title: response.error ? 'Command Error' : 'Command Success',
         description: response.error ? response.error : ConstructToastMessage(response.command)
       })
-		}
+    }
 
     const cType = response.command.type
     if (ConfettiOptions[cType]) confetti(ConfettiOptions[cType])
@@ -53,39 +53,44 @@ function App() {
 
   const handlePlayerData = (_, data: ParsedPlayerData) => {
     setPlayers(data.players)
-		setServer(data.server)
+    setServer(data.server)
 
-		toast({
-			variant: 'default',
-			title: 'Player Data',
-			description: 'Player data has been updated.'
-		})
-	}
+    toast({
+      variant: 'default',
+      title: 'Player Data',
+      description: 'Player data has been updated.'
+    })
+  }
 
-	const handleUpdateToast = () => {
-		toast({
-			variant: 'default',
-			title: 'Update Available',
-			action: (
-				<ToastAction
-					altText="Open Settings"
-					onClick={() => {
-						setTab('Settings')
-					}}
-					className="border-2 border-border/50"
-				>
-					Open Settings
-				</ToastAction>
-			)
-		})
-	}
+  const handleUpdateToast = () => {
+    toast({
+      variant: 'default',
+      title: 'Update Available',
+      action: (
+        <ToastAction
+          altText="Open Settings"
+          onClick={() => {
+            setTab('Settings')
+          }}
+          className="border-2 border-border/50"
+        >
+          Open Settings
+        </ToastAction>
+      )
+    })
+  }
 
   useEffect(() => {
     const Events = [
       IPCEvent('error-no-console-key', handleErrorNoConsoleKey),
       IPCEvent('command-response', handleCommandResponse),
-			IPCEventOnce('toast-update', handleUpdateToast),
-			IPCEvent('player-data', handlePlayerData)
+      IPCEventOnce('toast-update', handleUpdateToast),
+      IPCEvent('player-data', handlePlayerData),
+      IPCEvent('update-command-history', (_, newCommand: SavedCommand) => {
+        if (hasHistoryInitialized.value) {
+          commandHistory.value = [...commandHistory.value, newCommand]
+        }
+      })
     ]
 
     return () => {

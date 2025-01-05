@@ -12,14 +12,12 @@ class CommandQueue {
     const filePath = join(app.getPath('userData'), 'history.json')
     if (existsSync(filePath)) {
       this.history = JSON.parse(readFileSync(filePath, 'utf-8')) as SavedCommand[]
-    }
+		}
+
+		ipcMain.handle('init-command-history', () => this.history)
 
     ipcMain.on('command', (event, command) => {
       this.add({ event, command })
-    })
-
-    ipcMain.handle('get-command-history', () => {
-      return this.history
     })
   }
 
@@ -28,19 +26,21 @@ class CommandQueue {
     this.process()
   }
 
-  private _saveCommandToHistory(command: Command) {
+  private _saveCommandToHistory(event: IpcMainEvent, command: Command) {
     const filePath = join(app.getPath('userData'), 'history.json')
     if (!existsSync(filePath)) {
       writeFileSync(filePath, JSON.stringify([]))
     }
 
     const history = JSON.parse(readFileSync(filePath, 'utf-8')) as SavedCommand[]
-    history.push({
+    const savedCommand = {
       timestamp: Date.now(),
       command
-    })
+		}
+		history.push(savedCommand)
 
-    this.history = history
+		this.history = history
+		event.reply('update-command-history', savedCommand)
 
     writeFileSync(filePath, JSON.stringify(history))
   }
@@ -71,7 +71,7 @@ class CommandQueue {
               ? `${command.type === 'admin' ? 'adminsay' : 'serversay'} "${command.message}"`
               : '🫃'
     )
-    this._saveCommandToHistory(command)
+    this._saveCommandToHistory(event, command)
   }
 
   public async process() {

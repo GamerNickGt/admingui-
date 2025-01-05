@@ -37,6 +37,12 @@ export const setSecondsLeft = (new_secondsLeft: number) => {
   secondsLeft.value = new_secondsLeft;
 }
 
+export const hasHistoryInitialized = signal<boolean>(false);
+export const commandHistory = signal<SavedCommand[]>([]);
+export const setCommandHistory = (new_commandHistory: SavedCommand[]) => {
+	commandHistory.value = new_commandHistory;
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>

@@ -29,70 +29,70 @@ function IntializeIPC(mainWindow: BrowserWindow) {
       {
         label: 'FFA (warning 1 hour)',
         reason:
-          "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Read the rules at discord.gg/ghc or appeal your ban in there.",
+          "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Rules and tickets at discord.gg/ghc.",
         min_duration: 1,
         max_duration: 1
       },
       {
         label: 'FFA (1h->7d)',
         reason:
-          "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Read the rules at discord.gg/ghc or appeal your ban in there.",
+          "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Rules and tickets at discord.gg/ghc.",
         min_duration: 1,
         max_duration: 168
       },
       {
         label: 'FFA (4->8hours baseline, non serious 1st offense)',
         reason:
-          "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Read the rules at discord.gg/ghc or appeal your ban in there.",
+          "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Rules and tickets at discord.gg/ghc.",
         min_duration: 4,
         max_duration: 4
       },
       {
         label: 'FFA (1st non-serious repeat / 1st serious offense, 12-24 hours)',
         reason:
-          "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Read the rules at discord.gg/ghc or appeal your ban in there.",
+          "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Rules and tickets at discord.gg/ghc.",
         min_duration: 12,
         max_duration: 24
       },
       {
         label: 'FFA (Basic Duration, 8 hours)',
         reason:
-          "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Read the rules at discord.gg/ghc or appeal your ban in there.",
+          "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Rules and tickets at discord.gg/ghc.",
         min_duration: 8,
         max_duration: 8
       },
       {
         label: 'FFA (1st serious repeat offense, 1d)',
         reason:
-          "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Read the rules at discord.gg/ghc or appeal your ban in there.",
+          "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Rules and tickets at discord.gg/ghc.",
         min_duration: 24,
         max_duration: 24
       },
       {
         label: 'FFA (2nd serious offense, 3d -> 1w)',
         reason:
-          "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Read the rules at discord.gg/ghc or appeal your ban in there.",
+          "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Rules and tickets at discord.gg/ghc.",
         min_duration: 72,
         max_duration: 168
       },
       {
         label: 'FFA (3rd serious offense, 2 weeks)',
         reason:
-          "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Read the rules at discord.gg/ghc or appeal your ban in there.",
+          "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Rules and tickets at discord.gg/ghc.",
         min_duration: 348,
         max_duration: 348
       },
       {
         label: 'FFA (>3 Offenses, 1month to perm)',
         reason:
-          "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Read the rules at discord.gg/ghc or appeal your ban in there.",
+          "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Rules and tickets at discord.gg/ghc.",
         min_duration: 720,
         max_duration: 999_999
       },
       {
         label: 'Racism / Bigotry / Hatespeech',
         reason:
-          'Hate speech, whether racist, sexist or whatever other kind of bigotry you can think of can all fall under this umbrella term. Appeal at discord.gg/ghc',
+          'Hate speech, whether racist, sexist or whatever other kind of bigotry you can think of can all fall under this umbrella term, this ofcourse is not allowed. Rules and tickets at discord.gg/ghc.',
         min_duration: 100,
         max_duration: 100_000
       },
@@ -127,7 +127,7 @@ function IntializeIPC(mainWindow: BrowserWindow) {
       {
         label: 'Trollvoting (>3rd offense, 20d->3months)',
         reason:
-          "Creating votekicks against players without any valid reason to do so will be considered troll voting. The admins are there to help out if you need it, if you see this, you are someone that has had plenty of chances to change their behaviour but simply hasn't. Read the rules at discord.gg/ghc before you continue playing, here you can also appeal your ban or ask further questions.",
+          "Creating votekicks against players without any valid reason to do so will be considered troll voting. The admins are there to help out if you need it, if you see this, you are someone that has had plenty of chances to change their behaviour but simply hasn't. Rules and tickets at discord.gg/ghc.",
         min_duration: 480,
         max_duration: 2160
       },

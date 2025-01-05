@@ -7,7 +7,7 @@ type IPCHandler = {
   listener: (event: IpcMainInvokeEvent, ...args: any[]) => Promise<any> | any
 }
 
-const PRESET_VER = 2;
+const PRESET_VER = 1;
 
 function generatePresetFile(key: string, defaultData?: any) {
 	return {

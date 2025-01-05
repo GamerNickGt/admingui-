@@ -34,6 +34,13 @@ function IntializeIPC(mainWindow: BrowserWindow) {
         max_duration: 1
       },
       {
+        label: 'Pit rules',
+        reason:
+          "Do not throw stuff in or out the pit, this includes people. Rules and tickets at discord.gg/ghc.",
+        min_duration: 1,
+        max_duration: 1
+      },
+      {
         label: 'FFA (1h->7d)',
         reason:
           "FFA: You need to flourish to your opponent and wait on them to flourish back to start a duel. Flourish can be done with MMB, or L3+Square/X. FFA is allowed only in the pit, outside of the pit you aren't allowed to randomly attack (which includes; jabs, kicks, tackles, throwing items, arrows, etc.) other players. Rules and tickets at discord.gg/ghc.",

@@ -39,3 +39,7 @@ initial structure:
 ȸ
 ▲
 ᵻ
+
+Gₑₜ ᵦₑₜₜₑᵣ ᵦᵣₒ (Ge[?] Be[?][?]er Bro)
+ᵀᵃⁿᵏᵃ ᴶᵃʰᵃʳⁱ (Tanka ahar)
+ㄒ卄ㄩ几ᗪ乇尺

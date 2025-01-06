@@ -39,10 +39,10 @@ const KickSchema = z.object({
 
 export function KickDialog({ player, setOpen }: PunishmentDialogProps) {
   const { setReason, reason } = usePunishments()
-	const { api } = useAPI()
+  const { api } = useAPI()
 
-	const icon = '🥾'
-	const animation = {
+  const icon = '🥾'
+  const animation = {
     kick: {
       rotate: [0, 90, -20, 30, -10, 0],
       x: [0, -5, 20, -5, 0],
@@ -54,7 +54,7 @@ export function KickDialog({ player, setOpen }: PunishmentDialogProps) {
         repeat: Infinity
       }
     }
-	}
+  }
 
   const form = useForm<z.infer<typeof KickSchema>>({
     resolver: zodResolver(KickSchema),
@@ -63,8 +63,8 @@ export function KickDialog({ player, setOpen }: PunishmentDialogProps) {
     }
   })
 
-	const onSubmit = (data: z.infer<typeof KickSchema>) => {
-		api.command({ type: 'kick', player, reason: data.reason, server: server.value })
+  const onSubmit = (data: z.infer<typeof KickSchema>) => {
+    api.command({ type: 'kick', player, reason: data.reason, server: server.value })
     setReason(data.reason)
     setOpen?.(false)
   }
@@ -108,9 +108,9 @@ export function KickDialog({ player, setOpen }: PunishmentDialogProps) {
             )}
           />
           <Button variant="outline" className="w-full" type="submit">
-						<motion.span animate="kick" variants={animation}>
-							{icon}
-						</motion.span>
+            <motion.span animate="kick" variants={animation}>
+              {icon}
+            </motion.span>
           </Button>
         </form>
       </Form>
@@ -136,10 +136,10 @@ const BanSchema = z.object({
 export function BanDialog({ player, setOpen }: PunishmentDialogProps) {
   const { setReason, setDuration, reason, duration } = usePunishments()
   const [selPuns, setSelPuns] = useState<Punishment[]>([])
-	const { api } = useAPI()
+  const { api } = useAPI()
 
-	const icon = '🔨'
-	const animation = {
+  const icon = '🔨'
+  const animation = {
     ban: {
       x: [0, 2, -2, 1, -1, 0],
       y: [0, 5, -5, 2.5, -2.5, 0],
@@ -156,8 +156,14 @@ export function BanDialog({ player, setOpen }: PunishmentDialogProps) {
     }
   })
 
-	const onSubmit = (data: z.infer<typeof BanSchema>) => {
-		api.command({ type: 'ban', player, reason: data.reason, duration: data.duration, server: server.value })
+  const onSubmit = (data: z.infer<typeof BanSchema>) => {
+    api.command({
+      type: 'ban',
+      player,
+      reason: data.reason,
+      duration: data.duration,
+      server: server.value
+    })
     setDuration({ min: duration.min, max: duration.max, avg: data.duration })
     setReason(data.reason)
     setOpen?.(false)
@@ -211,8 +217,8 @@ export function BanDialog({ player, setOpen }: PunishmentDialogProps) {
               step={1}
               className="p-4"
               onValueChange={(value) => {
-								setDuration({ ...duration, avg: value[0] })
-								form.setValue('duration', value[0])
+                setDuration({ ...duration, avg: value[0] })
+                form.setValue('duration', value[0])
               }}
             />
           )}
@@ -249,8 +255,8 @@ export function BanDialog({ player, setOpen }: PunishmentDialogProps) {
           />
           <Button variant="outline" className="w-full" type="submit">
             <motion.span animate="ban" variants={animation}>
-							{icon}
-						</motion.span>
+              {icon}
+            </motion.span>
           </Button>
         </form>
       </Form>

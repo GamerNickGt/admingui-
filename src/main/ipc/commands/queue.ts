@@ -12,9 +12,9 @@ class CommandQueue {
     const filePath = join(app.getPath('userData'), 'history.json')
     if (existsSync(filePath)) {
       this.history = JSON.parse(readFileSync(filePath, 'utf-8')) as SavedCommand[]
-		}
+    }
 
-		ipcMain.handle('init-command-history', () => this.history)
+    ipcMain.handle('init-command-history', () => this.history)
 
     ipcMain.on('command', (event, command) => {
       this.add({ event, command })
@@ -36,11 +36,11 @@ class CommandQueue {
     const savedCommand = {
       timestamp: Date.now(),
       command
-		}
-		history.push(savedCommand)
+    }
+    history.push(savedCommand)
 
-		this.history = history
-		event.reply('update-command-history', savedCommand)
+    this.history = history
+    event.reply('update-command-history', savedCommand)
 
     writeFileSync(filePath, JSON.stringify(history))
   }

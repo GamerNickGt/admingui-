@@ -36,7 +36,7 @@ function IntializeIPC(mainWindow: BrowserWindow) {
       {
         label: 'Pit rules',
         reason:
-          "Do not throw stuff in or out the pit, this includes people. Rules and tickets at discord.gg/ghc.",
+          'Do not throw stuff in or out the pit, this includes people. Rules and tickets at discord.gg/ghc.',
         min_duration: 1,
         max_duration: 1
       },

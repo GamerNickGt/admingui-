@@ -75,29 +75,55 @@
   }
 }
 
-
 @layer components {
   .bg-custom-grid {
     background-size: 50px 50px;
-    background-image: linear-gradient(0deg, transparent 24%, hsl(var(--muted)/80%) 25%, hsl(var(--muted)/80%) 26%, transparent 27%, transparent 74%, hsl(var(--muted)/80%) 75%, hsl(var(--muted)/80%) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, hsl(var(--muted)/80%) 25%, hsl(var(--muted)/80%) 26%, transparent 27%, transparent 74%, hsl(var(--muted)/80%) 75%, hsl(var(--muted)/80%) 76%, transparent 77%, transparent)
+    background-image: linear-gradient(
+        0deg,
+        transparent 24%,
+        hsl(var(--muted) / 80%) 25%,
+        hsl(var(--muted) / 80%) 26%,
+        transparent 27%,
+        transparent 74%,
+        hsl(var(--muted) / 80%) 75%,
+        hsl(var(--muted) / 80%) 76%,
+        transparent 77%,
+        transparent
+      ),
+      linear-gradient(
+        90deg,
+        transparent 24%,
+        hsl(var(--muted) / 80%) 25%,
+        hsl(var(--muted) / 80%) 26%,
+        transparent 27%,
+        transparent 74%,
+        hsl(var(--muted) / 80%) 75%,
+        hsl(var(--muted) / 80%) 76%,
+        transparent 77%,
+        transparent
+      );
   }
 }
 
 @font-face {
   font-family: 'MesloLGL Nerd Font Mono';
-  src: local('MesloLGL Nerd Font Mono'), url('../assets/MesloLGLNerdFontMono-Regular.ttf') format('truetype')
+  src:
+    local('MesloLGL Nerd Font Mono'),
+    url('../assets/MesloLGLNerdFontMono-Regular.ttf') format('truetype');
 }
 
 @layer base {
   * {
     @apply border-border;
-    font-family: "MesloLGL Nerd Font Mono", sans-serif;
+    font-family: 'MesloLGL Nerd Font Mono', sans-serif;
     text-rendering: optimizeLegibility;
   }
 
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
   }
 
   html,
@@ -117,11 +143,10 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--sidebar-accent)/40%);
+  background: hsl(var(--sidebar-accent) / 40%);
   border-radius: var(--radius);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted)/40%);
+  background: hsl(var(--muted) / 40%);
 }
-

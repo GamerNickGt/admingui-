@@ -1,5 +1,5 @@
 import { CommandMultiSelect, CommandTypeValue } from '../ui/multi-select'
-import { Clock, File, FileText, Server, User } from 'lucide-react'
+import { Clock, File, FileText, SearchXIcon, Server, User } from 'lucide-react'
 import { ScrollArea } from '../ui/scroll-area'
 import { Separator } from '../ui/separator'
 import { useEffect, useRef, useState } from 'react'
@@ -142,8 +142,11 @@ function History() {
                 ))}
               </>
             ) : (
-              <div className="flex items-center justify-center h-full">
-                <p className="text-muted-foreground">No results :(</p>
+              <div className="flex flex-col items-center justify-center gap-2 p-4">
+                <div className="flex items-center justify-center">
+                  <SearchXIcon className="text-4xl text-muted-foreground" />
+                </div>
+                <div className="text-center text-muted-foreground">No results :(</div>
               </div>
             )}
           </ScrollArea>

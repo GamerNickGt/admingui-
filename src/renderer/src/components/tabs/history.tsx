@@ -105,12 +105,14 @@ function History() {
 		}
 		window.addEventListener('resize', handleResize)
 
-		window.electron.ipcRenderer
-			.invoke('init-command-history')
-			.then((history: SavedCommand[]) => {
-				commandHistory.value = history
-				hasHistoryInitialized.value = true
-			})
+		if (!hasHistoryInitialized.value) {
+			window.electron.ipcRenderer
+				.invoke('init-command-history')
+				.then((history: SavedCommand[]) => {
+					commandHistory.value = history
+					hasHistoryInitialized.value = true
+				})
+		}
 
     return () => window.removeEventListener('resize', handleResize)
   }, [])

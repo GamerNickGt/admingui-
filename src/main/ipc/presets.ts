@@ -10,7 +10,8 @@ type IPCHandler = {
 const PRESET_VER = app.getVersion()
 
 function compareSemver(version1: string, version2: string): number {
-  const parseVersion = (version: string) => {
+	const parseVersion = (version: string) => {
+		version = `${version}` // Ensure version is a string
     const [major, minor = 0, patch = 0] = version.split('.').map(Number)
     return [major, minor, patch]
   }

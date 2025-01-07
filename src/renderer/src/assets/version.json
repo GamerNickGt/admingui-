@@ -1,5 +1,6 @@
 {
-  "version": "local",
-  "branch": "dev",
-  "commit hash": "build"
+  "version": "dev",
+	"job_no": "N/A",
+	"commit_hash": "N/A",
+	"branch": "local"
 }

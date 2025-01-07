@@ -9,11 +9,11 @@ export function IPCEvent<T>(
 }
 
 export function IPCEventOnce<T>(
-	event_listener: string,
-	callback: (event: Electron.IpcRendererEvent, data: T) => void
+  event_listener: string,
+  callback: (event: Electron.IpcRendererEvent, data: T) => void
 ) {
-	IPC.once(event_listener, callback)
-	return () => IPC.removeAllListeners(event_listener)
+  IPC.once(event_listener, callback)
+  return () => IPC.removeAllListeners(event_listener)
 }
 
 export function SendIPCEvent<T>(event_listener: string, data: T) {

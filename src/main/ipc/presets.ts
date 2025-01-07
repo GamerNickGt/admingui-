@@ -11,6 +11,7 @@ const PRESET_VER = app.getVersion()
 
 function compareSemver(version1: string, version2: string): number {
   const parseVersion = (version: string) => {
+    version = `${version}` // Ensure version is a string
     const [major, minor = 0, patch = 0] = version.split('.').map(Number)
     return [major, minor, patch]
   }
@@ -24,41 +25,41 @@ function compareSemver(version1: string, version2: string): number {
 }
 
 function generatePresetFile(key: string, defaultData?: any) {
-	return {
-		[key]: [],
-		[`default_${key}`]: defaultData || [],
-		[`version_${key}`]: PRESET_VER
-	}
+  return {
+    [key]: [],
+    [`default_${key}`]: defaultData || [],
+    [`version_${key}`]: PRESET_VER
+  }
 }
 
 export function InitializePreset<T>(key: string, defaultData?: T): IPCHandler[] {
   const userData = app.getPath('userData')
   const presetPath = join(userData, `${key}.json`)
 
-	const data = generatePresetFile(key, defaultData)
-	if (existsSync(presetPath)) {
-		const old_data = JSON.parse(readFileSync(presetPath, 'utf-8'))
-		const version = old_data[`version_${key}`]
-		if (compareSemver(version, PRESET_VER) > 0) {
-			const user_data = old_data[key] || []
-			data[key] = user_data
-			writeFileSync(presetPath, JSON.stringify(data))
-		}
-	} else {
-		writeFileSync(presetPath, JSON.stringify(data))
-	}
+  const data = generatePresetFile(key, defaultData)
+  if (existsSync(presetPath)) {
+    const old_data = JSON.parse(readFileSync(presetPath, 'utf-8'))
+    const version = old_data[`version_${key}`]
+    if (compareSemver(version, PRESET_VER) > 0) {
+      const user_data = old_data[key] || []
+      data[key] = user_data
+      writeFileSync(presetPath, JSON.stringify(data))
+    }
+  } else {
+    writeFileSync(presetPath, JSON.stringify(data))
+  }
 
   return [
     {
       channel: `fetch_${key}`,
       listener: () => {
-				const data = JSON.parse(readFileSync(presetPath, 'utf-8'))
+        const data = JSON.parse(readFileSync(presetPath, 'utf-8'))
 
-				return {
-					data: data[key],
-					defaultData: data[`default_${key}`],
-					version: PRESET_VER
-				}
+        return {
+          data: data[key],
+          defaultData: data[`default_${key}`],
+          version: PRESET_VER
+        }
       }
     },
     {
@@ -79,11 +80,11 @@ export function InitializePreset<T>(key: string, defaultData?: T): IPCHandler[] 
     {
       channel: `delete_${key}`,
       listener: (_, label) => {
-				const data = JSON.parse(readFileSync(presetPath, 'utf-8'))
-				const preset = data[key].filter((item: any) => item.label !== label)
+        const data = JSON.parse(readFileSync(presetPath, 'utf-8'))
+        const preset = data[key].filter((item: any) => item.label !== label)
 
-				data[key] = preset
-				writeFileSync(presetPath, JSON.stringify(data))
+        data[key] = preset
+        writeFileSync(presetPath, JSON.stringify(data))
       }
     }
   ]

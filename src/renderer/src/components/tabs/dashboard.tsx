@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ScrollArea } from '../ui/scroll-area'
 import { convertUnicode } from '@/lib/unicode'
 import PlayerDialog from '../dialogs/player'
-import { RefreshCcw } from 'lucide-react'
+import { RefreshCcw, SearchXIcon } from 'lucide-react'
 import { useAPI } from '../api-provider'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
@@ -110,7 +110,12 @@ function Dashboard() {
         <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,_1fr))] gap-2">
           <AnimatePresence mode="wait">
             {player_list.length === 0 ? (
-              <div className="text-center col-span-3" />
+							<div className="flex flex-col items-center justify-center gap-2 p-4">
+								<div className="flex items-center justify-center">
+									<SearchXIcon className="text-4xl text-muted-foreground" />
+								</div>
+								<div className="text-center text-muted-foreground">No results :(</div>
+							</div>
             ) : (
               player_list.map((player, index) => (
                 <Card key={`player-${player.playfabId}-${index}`} player={player} />

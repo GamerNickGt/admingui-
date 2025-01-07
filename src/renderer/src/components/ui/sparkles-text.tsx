@@ -1,18 +1,18 @@
-"use client";
+'use client'
 
-import { CSSProperties, ReactElement, useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { CSSProperties, ReactElement, useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils'
 
 interface Sparkle {
-  id: string;
-  x: string;
-  y: string;
-  color: string;
-  delay: number;
-  scale: number;
-  lifespan: number;
+  id: string
+  x: string
+  y: string
+  color: string
+  delay: number
+  scale: number
+  lifespan: number
 }
 
 interface SparklesTextProps {
@@ -22,7 +22,7 @@ interface SparklesTextProps {
    * @description
    * The component to be rendered as the text
    * */
-  as?: ReactElement;
+  as?: ReactElement
 
   /**
    * @default ""
@@ -30,7 +30,7 @@ interface SparklesTextProps {
    * @description
    * The className of the text
    */
-  className?: string;
+  className?: string
 
   /**
    * @required
@@ -38,7 +38,7 @@ interface SparklesTextProps {
    * @description
    * The text to be displayed
    * */
-  text: string;
+  text: string
 
   /**
    * @default 10
@@ -46,7 +46,7 @@ interface SparklesTextProps {
    * @description
    * The count of sparkles
    * */
-  sparklesCount?: number;
+  sparklesCount?: number
 
   /**
    * @default "{first: '#9E7AFF', second: '#FE8BBB'}"
@@ -55,63 +55,63 @@ interface SparklesTextProps {
    * The colors of the sparkles
    * */
   colors?: {
-    first: string;
-    second: string;
-  };
+    first: string
+    second: string
+  }
 }
 
 const SparklesText: React.FC<SparklesTextProps> = ({
   text,
-  colors = { first: "#9E7AFF", second: "#FE8BBB" },
+  colors = { first: '#9E7AFF', second: '#FE8BBB' },
   className,
   sparklesCount = 10,
   ...props
 }) => {
-  const [sparkles, setSparkles] = useState<Sparkle[]>([]);
+  const [sparkles, setSparkles] = useState<Sparkle[]>([])
 
   useEffect(() => {
     const generateStar = (): Sparkle => {
-      const starX = `${Math.random() * 100}%`;
-      const starY = `${Math.random() * 50}%`;
-      const color = Math.random() > 0.5 ? colors.first : colors.second;
-      const delay = Math.random() * 2;
-      const scale = Math.random() * 1 + 0.3;
-      const lifespan = Math.random() * 10 + 5;
-      const id = `${starX}-${starY}-${Date.now()}`;
-      return { id, x: starX, y: starY, color, delay, scale, lifespan };
-    };
+      const starX = `${Math.random() * 100}%`
+      const starY = `${Math.random() * 50}%`
+      const color = Math.random() > 0.5 ? colors.first : colors.second
+      const delay = Math.random() * 2
+      const scale = Math.random() * 1 + 0.3
+      const lifespan = Math.random() * 10 + 5
+      const id = `${starX}-${starY}-${Date.now()}`
+      return { id, x: starX, y: starY, color, delay, scale, lifespan }
+    }
 
     const initializeStars = () => {
-      const newSparkles = Array.from({ length: sparklesCount }, generateStar);
-      setSparkles(newSparkles);
-    };
+      const newSparkles = Array.from({ length: sparklesCount }, generateStar)
+      setSparkles(newSparkles)
+    }
 
     const updateStars = () => {
       setSparkles((currentSparkles) =>
         currentSparkles.map((star) => {
           if (star.lifespan <= 0) {
-            return generateStar();
+            return generateStar()
           } else {
-            return { ...star, lifespan: star.lifespan - 0.1 };
+            return { ...star, lifespan: star.lifespan - 0.1 }
           }
-        }),
-      );
-    };
+        })
+      )
+    }
 
-    initializeStars();
-    const interval = setInterval(updateStars, 100);
+    initializeStars()
+    const interval = setInterval(updateStars, 100)
 
-    return () => clearInterval(interval);
-  }, [colors.first, colors.second]);
+    return () => clearInterval(interval)
+  }, [colors.first, colors.second])
 
   return (
     <div
-      className={cn("text-6xl font-bold", className)}
+      className={cn('text-6xl font-bold', className)}
       {...props}
       style={
         {
-          "--sparkles-first-color": `${colors.first}`,
-          "--sparkles-second-color": `${colors.second}`,
+          '--sparkles-first-color': `${colors.first}`,
+          '--sparkles-second-color': `${colors.second}`
         } as CSSProperties
       }
     >
@@ -122,13 +122,13 @@ const SparklesText: React.FC<SparklesTextProps> = ({
 
         <div
           className={cn(
-            "group relative mx-auto flex max-w-fit flex-row items-center justify-center rounded-2xl px-4 py-1.5 text-sm font-medium duration-500 ease-out [--bg-size:300%]",
-            className,
+            'group relative mx-auto flex max-w-fit flex-row items-center justify-center rounded-2xl px-4 py-1.5 text-sm font-medium duration-500 ease-out [--bg-size:300%]',
+            className
           )}
         >
           <span
             className={cn(
-              `inline animate-gradient bg-gradient-to-r from-[#ffaa40] via-[#9c40ff] to-[#ffaa40] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent`,
+              `inline animate-gradient bg-gradient-to-r from-[#ffaa40] via-[#9c40ff] to-[#ffaa40] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent`
             )}
           >
             {text}
@@ -136,8 +136,8 @@ const SparklesText: React.FC<SparklesTextProps> = ({
         </div>
       </span>
     </div>
-  );
-};
+  )
+}
 
 const Sparkle: React.FC<Sparkle> = ({ id, x, y, color, delay, scale }) => {
   return (
@@ -148,7 +148,7 @@ const Sparkle: React.FC<Sparkle> = ({ id, x, y, color, delay, scale }) => {
       animate={{
         opacity: [0, 1, 0],
         scale: [0, scale, 0],
-        rotate: [75, 120, 150],
+        rotate: [75, 120, 150]
       }}
       transition={{ duration: 0.8, repeat: Infinity, delay }}
       width="21"
@@ -160,7 +160,7 @@ const Sparkle: React.FC<Sparkle> = ({ id, x, y, color, delay, scale }) => {
         fill={color}
       />
     </motion.svg>
-  );
-};
+  )
+}
 
-export default SparklesText;
+export default SparklesText

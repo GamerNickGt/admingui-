@@ -1,5 +1,5 @@
 import { CommandMultiSelect, CommandTypeValue } from '../ui/multi-select'
-import { Clock, File, FileText, Server, User } from 'lucide-react'
+import { Clock, File, FileText, SearchXIcon, Server, User } from 'lucide-react'
 import { ScrollArea } from '../ui/scroll-area'
 import { Separator } from '../ui/separator'
 import { useEffect, useRef, useState } from 'react'
@@ -60,8 +60,8 @@ function CommandCard({ savedCommand }: { savedCommand: SavedCommand }) {
 }
 
 function History() {
-	useSignals()
-	const [filter, setFilter] = useState<CommandTypeValue[]>(['ban', 'unban', 'kick'])
+  useSignals()
+  const [filter, setFilter] = useState<CommandTypeValue[]>(['ban', 'unban', 'kick'])
   const [search, setSearch] = useState<string>('')
 
   function filterCommands(): SavedCommand[] {
@@ -97,20 +97,20 @@ function History() {
   const containerHeight = window.innerHeight - 125
   const containerRef = useRef<HTMLDivElement>(null)
 
-	useEffect(() => {
-		const handleResize = () => {
-			if (containerRef.current) {
-				containerRef.current.style.height = `${window.innerHeight - 125}px`
-			}
-		}
-		window.addEventListener('resize', handleResize)
+  useEffect(() => {
+    const handleResize = () => {
+      if (containerRef.current) {
+        containerRef.current.style.height = `${window.innerHeight - 125}px`
+      }
+    }
+    window.addEventListener('resize', handleResize)
 
-		window.electron.ipcRenderer
-			.invoke('init-command-history')
-			.then((history: SavedCommand[]) => {
-				commandHistory.value = history
-				hasHistoryInitialized.value = true
-			})
+    if (!hasHistoryInitialized.value) {
+      window.electron.ipcRenderer.invoke('init-command-history').then((history: SavedCommand[]) => {
+        commandHistory.value = history
+        hasHistoryInitialized.value = true
+      })
+    }
 
     return () => window.removeEventListener('resize', handleResize)
   }, [])
@@ -142,8 +142,11 @@ function History() {
                 ))}
               </>
             ) : (
-              <div className="flex items-center justify-center h-full">
-                <p className="text-muted-foreground">No results :(</p>
+              <div className="flex flex-col items-center justify-center gap-2 p-4">
+                <div className="flex items-center justify-center">
+                  <SearchXIcon className="text-4xl text-muted-foreground" />
+                </div>
+                <div className="text-center text-muted-foreground">No results :(</div>
               </div>
             )}
           </ScrollArea>

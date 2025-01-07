@@ -1,83 +1,106 @@
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
-import { ScrollArea } from "../ui/scroll-area";
-import ExtraStatDialog from "./extra-stats";
-import { useEffect, useState } from "react";
-import { useAPI } from "../api-provider";
-import PlayerName from "../player-name";
-import { Button } from "../ui/button";
-import { parseISO } from "date-fns";
-import APIRate from "../api-rate";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '../ui/dialog'
+import { ScrollArea } from '../ui/scroll-area'
+import ExtraStatDialog from './extra-stats'
+import { useEffect, useState } from 'react'
+import { useAPI } from '../api-provider'
+import PlayerName from '../player-name'
+import { Button } from '../ui/button'
+import { parseISO } from 'date-fns'
+import APIRate from '../api-rate'
 
 interface StatDialogProps {
-    player: Player;
-    data?: PlayFabDetails;
+  player: Player
+  data?: PlayFabDetails
 }
 
 function StatDialog({ player, data }: StatDialogProps) {
-    const [playFabData, setPlayFabData] = useState<PlayFabDetails | null>(null);
-    const [requestFailed, setRequestFailed] = useState(false);
-    const [requestStatus, setRequestStatus] = useState<number>(0);
-    const { api, rate_remaining } = useAPI();
+  const [playFabData, setPlayFabData] = useState<PlayFabDetails | null>(null)
+  const [requestFailed, setRequestFailed] = useState(false)
+  const [requestStatus, setRequestStatus] = useState<number>(0)
+  const { api, rate_remaining } = useAPI()
 
-    useEffect(() => {
-        if (data) {
-            setPlayFabData(data);
+  useEffect(() => {
+    if (data) {
+      setPlayFabData(data)
+    }
+
+    if (rate_remaining > 0) {
+      api.fetchPlayFabData(player.playfabId).then((res) => {
+        if (res) {
+          if (res.status === 200) {
+            setPlayFabData(res.data)
+            setRequestFailed(false)
+          } else {
+            setRequestFailed(true)
+          }
+
+          setRequestStatus(res.status)
+        } else {
+          setRequestFailed(true)
+          setRequestStatus(-1)
         }
+      })
+    }
+  }, [])
 
-        if (rate_remaining > 0) {
-            api.fetchPlayFabData(player.playfabId).then((res) => {
-                if (res) {
-                    if (res.status === 200) {
-                        setPlayFabData(res.data);
-                        setRequestFailed(false);
-                    } else {
-                        setRequestFailed(true);
-                    }
+  return (
+    <>
+      <DialogHeader className="flex mx-auto">
+        <DialogTitle className="text-center">
+          <PlayerName name={player.displayName} />
+        </DialogTitle>
+        <DialogDescription className="mx-auto select-all">{player.playfabId}</DialogDescription>
+      </DialogHeader>
 
-                    setRequestStatus(res.status);
-                } else {
-                    setRequestFailed(true);
-                    setRequestStatus(-1);
-                }
-            });
+      <APIRate
+        condition={playFabData}
+        requestFailed={requestFailed}
+        requestStatus={requestStatus}
+        component={
+          playFabData && (
+            <div>
+              <p className="text-foreground">
+                Last Lookup (
+                <a
+                  className="text-green-400 underline"
+                  target="_blank"
+                  href="https://chivalry2stats.com/"
+                >
+                  C2S
+                </a>
+                ):{' '}
+                {playFabData.lastLookup ? parseISO(playFabData.lastLookup).toDateString() : 'N/A'}
+              </p>
+              <p className="text-foreground">Lookup Count: {playFabData.lookupCount}</p>
+              <div className="h-4 w-full" />
+              <p className="text-foreground">Alias History</p>
+              <ScrollArea className="h-32 p-2 border border-border rounded-lg">
+                {playFabData.aliasHistory}
+              </ScrollArea>
+
+              <div className="mt-4 flex justify-center">
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="outline">Show Extended Information</Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <ExtraStatDialog player={player} />
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </div>
+          )
         }
-    }, []);
-
-    return (
-        <>
-            <DialogHeader className="flex mx-auto">
-                <DialogTitle className="text-center">
-                    <PlayerName name={player.displayName} />
-                </DialogTitle>
-                <DialogDescription className="mx-auto select-all">{player.playfabId}</DialogDescription>
-            </DialogHeader>
-
-            <APIRate condition={playFabData} requestFailed={requestFailed} requestStatus={requestStatus} component={playFabData && (
-                <div>
-                    <p className="text-foreground">Last Lookup (<a className="text-green-400 underline" target="_blank" href="https://chivalry2stats.com/">C2S</a>): {playFabData.lastLookup ? parseISO(playFabData.lastLookup).toDateString() : "N/A"}</p>
-                    <p className="text-foreground">Lookup Count: {playFabData.lookupCount}</p>
-                    <div className="h-4 w-full" />
-                    <p className="text-foreground">
-                        Alias History
-                    </p>
-                    <ScrollArea className="h-32 p-2 border border-border rounded-lg">
-                        {playFabData.aliasHistory}
-                    </ScrollArea>
-
-                    <div className="mt-4 flex justify-center">
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <Button variant="outline">Show Extended Information</Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                                <ExtraStatDialog player={player} />
-                            </DialogContent>
-                        </Dialog>
-                    </div>
-                </div>
-            )} />
-        </>
-    )
+      />
+    </>
+  )
 }
 
-export default StatDialog;
+export default StatDialog

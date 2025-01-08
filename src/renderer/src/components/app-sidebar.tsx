@@ -86,13 +86,17 @@ function AppSidebar({ onTabChange, ext_activeTab }: AppSidebarProps) {
                 <Badge className="select-all">{verData.version}</Badge>
               </div>
               <div className="flex flex-row gap-2">
-                Branch
-                <Badge className="select-all">{verData.branch}</Badge>
+                Job No.
+                <Badge className="select-all">{verData.job_no}</Badge>
               </div>
               <div className="flex flex-row gap-2">
                 Commit Hash
-                <Badge className="select-all">{verData['commit hash']}</Badge>
-              </div>
+                <Badge className="select-all">{verData.commit_hash}</Badge>
+							</div>
+							<div className="flex flex-row gap-2">
+								Branch
+								<Badge className="select-all">{verData.branch}</Badge>
+							</div>
             </div>
           </PopoverContent>
         </Popover>

@@ -106,7 +106,7 @@ function IntializeIPC(mainWindow: BrowserWindow) {
       {
         label: 'Offensive username',
         reason:
-          'Your username is not allowed on this server, appeal this at discord.gg/ghc when you have changed it to something that is in line with the rules of the server (disc.gg/sakclan). Appeal your ban here incase you believe this was either unwaranted, you have changed ur name and want to resume playing, or have any questions.',
+          'Your username is not allowed on this server, appeal this at discord.gg/ghc when you have changed it to something that is in line with the rules of the server (discord.gg/ghc). Appeal your ban here incase you believe this was either unwaranted, you have changed ur name and want to resume playing, or have any questions.',
         min_duration: 999,
         max_duration: 999_999
       },

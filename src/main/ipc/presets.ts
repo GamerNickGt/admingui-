@@ -8,7 +8,6 @@ type IPCHandler = {
 }
 
 const PRESET_VER = app.getVersion()
-console.log('PRESET VERSION: ', PRESET_VER)
 
 function generatePresetFile(key: string, defaultData?: any) {
   return {

@@ -8,21 +8,7 @@ type IPCHandler = {
 }
 
 const PRESET_VER = app.getVersion()
-
-function compareSemver(version1: string, version2: string): number {
-  const parseVersion = (version: string) => {
-    version = `${version}` // Ensure version is a string
-    const [major, minor = 0, patch = 0] = version.split('.').map(Number)
-    return [major, minor, patch]
-  }
-
-  const [major1, minor1, patch1] = parseVersion(version1)
-  const [major2, minor2, patch2] = parseVersion(version2)
-
-  if (major1 !== major2) return major1 - major2
-  if (minor1 !== minor2) return minor1 - minor2
-  return patch1 - patch2
-}
+console.log('PRESET VERSION: ', PRESET_VER)
 
 function generatePresetFile(key: string, defaultData?: any) {
   return {
@@ -40,7 +26,7 @@ export function InitializePreset<T>(key: string, defaultData?: T): IPCHandler[] 
   if (existsSync(presetPath)) {
     const old_data = JSON.parse(readFileSync(presetPath, 'utf-8'))
     const version = old_data[`version_${key}`]
-    if (compareSemver(version, PRESET_VER) > 0) {
+    if (version !== PRESET_VER) {
       const user_data = old_data[key] || []
       data[key] = user_data
       writeFileSync(presetPath, JSON.stringify(data))

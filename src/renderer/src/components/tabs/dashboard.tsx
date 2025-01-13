@@ -10,25 +10,23 @@ import { Input } from '../ui/input'
 import unidecode from 'unidecode'
 import { useEffect, useRef, useState } from 'react'
 import { players, server } from '@/main'
+import fuzzysearch from '@/lib/utils'
 
 function Dashboard() {
   const [search, setSearch] = useState('')
   const { api } = useAPI()
 
   const player_filter = (player: Player) => {
-    return (
-      unidecode(convertUnicode(player.displayName))
-        .toLowerCase()
-        .includes(unidecode(search.trim().toLowerCase())) ||
-      player.playfabId.toLowerCase().includes(unidecode(search.trim().toLowerCase())) ||
-      player.displayName.toLowerCase().includes(search.trim().toLowerCase())
-    )
+    const name = unidecode(convertUnicode(player.displayName)).toLowerCase()
+    const input = unidecode(convertUnicode(search.trim())).toLowerCase()
+
+    return fuzzysearch(input, name) || player.playfabId.toLowerCase().includes(input)
   }
 
   const player_sort = (a: Player, b: Player) => {
-    return unidecode(convertUnicode(a.displayName)).localeCompare(
-      unidecode(convertUnicode(b.displayName))
-    )
+    const nameA = unidecode(convertUnicode(a.displayName)).toLowerCase()
+    const nameB = unidecode(convertUnicode(b.displayName)).toLowerCase()
+    return nameA.localeCompare(nameB)
   }
 
   const player_list = players.value.filter(player_filter).sort(player_sort)
@@ -110,12 +108,12 @@ function Dashboard() {
         <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,_1fr))] gap-2">
           <AnimatePresence mode="wait">
             {player_list.length === 0 ? (
-							<div className="flex flex-col items-center justify-center gap-2 p-4">
-								<div className="flex items-center justify-center">
-									<SearchXIcon className="text-4xl text-muted-foreground" />
-								</div>
-								<div className="text-center text-muted-foreground">No results :(</div>
-							</div>
+              <div className="flex flex-col items-center justify-center gap-2 p-4">
+                <div className="flex items-center justify-center">
+                  <SearchXIcon className="text-4xl text-muted-foreground" />
+                </div>
+                <div className="text-center text-muted-foreground">No results :(</div>
+              </div>
             ) : (
               player_list.map((player, index) => (
                 <Card key={`player-${player.playfabId}-${index}`} player={player} />

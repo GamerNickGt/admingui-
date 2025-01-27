@@ -1,6 +1,6 @@
 {
   "name": "admin-gui",
-  "version": "1.5.9",
+  "version": "1.5.10",
   "description": "ban plebs n stuff",
   "main": "./out/main/index.js",
   "author": "Smiggy",
